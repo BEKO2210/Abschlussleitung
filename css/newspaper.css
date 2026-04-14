@@ -190,6 +190,22 @@
   gap: var(--gap, 4mm);
 }
 
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10mm;
+  border: 1px dashed var(--rule);
+  border-radius: 4mm;
+  color: var(--ink-muted);
+  font-style: italic;
+  font-size: 10pt;
+  line-height: 1.5;
+}
+.empty-state strong { color: var(--accent); font-style: normal; }
+
 /* Karten-Stile je nach Skalierung (wird per Klasse am Grid gesetzt) */
 .student-card {
   border: 1px solid var(--rule);

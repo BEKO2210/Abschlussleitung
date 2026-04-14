@@ -180,22 +180,32 @@
     renderStudentSpread();
 
     // Memories
-    renderList('memory-bento', 'tpl-memory', state.memories, (root, item) => {
-      root.dataset.memoryId = item.id;
-      setField(root, 'title', item.title);
-      setField(root, 'meta', item.meta);
-      setField(root, 'text', item.text);
-      const photoEl = root.querySelector('.photo');
-      photoEl.dataset.photo = 'memory:' + item.id;
-      applyPhoto(photoEl, item.photo);
-    });
+    const memoryContainer = document.getElementById('memory-bento');
+    if (state.memories.length === 0) {
+      memoryContainer.innerHTML = '<div class="empty-state">Noch keine Erinnerungen. In der Sidebar <strong>+ Erinnerung</strong> klicken.</div>';
+    } else {
+      renderList('memory-bento', 'tpl-memory', state.memories, (root, item) => {
+        root.dataset.memoryId = item.id;
+        setField(root, 'title', item.title);
+        setField(root, 'meta', item.meta);
+        setField(root, 'text', item.text);
+        const photoEl = root.querySelector('.photo');
+        photoEl.dataset.photo = 'memory:' + item.id;
+        applyPhoto(photoEl, item.photo);
+      });
+    }
 
     // Showers
-    renderList('shower-grid', 'tpl-shower', state.showers, (root, item) => {
-      root.dataset.showerId = item.id;
-      setField(root, 'text', item.text);
-      setField(root, 'from', item.from);
-    });
+    const showerContainer = document.getElementById('shower-grid');
+    if (state.showers.length === 0) {
+      showerContainer.innerHTML = '<div class="empty-state">Noch keine Zitate. <strong>+ Zitat</strong> in der Sidebar.</div>';
+    } else {
+      renderList('shower-grid', 'tpl-shower', state.showers, (root, item) => {
+        root.dataset.showerId = item.id;
+        setField(root, 'text', item.text);
+        setField(root, 'from', item.from);
+      });
+    }
 
     // Zähler in Sidebar
     updateCounters();
@@ -240,6 +250,21 @@
     if (!leftEl || !rightEl) return;
 
     const total = state.students.length;
+
+    // Empty-State
+    if (total === 0) {
+      const msg = '<div class="empty-state">Noch keine Steckbriefe. Links in der Sidebar auf <strong>+ Steckbrief</strong> klicken.</div>';
+      leftEl.innerHTML  = msg;
+      rightEl.innerHTML = '';
+      leftEl.style.removeProperty('--cols');
+      leftEl.style.removeProperty('--rows');
+      ['tier-xl','tier-l','tier-m','tier-s','tier-xs','tier-xxs'].forEach(c => {
+        document.getElementById('page-2').classList.remove(c);
+        document.getElementById('page-3').classList.remove(c);
+      });
+      return;
+    }
+
     const layout = computeSpreadLayout(total);
 
     // Tier-Klassen am SEITEN-Container (damit Tier-Selektoren greifen)
