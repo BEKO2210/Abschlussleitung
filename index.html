@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Abschiedszeitung &mdash; Editor</title>
-  <meta name="description" content="Datenschutzkonformer Editor fuer die Abschiedszeitung der Grundschule. Alle Daten bleiben lokal im Browser." />
+  <meta name="description" content="Datenschutzkonformer Editor für die Abschiedszeitung der Grundschule. Alle Daten bleiben lokal im Browser." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" />
@@ -16,49 +16,72 @@
 
 <header class="toolbar no-print" role="toolbar" aria-label="Werkzeugleiste">
   <div class="toolbar-left">
+    <button type="button" class="icon-btn sidebar-toggle no-print" id="btn-sidebar" aria-label="Seitenleiste öffnen">
+      <span aria-hidden="true">&#9776;</span>
+    </button>
     <strong class="brand">Abschiedszeitung</strong>
-    <span class="badge" title="Alle Daten bleiben auf deinem Geraet">Lokal &amp; DSGVO-konform</span>
+    <span class="badge" title="Alle Daten bleiben auf deinem Gerät">Lokal &amp; DSGVO</span>
   </div>
+
   <div class="toolbar-center">
-    <button type="button" data-view="edit" class="view-toggle active">Bearbeiten</button>
-    <button type="button" data-view="preview" class="view-toggle">Vorschau</button>
-    <button type="button" data-view="print-layout" class="view-toggle">Druck-Layout (A3)</button>
+    <div class="view-group" role="tablist" aria-label="Ansicht">
+      <button type="button" data-view="edit" class="view-toggle active" role="tab">Bearbeiten</button>
+      <button type="button" data-view="preview" class="view-toggle" role="tab">Vorschau</button>
+      <button type="button" data-view="print-layout" class="view-toggle" role="tab">Druck-Bogen</button>
+    </div>
   </div>
+
   <div class="toolbar-right">
-    <button type="button" id="btn-theme" title="Farbschema wechseln">Farbschema</button>
-    <button type="button" id="btn-export">Speichern (JSON)</button>
-    <button type="button" id="btn-import">Laden (JSON)</button>
+    <button type="button" id="btn-theme" title="Farbschema wählen">
+      <span class="theme-dot" aria-hidden="true"></span>
+      <span class="hide-sm">Farbe</span>
+    </button>
+    <div class="menu-wrap no-print">
+      <button type="button" id="btn-more" class="icon-btn" aria-haspopup="true" aria-expanded="false" aria-label="Mehr Aktionen">
+        <span aria-hidden="true">&#8942;</span>
+      </button>
+      <div class="menu" id="more-menu" role="menu" hidden>
+        <button type="button" id="btn-export" role="menuitem">Als JSON speichern</button>
+        <button type="button" id="btn-import" role="menuitem">JSON laden</button>
+        <button type="button" id="btn-reset" role="menuitem" class="danger">Zurücksetzen</button>
+        <hr />
+        <button type="button" id="btn-help" role="menuitem">Tastatur-Kürzel</button>
+      </div>
+    </div>
     <input type="file" id="file-import" accept="application/json" hidden />
-    <button type="button" id="btn-reset" class="danger">Zuruecksetzen</button>
     <button type="button" id="btn-print" class="primary">Drucken / PDF</button>
   </div>
 </header>
 
-<aside class="sidebar no-print" aria-label="Struktur">
+<aside class="sidebar no-print" id="sidebar" aria-label="Struktur">
+  <button type="button" class="sidebar-close no-print" aria-label="Seitenleiste schließen">&times;</button>
   <h2>Inhalte</h2>
   <nav>
     <a href="#page-1">Seite 1 &ndash; Titel</a>
-    <a href="#page-2">Seite 2 &ndash; Steckbriefe</a>
-    <a href="#page-3">Seite 3 &ndash; Erinnerungen</a>
-    <a href="#page-4">Seite 4 &ndash; Rueckseite</a>
+    <a href="#page-2">Seite 2 &ndash; Steckbriefe (links)</a>
+    <a href="#page-3">Seite 3 &ndash; Steckbriefe (rechts)</a>
+    <a href="#page-4">Seite 4 &ndash; Rückseite</a>
   </nav>
   <div class="sidebar-section">
-    <h3>Schueler</h3>
+    <h3>Mitschüler <span class="count" id="count-students">0</span></h3>
     <button type="button" id="add-student" class="ghost">+ Steckbrief</button>
+    <p class="hint">Bis 30 Kinder, Layout skaliert automatisch.</p>
   </div>
   <div class="sidebar-section">
-    <h3>Erinnerungen</h3>
+    <h3>Erinnerungen <span class="count" id="count-memories">0</span></h3>
     <button type="button" id="add-memory" class="ghost">+ Erinnerung</button>
   </div>
   <div class="sidebar-section">
-    <h3>Warme Duschen</h3>
+    <h3>Warme Duschen <span class="count" id="count-showers">0</span></h3>
     <button type="button" id="add-shower" class="ghost">+ Zitat</button>
   </div>
   <div class="sidebar-section datenschutz">
     <h3>Datenschutz</h3>
-    <p>Texte und Bilder werden ausschliesslich in deinem Browser (localStorage) gespeichert. Nichts wird hochgeladen. Fuer den Druck im Copy-Shop exportiere einfach die PDF-Datei.</p>
+    <p>Texte und Bilder bleiben ausschließlich in deinem Browser (localStorage). Nichts wird hochgeladen.</p>
   </div>
 </aside>
+
+<div class="sidebar-backdrop no-print" id="sidebar-backdrop" hidden></div>
 
 <main class="workspace" id="workspace" data-view="edit">
 
@@ -96,53 +119,55 @@
     </div>
   </section>
 
-  <!-- ============ SEITE 2: STECKBRIEFE ============ -->
-  <section class="page page-2" id="page-2" aria-label="Seite 2 Steckbriefe">
-    <header class="page-header">
+  <!-- ============ SEITE 2 + 3: JAHRBUCH-SPREAD ============ -->
+  <section class="page page-2 page-spread" id="page-2" aria-label="Seite 2 Steckbriefe links">
+    <header class="page-header spread-header">
       <span class="page-num">02</span>
-      <h2 class="page-title" data-field="page2Title" contenteditable="true">Wer wir sind</h2>
-      <p class="page-kicker" data-field="page2Kicker" contenteditable="true">Steckbriefe unserer Klasse</p>
+      <h2 class="page-title" data-field="spreadTitle" contenteditable="true">Unsere Klasse</h2>
+      <p class="page-kicker" data-field="spreadKicker" contenteditable="true">Alle Mitschülerinnen und Mitschüler auf einen Blick</p>
     </header>
-    <div class="student-grid" id="student-grid">
-      <!-- Steckbriefe werden via JS eingefuegt -->
-    </div>
+    <div class="student-grid" id="student-grid-left" data-spread="left"></div>
     <footer class="page-footer">
-      <span data-field="page2Footer" contenteditable="true">Abschiedszeitung &mdash; Klasse 4X</span>
+      <span data-field="spreadFooterLeft" contenteditable="true">Klasse 4X &mdash; Abschiedszeitung</span>
       <span class="folio">&mdash; 02 &mdash;</span>
     </footer>
   </section>
 
-  <!-- ============ SEITE 3: ERINNERUNGEN ============ -->
-  <section class="page page-3" id="page-3" aria-label="Seite 3 Erinnerungen">
-    <header class="page-header">
+  <section class="page page-3 page-spread" id="page-3" aria-label="Seite 3 Steckbriefe rechts">
+    <header class="page-header spread-header continuation">
       <span class="page-num">03</span>
-      <h2 class="page-title" data-field="page3Title" contenteditable="true">Unsere Erinnerungen</h2>
-      <p class="page-kicker" data-field="page3Kicker" contenteditable="true">Vier Jahre in Bildern und Worten</p>
+      <h2 class="page-title" data-field="spreadTitleRight" contenteditable="true">&hellip; und das sind wir.</h2>
+      <p class="page-kicker" data-field="spreadKickerRight" contenteditable="true">Jede:r ein eigener Kosmos.</p>
     </header>
-    <div class="memory-bento" id="memory-bento">
-      <!-- Memory-Boxen werden via JS eingefuegt -->
-    </div>
+    <div class="student-grid" id="student-grid-right" data-spread="right"></div>
     <footer class="page-footer">
-      <span data-field="page3Footer" contenteditable="true">Klassenfahrten, Waldtage &amp; Projekte</span>
+      <span data-field="spreadFooterRight" contenteditable="true">Grundschule &mdash; Jahrgang 2026</span>
       <span class="folio">&mdash; 03 &mdash;</span>
     </footer>
   </section>
 
-  <!-- ============ SEITE 4: RUECKSEITE ============ -->
-  <section class="page page-4" id="page-4" aria-label="Seite 4 Rueckseite">
+  <!-- ============ SEITE 4: RÜCKSEITE ============ -->
+  <section class="page page-4" id="page-4" aria-label="Seite 4 Rückseite">
     <header class="page-header">
       <span class="page-num">04</span>
-      <h2 class="page-title" data-field="page4Title" contenteditable="true">Warme Duschen &amp; Abschied</h2>
-      <p class="page-kicker" data-field="page4Kicker" contenteditable="true">Worte zum Mitnehmen</p>
+      <h2 class="page-title" data-field="page4Title" contenteditable="true">Erinnerungen &amp; Abschied</h2>
+      <p class="page-kicker" data-field="page4Kicker" contenteditable="true">Vier Jahre in Bildern, Worten und Wünschen</p>
     </header>
 
-    <div class="back-grid">
-      <div class="shower-grid" id="shower-grid" aria-label="Warme Duschen">
-        <!-- Warme-Duschen-Zitate via JS -->
-      </div>
-      <article class="teacher-card">
-        <h3 data-field="teacherTitle" contenteditable="true">Ein Gruss vom Klassenteam</h3>
-        <p class="teacher-text" data-field="teacherText" contenteditable="true">Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wuenschen euch fuer die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid &mdash; und traut euch, mehr zu werden.</p>
+    <div class="back-layout">
+      <section class="back-block back-memories">
+        <h3 class="back-block-title" data-field="memoriesTitle" contenteditable="true">Unsere schönsten Momente</h3>
+        <div class="memory-bento" id="memory-bento"></div>
+      </section>
+
+      <section class="back-block back-showers">
+        <h3 class="back-block-title" data-field="showersTitle" contenteditable="true">Warme Duschen</h3>
+        <div class="shower-grid" id="shower-grid" aria-label="Warme Duschen"></div>
+      </section>
+
+      <article class="teacher-card back-teacher">
+        <h3 data-field="teacherTitle" contenteditable="true">Ein Gruß vom Klassenteam</h3>
+        <p class="teacher-text" data-field="teacherText" contenteditable="true">Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid &mdash; und traut euch, mehr zu werden.</p>
         <p class="teacher-sign" data-field="teacherSign" contenteditable="true">Euer Klassenteam</p>
       </article>
     </div>
@@ -150,15 +175,15 @@
     <footer class="imprint">
       <div class="imprint-col">
         <strong>Redaktion</strong>
-        <span data-field="imprintRedaktion" contenteditable="true">Eltern der Klasse 4X</span>
+        <span data-field="imprintRedaktion" contenteditable="true">Eltern der Klasse</span>
       </div>
       <div class="imprint-col">
         <strong>Erscheinung</strong>
-        <span data-field="imprintDate" contenteditable="true">Juli 2026 &mdash; einmalig</span>
+        <span data-field="imprintDate" contenteditable="true">Juli &mdash; einmalig</span>
       </div>
       <div class="imprint-col">
         <strong>Hinweis</strong>
-        <span data-field="imprintNote" contenteditable="true">Nicht fuer den oeffentlichen Vertrieb. Bilder mit Einwilligung der Erziehungsberechtigten.</span>
+        <span data-field="imprintNote" contenteditable="true">Nicht für den öffentlichen Vertrieb. Bilder mit Einwilligung der Erziehungsberechtigten.</span>
       </div>
     </footer>
   </section>
@@ -166,9 +191,9 @@
   <!-- ============ DRUCK-LAYOUT (A3) ============ -->
   <section class="print-layout" id="print-layout" aria-label="Druck-Layout A3">
     <p class="print-info no-print">
-      Druckbogen fuer A3 (420 &times; 297 mm). Bogen 1 = Aussenseite (Seite 4 + Seite 1), Bogen 2 = Innenseite (Seite 2 + Seite 3). Im Druckdialog A3 Querformat und Randlos waehlen.
+      Druckbogen für A3 (420 &times; 297 mm). Bogen 1 = Außenseite (Seite 4 + Seite 1), Bogen 2 = Innenseite (Seite 2 + Seite 3 = Jahrbuch-Spread). Im Druckdialog <strong>A3 Querformat</strong> und <strong>Ränder: Keine</strong> wählen.
     </p>
-    <div class="sheet sheet-outer" aria-label="Bogen aussen">
+    <div class="sheet sheet-outer" aria-label="Bogen außen">
       <div class="sheet-slot" data-mirrors="page-4"></div>
       <div class="sheet-fold" aria-hidden="true"></div>
       <div class="sheet-slot" data-mirrors="page-1"></div>
@@ -181,6 +206,51 @@
   </section>
 
 </main>
+
+<!-- ============ DIALOG: FARBSCHEMA ============ -->
+<dialog class="modal no-print" id="theme-modal" aria-label="Farbschema wählen">
+  <form method="dialog" class="modal-body">
+    <header class="modal-header">
+      <h2>Farbschema</h2>
+      <button type="submit" class="icon-btn" aria-label="Schließen" value="cancel">&times;</button>
+    </header>
+    <p class="modal-hint">Die Akzentfarbe prägt Titel, Linien und kleine Details &mdash; nicht Fotos oder Haupttexte.</p>
+    <div class="theme-grid" id="theme-grid"></div>
+    <footer class="modal-footer">
+      <button type="submit" value="cancel" class="ghost">Abbrechen</button>
+      <button type="submit" value="apply" class="primary" id="theme-apply">Übernehmen</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- ============ DIALOG: HILFE ============ -->
+<dialog class="modal no-print" id="help-modal" aria-label="Hilfe">
+  <form method="dialog" class="modal-body">
+    <header class="modal-header">
+      <h2>Tastatur &amp; Tipps</h2>
+      <button type="submit" class="icon-btn" aria-label="Schließen">&times;</button>
+    </header>
+    <dl class="help-list">
+      <dt><kbd>Strg</kbd>+<kbd>S</kbd></dt><dd>JSON exportieren</dd>
+      <dt><kbd>Strg</kbd>+<kbd>P</kbd></dt><dd>Drucken / PDF</dd>
+      <dt><kbd>Strg</kbd>+<kbd>Z</kbd></dt><dd>Letzte Texteingabe rückgängig (Browser)</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Dialog / Menü schließen</dd>
+    </dl>
+    <h3>Tipps</h3>
+    <ul class="tips">
+      <li>Fotos per Drag &amp; Drop auf jeden Platzhalter ziehen.</li>
+      <li>Steckbriefe können durch Ziehen auf den <em>X</em>-Knopf entfernt werden.</li>
+      <li>Vor dem Drucken im Browser <em>A3 Querformat</em> und <em>Ränder: Keine</em> einstellen.</li>
+      <li>Sichere dein Projekt regelmäßig über <em>Als JSON speichern</em>.</li>
+    </ul>
+    <footer class="modal-footer">
+      <button type="submit" class="primary">Verstanden</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <!-- Templates -->
 <template id="tpl-student">
@@ -195,9 +265,9 @@
       <dl class="student-facts">
         <div><dt>Lieblingsfach</dt><dd contenteditable="true" data-field="fach">&hellip;</dd></div>
         <div><dt>Hobby</dt><dd contenteditable="true" data-field="hobby">&hellip;</dd></div>
-        <div><dt>Spaeter mal</dt><dd contenteditable="true" data-field="beruf">&hellip;</dd></div>
+        <div><dt>Später mal</dt><dd contenteditable="true" data-field="beruf">&hellip;</dd></div>
       </dl>
-      <p class="student-memory" contenteditable="true" data-field="memory">Meine schoenste Erinnerung: &hellip;</p>
+      <p class="student-memory" contenteditable="true" data-field="memory">Meine schönste Erinnerung: &hellip;</p>
     </div>
     <button type="button" class="remove-item no-print" title="Steckbrief entfernen" aria-label="Steckbrief entfernen">&times;</button>
   </article>
@@ -211,7 +281,7 @@
       <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
     </figure>
     <div class="memory-body">
-      <h3 class="memory-title" contenteditable="true" data-field="title">Ueberschrift</h3>
+      <h3 class="memory-title" contenteditable="true" data-field="title">Überschrift</h3>
       <p class="memory-meta" contenteditable="true" data-field="meta">Ort &middot; Jahr</p>
       <p class="memory-text" contenteditable="true" data-field="text">Kurze Erinnerung, Anekdote oder Bericht &hellip;</p>
     </div>
