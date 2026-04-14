@@ -25,7 +25,7 @@
   const THEME_IDS = THEMES.map(t => t.id);
 
   /** @type {any} */
-  let state = loadState() || defaultState();
+  let state = normalizeState(loadState()) || defaultState();
 
   function defaultState() {
     return {
@@ -38,14 +38,18 @@
         subtitle: 'Grundschule — Eine Zeitung zum Abschied',
         schoolName: 'Grundschule',
         schoolYears: 'Schuljahre 2022 – 2026',
-        page2Title: 'Wer wir sind',
-        page2Kicker: 'Steckbriefe unserer Klasse',
-        page2Footer: 'Abschiedszeitung — Klasse 4X',
-        page3Title: 'Unsere Erinnerungen',
-        page3Kicker: 'Vier Jahre in Bildern und Worten',
-        page3Footer: 'Klassenfahrten, Waldtage & Projekte',
-        page4Title: 'Warme Duschen & Abschied',
-        page4Kicker: 'Worte zum Mitnehmen',
+        // Spread (Seiten 2+3)
+        spreadTitle: 'Unsere Klasse',
+        spreadKicker: 'Alle Mitschülerinnen und Mitschüler auf einen Blick',
+        spreadFooterLeft: 'Klasse 4X — Abschiedszeitung',
+        spreadTitleRight: '… und das sind wir.',
+        spreadKickerRight: 'Jede:r ein eigener Kosmos.',
+        spreadFooterRight: 'Grundschule — Jahrgang 2026',
+        // Seite 4
+        page4Title: 'Erinnerungen & Abschied',
+        page4Kicker: 'Vier Jahre in Bildern, Worten und Wünschen',
+        memoriesTitle: 'Unsere schönsten Momente',
+        showersTitle: 'Warme Duschen',
         teacherTitle: 'Ein Gruß vom Klassenteam',
         teacherText: 'Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid — und traut euch, mehr zu werden.',
         teacherSign: 'Euer Klassenteam',
@@ -106,6 +110,41 @@
       console.warn('State konnte nicht geladen werden', e);
       return null;
     }
+  }
+
+  /**
+   * Sanftes Upgrade alter localStorage-States auf das aktuelle Schema.
+   * Migration: frühere page2/page3-Felder → neue spread-Felder.
+   * Außerdem: fehlende Listen / Objekte auffüllen.
+   */
+  function normalizeState(loaded) {
+    if (!loaded || typeof loaded !== 'object') return null;
+    const d = defaultState();
+
+    // Defensive Listen / Objekte
+    if (!Array.isArray(loaded.students)) loaded.students = d.students;
+    if (!Array.isArray(loaded.memories)) loaded.memories = d.memories;
+    if (!Array.isArray(loaded.showers))  loaded.showers  = d.showers;
+    if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null };
+    if (!loaded.fields || typeof loaded.fields !== 'object') loaded.fields = {};
+
+    const f = loaded.fields;
+
+    // Migration: alte Feldnamen → neue
+    if (f.page2Title && !f.spreadTitle)    f.spreadTitle    = f.page2Title;
+    if (f.page2Kicker && !f.spreadKicker)  f.spreadKicker   = f.page2Kicker;
+    if (f.page2Footer && !f.spreadFooterLeft) f.spreadFooterLeft = f.page2Footer;
+    if (f.page3Title && !f.memoriesTitle)  f.memoriesTitle  = f.page3Title;
+
+    // Fehlende Default-Felder ergänzen (damit Platzhalter nicht leer bleiben)
+    Object.entries(d.fields).forEach(([k, v]) => {
+      if (f[k] === undefined || f[k] === null) f[k] = v;
+    });
+
+    // Theme-ID auf gültigen Wert beschränken
+    if (!THEME_IDS.includes(loaded.theme)) loaded.theme = 'default';
+
+    return loaded;
   }
 
   let saveTimer = null;
