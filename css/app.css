@@ -1,0 +1,275 @@
+/* =========================================================
+   UI-CHROME (Editor, Toolbar, Sidebar) - nicht im Druck.
+   ========================================================= */
+
+:root {
+  --ui-bg: #f4f4f2;
+  --ui-panel: #ffffff;
+  --ui-border: #e5e5e3;
+  --ui-text: #1a1a1a;
+  --ui-muted: #6b6b6b;
+  --ui-accent: #0055a4;
+  --ui-accent-contrast: #ffffff;
+  --ui-danger: #b53232;
+  --ui-focus: #ffcd3c;
+  --ui-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.06);
+  --ui-radius: 10px;
+  --toolbar-h: 56px;
+  --sidebar-w: 240px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--ui-bg);
+  color: var(--ui-text);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: var(--ui-panel);
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, transform .05s;
+}
+button:hover { background: #f9f9f7; }
+button:active { transform: translateY(1px); }
+button:focus-visible { outline: 2px solid var(--ui-focus); outline-offset: 2px; }
+
+button.primary {
+  background: var(--ui-accent);
+  color: var(--ui-accent-contrast);
+  border-color: var(--ui-accent);
+}
+button.primary:hover { filter: brightness(1.08); }
+
+button.danger {
+  color: var(--ui-danger);
+  border-color: #ead5d5;
+  background: #fff6f6;
+}
+button.danger:hover { background: #ffecec; }
+
+button.ghost {
+  background: transparent;
+  border: 1px dashed var(--ui-border);
+}
+button.ghost:hover { background: #f9f9f7; }
+
+/* ---------- Toolbar ---------- */
+
+.toolbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--toolbar-h);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: var(--ui-panel);
+  border-bottom: 1px solid var(--ui-border);
+  z-index: 50;
+}
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toolbar-center { margin: 0 auto; }
+.brand {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: .02em;
+  font-size: 16px;
+}
+.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: #eef5ff;
+  color: var(--ui-accent);
+  border-radius: 999px;
+  border: 1px solid #dbe8fb;
+}
+.view-toggle.active {
+  background: var(--ui-text);
+  color: #fff;
+  border-color: var(--ui-text);
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  position: fixed;
+  top: var(--toolbar-h);
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  padding: 16px;
+  background: var(--ui-panel);
+  border-right: 1px solid var(--ui-border);
+  overflow-y: auto;
+  z-index: 40;
+}
+.sidebar h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ui-muted);
+  margin: 0 0 10px;
+}
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+.sidebar nav a {
+  color: var(--ui-text);
+  text-decoration: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.sidebar nav a:hover { background: #f4f4f2; }
+
+.sidebar-section {
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid var(--ui-border);
+}
+.sidebar-section h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ui-muted);
+  margin: 0 0 8px;
+}
+.sidebar-section button { width: 100%; }
+
+.datenschutz p {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ui-muted);
+}
+
+/* ---------- Workspace ---------- */
+
+.workspace {
+  padding: calc(var(--toolbar-h) + 24px) 32px 80px calc(var(--sidebar-w) + 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* View-Modi */
+.workspace[data-view="edit"] .print-layout { display: none; }
+.workspace[data-view="preview"] .print-layout { display: none; }
+.workspace[data-view="preview"] [contenteditable="true"] { outline: none; }
+.workspace[data-view="preview"] .remove-item,
+.workspace[data-view="preview"] .photo-remove { display: none; }
+.workspace[data-view="print-layout"] > .page { display: none; }
+.workspace[data-view="print-layout"] .print-layout { display: flex; }
+
+/* Edit-Hinweise */
+.workspace[data-view="edit"] [contenteditable="true"]:hover {
+  outline: 1px dashed #cfd3d9;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.workspace[data-view="edit"] [contenteditable="true"]:focus {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Remove-Buttons an Karten */
+.remove-item {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  line-height: 18px;
+  padding: 0;
+  font-size: 14px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ui-danger);
+  border: 1px solid #ead5d5;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.student-card,
+.memory-card,
+.shower-card { position: relative; }
+.student-card:hover .remove-item,
+.memory-card:hover .remove-item,
+.shower-card:hover .remove-item { opacity: 1; }
+
+/* Photo-Upload Interaktion */
+.photo {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: #eee;
+}
+.photo.has-image { cursor: pointer; }
+.photo.drop-hover { outline: 3px solid var(--ui-accent); outline-offset: -3px; }
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--ui-muted);
+  font-size: 12px;
+  padding: 10px;
+  background:
+    repeating-linear-gradient(45deg, #f1f1ee 0 10px, #e8e8e5 10px 20px);
+}
+.photo.has-image .photo-placeholder { display: none; }
+.photo-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  line-height: 18px;
+  padding: 0;
+  font-size: 14px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  border: 1px solid var(--ui-border);
+  display: none;
+}
+.photo.has-image .photo-remove { display: block; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .workspace { padding-left: 16px; padding-right: 16px; }
+  .toolbar-center { display: none; }
+}

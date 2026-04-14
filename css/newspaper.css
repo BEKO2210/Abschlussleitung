@@ -1,0 +1,469 @@
+/* =========================================================
+   NEWSPAPER LAYOUT - Benno-Style / Swiss / Minimal
+   A4 hochkant (210 x 297 mm). 4 Seiten bilden eine A3-Broschuere.
+   ========================================================= */
+
+:root {
+  --paper: #ffffff;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --ink-muted: #6b6b6b;
+  --rule: #e5e5e3;
+  --rule-soft: #efefed;
+  --accent: #0055a4;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --display: 'Montserrat', 'Inter', sans-serif;
+
+  --page-w: 210mm;
+  --page-h: 297mm;
+  --page-pad: 14mm;
+}
+
+/* Farbschema: alternativ (wird per [data-theme] gesetzt) */
+[data-theme="warm"] {
+  --paper: #faf7f1;
+  --accent: #b2542b;
+  --rule: #e4ddcd;
+  --rule-soft: #efe8d8;
+}
+[data-theme="forest"] {
+  --accent: #2f6a4f;
+}
+[data-theme="sunset"] {
+  --accent: #d0492e;
+}
+[data-theme="mono"] {
+  --accent: #1a1a1a;
+}
+
+/* ----- Seite ----- */
+
+.page {
+  width: var(--page-w);
+  min-height: var(--page-h);
+  background: var(--paper);
+  color: var(--ink);
+  padding: var(--page-pad);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 40px rgba(0,0,0,.08);
+  border-radius: 2px;
+  font-family: var(--sans);
+  display: flex;
+  flex-direction: column;
+  gap: 10mm;
+  position: relative;
+  page-break-after: always;
+  break-after: page;
+}
+
+.page-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 8mm;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 3mm;
+}
+.page-num {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 11pt;
+  letter-spacing: .12em;
+  color: var(--accent);
+}
+.page-title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 22pt;
+  letter-spacing: -.01em;
+  margin: 0;
+  line-height: 1.05;
+  grid-column: 1 / -1;
+  order: 2;
+}
+.page-header .page-num { order: 1; }
+.page-kicker {
+  order: 3;
+  grid-column: 1 / -1;
+  font-size: 10pt;
+  color: var(--ink-muted);
+  margin: 0;
+  font-style: italic;
+  font-family: var(--serif);
+}
+.page-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--rule);
+  padding-top: 3mm;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8.5pt;
+  color: var(--ink-muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 600;
+}
+.folio { letter-spacing: .2em; }
+
+/* =========================================================
+   SEITE 1 - COVER
+   ========================================================= */
+
+.cover {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: calc(var(--page-h) - 2 * var(--page-pad));
+  gap: 8mm;
+}
+.cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 3mm;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-size: 10pt;
+}
+.cover-kicker { color: var(--accent); }
+.cover-year { color: var(--ink); }
+
+.cover-hero {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.photo-hero {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 3mm;
+  background: var(--rule-soft);
+  margin: 0;
+}
+.photo-hero img { border-radius: 3mm; }
+
+.cover-bottom { text-align: left; }
+.cover-title {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 54pt;
+  line-height: .95;
+  letter-spacing: -.02em;
+  margin: 0 0 4mm;
+  display: flex;
+  flex-direction: column;
+  gap: 2mm;
+}
+.cover-title span[contenteditable] {
+  display: block;
+}
+.cover-title .cover-divider {
+  height: 2px;
+  background: var(--accent);
+  width: 20mm;
+  margin: 2mm 0;
+}
+.cover-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12pt;
+  color: var(--ink-soft);
+  margin: 0 0 4mm;
+}
+.cover-meta {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 9pt;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: flex;
+  gap: 2mm;
+  align-items: baseline;
+}
+.cover-meta .dot { color: var(--accent); }
+
+/* =========================================================
+   SEITE 2 - STECKBRIEFE (Bento Grid)
+   ========================================================= */
+
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6mm;
+  flex: 1;
+}
+.student-card {
+  border: 1px solid var(--rule);
+  border-radius: 4mm;
+  padding: 5mm;
+  display: grid;
+  grid-template-columns: 28mm 1fr;
+  gap: 5mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  background: var(--paper);
+}
+.photo-student {
+  width: 28mm;
+  height: 28mm;
+  border-radius: 50%;
+  margin: 0;
+  background: var(--rule-soft);
+}
+.photo-student img { border-radius: 50%; }
+
+.student-body { min-width: 0; }
+.student-name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 14pt;
+  line-height: 1.1;
+  margin: 0 0 3mm;
+}
+.student-facts {
+  margin: 0 0 3mm;
+  display: grid;
+  gap: 1.5mm;
+  font-size: 9pt;
+}
+.student-facts > div {
+  display: grid;
+  grid-template-columns: 22mm 1fr;
+  gap: 2mm;
+}
+.student-facts dt {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 8pt;
+  color: var(--ink-muted);
+}
+.student-facts dd {
+  margin: 0;
+  color: var(--ink);
+}
+.student-memory {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 9pt;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule-soft);
+  padding-top: 2mm;
+}
+
+/* =========================================================
+   SEITE 3 - ERINNERUNGEN (Bento)
+   ========================================================= */
+
+.memory-bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 50mm;
+  gap: 5mm;
+  flex: 1;
+}
+.memory-card {
+  border: 1px solid var(--rule);
+  border-radius: 4mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.photo-memory {
+  margin: 0;
+  flex: 1 1 auto;
+  min-height: 30mm;
+  background: var(--rule-soft);
+}
+.memory-body {
+  padding: 4mm 5mm 5mm;
+  border-top: 1px solid var(--rule-soft);
+}
+.memory-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 11pt;
+  margin: 0 0 1mm;
+  line-height: 1.15;
+}
+.memory-meta {
+  font-family: var(--display);
+  font-size: 7.5pt;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 2mm;
+}
+.memory-text {
+  margin: 0;
+  font-size: 9pt;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+/* Bento-Groessen: der erste ist gross, dann wechselnd */
+.memory-card:nth-child(6n+1) { grid-column: span 4; grid-row: span 2; }
+.memory-card:nth-child(6n+2) { grid-column: span 2; grid-row: span 2; }
+.memory-card:nth-child(6n+3) { grid-column: span 3; grid-row: span 2; }
+.memory-card:nth-child(6n+4) { grid-column: span 3; grid-row: span 2; }
+.memory-card:nth-child(6n+5) { grid-column: span 2; grid-row: span 2; }
+.memory-card:nth-child(6n+6) { grid-column: span 4; grid-row: span 2; }
+
+/* =========================================================
+   SEITE 4 - RUECKSEITE
+   ========================================================= */
+
+.back-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 6mm;
+  flex: 1;
+  min-height: 0;
+}
+
+.shower-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4mm;
+  align-content: start;
+}
+.shower-card {
+  margin: 0;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 3mm;
+  padding: 4mm 5mm;
+  background: var(--paper);
+  font-family: var(--serif);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.shower-text {
+  margin: 0 0 2mm;
+  font-size: 10pt;
+  line-height: 1.4;
+  font-style: italic;
+  color: var(--ink);
+  quotes: "\201C" "\201D";
+}
+.shower-from {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 8pt;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.teacher-card {
+  border: 1px solid var(--rule);
+  border-radius: 4mm;
+  padding: 6mm;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+}
+.teacher-card h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 16pt;
+  margin: 0 0 3mm;
+  line-height: 1.1;
+}
+.teacher-text {
+  font-family: var(--serif);
+  font-size: 10pt;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--ink-soft);
+  flex: 1;
+}
+.teacher-sign {
+  margin-top: 5mm;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 10pt;
+  color: var(--accent);
+  letter-spacing: .05em;
+}
+
+.imprint {
+  margin-top: 4mm;
+  padding-top: 3mm;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4mm;
+  font-size: 7.5pt;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+.imprint-col { display: flex; flex-direction: column; }
+.imprint-col strong {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-size: 7pt;
+  color: var(--ink);
+  margin-bottom: 1mm;
+}
+
+/* =========================================================
+   DRUCK-LAYOUT (A3-Bogen)
+   ========================================================= */
+
+.print-layout {
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+.print-info {
+  font-size: 13px;
+  color: var(--ui-muted);
+  max-width: 640px;
+  text-align: center;
+}
+.sheet {
+  width: 420mm;
+  height: 297mm;
+  background: var(--paper);
+  display: grid;
+  grid-template-columns: 210mm 210mm;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 20px 60px rgba(0,0,0,.12);
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+}
+.sheet-slot {
+  display: block;
+  position: relative;
+}
+.sheet-slot .page {
+  box-shadow: none;
+  border-radius: 0;
+  page-break-after: auto;
+  break-after: auto;
+  margin: 0;
+}
+.sheet-fold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 210mm;
+  width: 0;
+  border-left: 1px dashed rgba(0,0,0,.25);
+  pointer-events: none;
+}

@@ -1,0 +1,65 @@
+/* =========================================================
+   PRINT STYLES
+   Beim Drucken wird ausschliesslich das A3-Druck-Layout ausgegeben.
+   ========================================================= */
+
+@media print {
+  @page {
+    size: A3 landscape;
+    margin: 0;
+  }
+
+  html, body {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  .no-print,
+  .toolbar,
+  .sidebar,
+  .print-info { display: none !important; }
+
+  .workspace {
+    padding: 0 !important;
+    gap: 0 !important;
+    display: block;
+  }
+
+  /* Im Druck immer nur das Druck-Layout */
+  .workspace > .page { display: none !important; }
+  .workspace .print-layout { display: block !important; }
+
+  .sheet {
+    width: 420mm;
+    height: 297mm;
+    box-shadow: none !important;
+    margin: 0;
+    break-after: page;
+    page-break-after: always;
+  }
+  .sheet:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .sheet-slot .page {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    min-height: 297mm;
+  }
+
+  .sheet-fold { display: block; }
+
+  /* Editierhinweise ausschalten */
+  [contenteditable="true"] {
+    outline: none !important;
+  }
+
+  /* Saubere Farben statt Systemfarben */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abschiedszeitung &mdash; Editor</title>
+  <meta name="description" content="Datenschutzkonformer Editor fuer die Abschiedszeitung der Grundschule. Alle Daten bleiben lokal im Browser." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/newspaper.css" />
+  <link rel="stylesheet" href="css/print.css" media="all" />
+</head>
+<body>
+
+<header class="toolbar no-print" role="toolbar" aria-label="Werkzeugleiste">
+  <div class="toolbar-left">
+    <strong class="brand">Abschiedszeitung</strong>
+    <span class="badge" title="Alle Daten bleiben auf deinem Geraet">Lokal &amp; DSGVO-konform</span>
+  </div>
+  <div class="toolbar-center">
+    <button type="button" data-view="edit" class="view-toggle active">Bearbeiten</button>
+    <button type="button" data-view="preview" class="view-toggle">Vorschau</button>
+    <button type="button" data-view="print-layout" class="view-toggle">Druck-Layout (A3)</button>
+  </div>
+  <div class="toolbar-right">
+    <button type="button" id="btn-theme" title="Farbschema wechseln">Farbschema</button>
+    <button type="button" id="btn-export">Speichern (JSON)</button>
+    <button type="button" id="btn-import">Laden (JSON)</button>
+    <input type="file" id="file-import" accept="application/json" hidden />
+    <button type="button" id="btn-reset" class="danger">Zuruecksetzen</button>
+    <button type="button" id="btn-print" class="primary">Drucken / PDF</button>
+  </div>
+</header>
+
+<aside class="sidebar no-print" aria-label="Struktur">
+  <h2>Inhalte</h2>
+  <nav>
+    <a href="#page-1">Seite 1 &ndash; Titel</a>
+    <a href="#page-2">Seite 2 &ndash; Steckbriefe</a>
+    <a href="#page-3">Seite 3 &ndash; Erinnerungen</a>
+    <a href="#page-4">Seite 4 &ndash; Rueckseite</a>
+  </nav>
+  <div class="sidebar-section">
+    <h3>Schueler</h3>
+    <button type="button" id="add-student" class="ghost">+ Steckbrief</button>
+  </div>
+  <div class="sidebar-section">
+    <h3>Erinnerungen</h3>
+    <button type="button" id="add-memory" class="ghost">+ Erinnerung</button>
+  </div>
+  <div class="sidebar-section">
+    <h3>Warme Duschen</h3>
+    <button type="button" id="add-shower" class="ghost">+ Zitat</button>
+  </div>
+  <div class="sidebar-section datenschutz">
+    <h3>Datenschutz</h3>
+    <p>Texte und Bilder werden ausschliesslich in deinem Browser (localStorage) gespeichert. Nichts wird hochgeladen. Fuer den Druck im Copy-Shop exportiere einfach die PDF-Datei.</p>
+  </div>
+</aside>
+
+<main class="workspace" id="workspace" data-view="edit">
+
+  <!-- ============ SEITE 1: COVER ============ -->
+  <section class="page page-1" id="page-1" aria-label="Seite 1 Titelseite">
+    <div class="cover">
+      <header class="cover-top">
+        <div class="cover-kicker" data-field="kicker" contenteditable="true">Abschlussjahrgang</div>
+        <div class="cover-year" data-field="year" contenteditable="true">2026</div>
+      </header>
+
+      <div class="cover-hero">
+        <figure class="photo photo-hero" data-photo="hero">
+          <div class="photo-placeholder">
+            <span>Klassenfoto hier ablegen oder anklicken</span>
+          </div>
+          <input type="file" accept="image/*" hidden />
+          <button type="button" class="photo-remove no-print" title="Bild entfernen" aria-label="Bild entfernen">&times;</button>
+        </figure>
+      </div>
+
+      <div class="cover-bottom">
+        <h1 class="cover-title">
+          <span data-field="titleLine1" contenteditable="true">Unsere Zeit</span>
+          <span class="cover-divider" aria-hidden="true"></span>
+          <span data-field="titleLine2" contenteditable="true">Klasse 4X</span>
+        </h1>
+        <p class="cover-sub" data-field="subtitle" contenteditable="true">Grundschule &mdash; Eine Zeitung zum Abschied</p>
+        <div class="cover-meta">
+          <span data-field="schoolName" contenteditable="true">Grundschule</span>
+          <span class="dot" aria-hidden="true">&bull;</span>
+          <span data-field="schoolYears" contenteditable="true">Schuljahre 2022 &ndash; 2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEITE 2: STECKBRIEFE ============ -->
+  <section class="page page-2" id="page-2" aria-label="Seite 2 Steckbriefe">
+    <header class="page-header">
+      <span class="page-num">02</span>
+      <h2 class="page-title" data-field="page2Title" contenteditable="true">Wer wir sind</h2>
+      <p class="page-kicker" data-field="page2Kicker" contenteditable="true">Steckbriefe unserer Klasse</p>
+    </header>
+    <div class="student-grid" id="student-grid">
+      <!-- Steckbriefe werden via JS eingefuegt -->
+    </div>
+    <footer class="page-footer">
+      <span data-field="page2Footer" contenteditable="true">Abschiedszeitung &mdash; Klasse 4X</span>
+      <span class="folio">&mdash; 02 &mdash;</span>
+    </footer>
+  </section>
+
+  <!-- ============ SEITE 3: ERINNERUNGEN ============ -->
+  <section class="page page-3" id="page-3" aria-label="Seite 3 Erinnerungen">
+    <header class="page-header">
+      <span class="page-num">03</span>
+      <h2 class="page-title" data-field="page3Title" contenteditable="true">Unsere Erinnerungen</h2>
+      <p class="page-kicker" data-field="page3Kicker" contenteditable="true">Vier Jahre in Bildern und Worten</p>
+    </header>
+    <div class="memory-bento" id="memory-bento">
+      <!-- Memory-Boxen werden via JS eingefuegt -->
+    </div>
+    <footer class="page-footer">
+      <span data-field="page3Footer" contenteditable="true">Klassenfahrten, Waldtage &amp; Projekte</span>
+      <span class="folio">&mdash; 03 &mdash;</span>
+    </footer>
+  </section>
+
+  <!-- ============ SEITE 4: RUECKSEITE ============ -->
+  <section class="page page-4" id="page-4" aria-label="Seite 4 Rueckseite">
+    <header class="page-header">
+      <span class="page-num">04</span>
+      <h2 class="page-title" data-field="page4Title" contenteditable="true">Warme Duschen &amp; Abschied</h2>
+      <p class="page-kicker" data-field="page4Kicker" contenteditable="true">Worte zum Mitnehmen</p>
+    </header>
+
+    <div class="back-grid">
+      <div class="shower-grid" id="shower-grid" aria-label="Warme Duschen">
+        <!-- Warme-Duschen-Zitate via JS -->
+      </div>
+      <article class="teacher-card">
+        <h3 data-field="teacherTitle" contenteditable="true">Ein Gruss vom Klassenteam</h3>
+        <p class="teacher-text" data-field="teacherText" contenteditable="true">Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wuenschen euch fuer die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid &mdash; und traut euch, mehr zu werden.</p>
+        <p class="teacher-sign" data-field="teacherSign" contenteditable="true">Euer Klassenteam</p>
+      </article>
+    </div>
+
+    <footer class="imprint">
+      <div class="imprint-col">
+        <strong>Redaktion</strong>
+        <span data-field="imprintRedaktion" contenteditable="true">Eltern der Klasse 4X</span>
+      </div>
+      <div class="imprint-col">
+        <strong>Erscheinung</strong>
+        <span data-field="imprintDate" contenteditable="true">Juli 2026 &mdash; einmalig</span>
+      </div>
+      <div class="imprint-col">
+        <strong>Hinweis</strong>
+        <span data-field="imprintNote" contenteditable="true">Nicht fuer den oeffentlichen Vertrieb. Bilder mit Einwilligung der Erziehungsberechtigten.</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============ DRUCK-LAYOUT (A3) ============ -->
+  <section class="print-layout" id="print-layout" aria-label="Druck-Layout A3">
+    <p class="print-info no-print">
+      Druckbogen fuer A3 (420 &times; 297 mm). Bogen 1 = Aussenseite (Seite 4 + Seite 1), Bogen 2 = Innenseite (Seite 2 + Seite 3). Im Druckdialog A3 Querformat und Randlos waehlen.
+    </p>
+    <div class="sheet sheet-outer" aria-label="Bogen aussen">
+      <div class="sheet-slot" data-mirrors="page-4"></div>
+      <div class="sheet-fold" aria-hidden="true"></div>
+      <div class="sheet-slot" data-mirrors="page-1"></div>
+    </div>
+    <div class="sheet sheet-inner" aria-label="Bogen innen">
+      <div class="sheet-slot" data-mirrors="page-2"></div>
+      <div class="sheet-fold" aria-hidden="true"></div>
+      <div class="sheet-slot" data-mirrors="page-3"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Templates -->
+<template id="tpl-student">
+  <article class="student-card" data-student-id="">
+    <figure class="photo photo-student" data-photo="">
+      <div class="photo-placeholder"><span>Foto</span></div>
+      <input type="file" accept="image/*" hidden />
+      <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
+    </figure>
+    <div class="student-body">
+      <h3 class="student-name" contenteditable="true" data-field="name">Name oder Spitzname</h3>
+      <dl class="student-facts">
+        <div><dt>Lieblingsfach</dt><dd contenteditable="true" data-field="fach">&hellip;</dd></div>
+        <div><dt>Hobby</dt><dd contenteditable="true" data-field="hobby">&hellip;</dd></div>
+        <div><dt>Spaeter mal</dt><dd contenteditable="true" data-field="beruf">&hellip;</dd></div>
+      </dl>
+      <p class="student-memory" contenteditable="true" data-field="memory">Meine schoenste Erinnerung: &hellip;</p>
+    </div>
+    <button type="button" class="remove-item no-print" title="Steckbrief entfernen" aria-label="Steckbrief entfernen">&times;</button>
+  </article>
+</template>
+
+<template id="tpl-memory">
+  <article class="memory-card" data-memory-id="">
+    <figure class="photo photo-memory" data-photo="">
+      <div class="photo-placeholder"><span>Bild</span></div>
+      <input type="file" accept="image/*" hidden />
+      <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
+    </figure>
+    <div class="memory-body">
+      <h3 class="memory-title" contenteditable="true" data-field="title">Ueberschrift</h3>
+      <p class="memory-meta" contenteditable="true" data-field="meta">Ort &middot; Jahr</p>
+      <p class="memory-text" contenteditable="true" data-field="text">Kurze Erinnerung, Anekdote oder Bericht &hellip;</p>
+    </div>
+    <button type="button" class="remove-item no-print" title="Erinnerung entfernen" aria-label="Erinnerung entfernen">&times;</button>
+  </article>
+</template>
+
+<template id="tpl-shower">
+  <blockquote class="shower-card" data-shower-id="">
+    <p class="shower-text" contenteditable="true" data-field="text">&bdquo;Dein Zitat, deine warme Dusche &hellip;&ldquo;</p>
+    <footer class="shower-from" contenteditable="true" data-field="from">&mdash; von</footer>
+    <button type="button" class="remove-item no-print" title="Zitat entfernen" aria-label="Zitat entfernen">&times;</button>
+  </blockquote>
+</template>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>
