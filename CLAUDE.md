@@ -17,25 +17,34 @@ klassenspezifischen Daten — jede Klasse kann sie frei anpassen.
 - `css/newspaper.css` — Seitenlayout (Benno-/Yearbook-Stil).
 - `css/print.css` — `@page { size: A3 landscape; }` + Druck-Imposition.
 
-### Seiten-Layout (gefaltetes A3)
+### Seiten-Layout (Saddle-Stitched Booklet, 8 Seiten)
+
+Zwei A3-Bögen werden jeweils beidseitig bedruckt, ineinandergelegt und in
+der Mitte gefaltet. Das ergibt ein 8-seitiges Heft:
 
 ```
-A3-Bogen flach:          Nach Falten (A4):
-┌─────────┬─────────┐    ┌─────────┐
-│ Seite 4 │ Seite 1 │    │ Seite 1 │  ← Titel
-│ außen L │ außen R │    └─────────┘
-└─────────┴─────────┘    ┌─────────┐
-┌─────────┬─────────┐    │ Seite 2 │
-│ Seite 2 │ Seite 3 │    │ Seite 3 │  ← Spread (Jahrbuch-Mitte)
-│ innen L │ innen R │    └─────────┘
-└─────────┴─────────┘    ┌─────────┐
-                         │ Seite 4 │  ← Rückseite
-                         └─────────┘
+Bogen 1 Vorderseite:   [ 8 | 1 ]   ← Rückseite + Titel
+Bogen 1 Rückseite:     [ 2 | 7 ]
+Bogen 2 Vorderseite:   [ 6 | 3 ]
+Bogen 2 Rückseite:     [ 4 | 5 ]   ← Jahrbuch-Spread (Heftmitte)
 ```
 
-**Wichtig:** Seiten 2 + 3 bilden aufgeklappt den **Jahrbuch-Spread** — dort
-sehen Leser:innen alle Kinder der Klasse gleichzeitig wie in einem
-US-amerikanischen Yearbook.
+**Wichtig:** Seiten 4 + 5 bilden aufgeklappt den **Jahrbuch-Spread** — dort
+sehen Leser:innen alle Kinder gleichzeitig wie in einem US-amerikanischen
+Yearbook. Das ist die natürliche Heftmitte.
+
+**Redaktionelle Zuordnung:**
+
+| Seite | Inhalt                                  |
+|-------|-----------------------------------------|
+| 1     | Cover (Titel + Klassenfoto)             |
+| 2     | Grußwort / Brief an die Kinder          |
+| 3     | Chronik I (Klasse 1 + 2)                |
+| 4     | Jahrbuch-Spread links (Kinder 1. Hälfte)|
+| 5     | Jahrbuch-Spread rechts (Kinder 2. Hälfte)|
+| 6     | Chronik II (Klasse 3 + 4)               |
+| 7     | Warme Duschen                           |
+| 8     | Abschieds-Grußwort + Impressum          |
 
 ### Inhalts-Model (state)
 
@@ -43,10 +52,17 @@ US-amerikanischen Yearbook.
 {
   theme: 'default' | 'warm' | 'forest' | 'rose' | 'ocean' | 'plum' | 'sunset' | 'mono',
   fields: { /* flat key → string, für Titel, Kicker, Footer, Grußwort, … */ },
-  photos: { hero: dataUrl | null },
-  students:  [{ id, name, fach, hobby, beruf, memory, photo }],   // Seiten 2+3
-  memories:  [{ id, title, meta, text, photo }],                  // Seite 4
-  showers:   [{ id, text, from }]                                 // Seite 4
+  photos: {
+    hero:  dataUrl | null,  // Cover, Seite 1
+    intro: dataUrl | null   // Grußwort, Seite 2
+  },
+  photoOffsets: {
+    // key: 'hero' | 'intro' | 'student:ID' | 'memory:ID'
+    //   -> { x: 0..100, y: 0..100 }  (object-position in Prozent)
+  },
+  students:  [{ id, name, fach, hobby, beruf, memory, photo }],   // Seiten 4+5
+  memories:  [{ id, title, meta, text, photo }],                  // Seiten 3+6
+  showers:   [{ id, text, from }]                                 // Seite 7
 }
 ```
 
@@ -71,15 +87,22 @@ flex-1-Container, damit Karten die Seite immer vollständig ausfüllen.
 
 ## Run-Plan
 
-- [x] **Run 1** — CLAUDE.md, Yearbook-Spread-Struktur (Seiten 2+3 =
-      Steckbriefe; Seite 4 bekommt Erinnerungen + Warme Duschen + Grußwort).
-- [x] **Run 2** — Dynamische Grid-Skalierung bis 30 Kindern, responsive
-      Karten-Stile (XL → XXS), deutsche Umlaute überall.
-- [x] **Run 3** — Menü-Debug: responsive Toolbar mit Overflow-Menü, echtes
-      Farbschema-Modal mit Vorschau, Mobile-Hamburger-Sidebar, Tastatur-
-      Shortcuts, Fehlerbehandlung beim Import.
-- [x] **Run 4** — Druck-QA, Edge-Cases (leere Listen, sehr lange Namen,
-      große Bilder), Accessibility-Pass, finaler UI-Polish.
+- [x] **Run 1** — CLAUDE.md, Yearbook-Spread-Struktur.
+- [x] **Run 2** — Dynamische Grid-Skalierung bis 30 Kinder, Tiers XL → XXS.
+- [x] **Run 3** — Menü-Debug: responsive Toolbar, Farbschema-Modal,
+      Mobile-Sidebar, Tastatur-Shortcuts.
+- [x] **Run 4** — State-Migration, Empty-States, Druck-QA, Upload-Fehler.
+- [x] **Run 5** — 8-Seiten-Booklet mit korrekter Saddle-Stitched-
+      Imposition (2 A3-Bögen beidseitig), Seiten 1–8 redaktionell
+      zugeordnet, Erinnerungen auf Chronik I+II gesplittet.
+- [x] **Run 6** — Bildausschnitt per Drag verschiebbar (Pan-Button),
+      `object-position` wird pro Foto gespeichert und im Druck
+      mitgeliefert.
+- [x] **Run 7** — Desktop-first UI-Polish: Workspace-Ränder, Editier-
+      Hinweise dezenter, Print-Layout mit Sheet-Labels.
+- [x] **Run 8** — Erstellen-Flows: zwei Add-Buttons für Erinnerungen
+      (Chronik I/II), Autofocus auf neues Item, Pan-Button bei zu
+      kleinen Karten ausgeblendet.
 
 ## Entwickler-Notizen
 

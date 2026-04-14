@@ -31,35 +31,63 @@
     return {
       theme: 'default',
       fields: {
-        kicker: 'Abschlussjahrgang',
+        // Seite 1 Cover
+        kicker: 'Für unsere Klassenlehrkraft',
         year: new Date().getFullYear().toString(),
-        titleLine1: 'Unsere Zeit',
-        titleLine2: 'Klasse 4X',
-        subtitle: 'Grundschule — Eine Zeitung zum Abschied',
+        titleLine1: 'Danke',
+        titleLine2: 'für vier Jahre!',
+        subtitle: 'Eine Abschiedszeitung von deiner Klasse.',
         schoolName: 'Grundschule',
         schoolYears: 'Schuljahre 2022 – 2026',
-        // Spread (Seiten 2+3)
-        spreadTitle: 'Unsere Klasse',
-        spreadKicker: 'Alle Mitschülerinnen und Mitschüler auf einen Blick',
-        spreadFooterLeft: 'Klasse 4X — Abschiedszeitung',
-        spreadTitleRight: '… und das sind wir.',
-        spreadKickerRight: 'Jede:r ein eigener Kosmos.',
+
+        // Seite 2 Grußwort — von den Kindern an die Lehrkraft
+        introTitle: 'Liebe Klassenlehrkraft',
+        introKicker: 'Ein paar Worte von uns Kindern, bevor wir gehen.',
+        introLead: 'Vier Jahre lang hast du uns begleitet — vom ersten wackeligen Schultag bis zu diesem Sommer, an dem wir die Grundschule verlassen. Das ist eine lange Zeit. Eine richtig lange Zeit.',
+        introText: 'Du hast uns lesen, schreiben und rechnen beigebracht. Du hast uns zugehört, wenn wir traurig waren. Du hast uns Mut gemacht, wenn wir uns etwas nicht zugetraut haben. Du warst streng, wenn es sein musste, und lustig, wenn wir es gebraucht haben.\n\nDiese Zeitung ist unser Dankeschön. Sie erzählt von unseren schönsten Momenten mit dir, von Ausflügen, Projekten, Pannen und Überraschungen. Jedes Foto, jeder Steckbrief, jede warme Dusche ist für dich — weil du es warst, die das alles möglich gemacht hat.',
+        introSign: 'Deine Klasse',
+        footerLeft2: 'Von uns für dich',
+
+        // Seite 3 Chronik I
+        chronicle1Title: 'Die ersten Jahre',
+        chronicle1Kicker: 'Momente mit dir aus Klasse 1 und 2',
+        footerLeft3: 'Chronik — Teil 1',
+
+        // Seiten 4+5 Yearbook-Spread
+        spreadTitle: 'Das sind wir',
+        spreadKicker: 'Deine Klasse — jede:r mit einer Erinnerung an dich.',
+        spreadFooterLeft: 'Deine Klasse — Yearbook',
+        spreadTitleRight: '… und das bleibt von uns.',
+        spreadKickerRight: 'Ein letzter Gruß von jeder und jedem Einzelnen.',
         spreadFooterRight: 'Grundschule — Jahrgang 2026',
-        // Seite 4
-        page4Title: 'Erinnerungen & Abschied',
-        page4Kicker: 'Vier Jahre in Bildern, Worten und Wünschen',
-        memoriesTitle: 'Unsere schönsten Momente',
-        showersTitle: 'Warme Duschen',
-        teacherTitle: 'Ein Gruß vom Klassenteam',
-        teacherText: 'Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid — und traut euch, mehr zu werden.',
-        teacherSign: 'Euer Klassenteam',
-        imprintRedaktion: 'Eltern der Klasse',
+
+        // Seite 6 Chronik II
+        chronicle2Title: 'Und dann die Großen',
+        chronicle2Kicker: 'Momente mit dir aus Klasse 3 und 4',
+        footerLeft6: 'Chronik — Teil 2',
+
+        // Seite 7 Warme Duschen für die Lehrkraft
+        showersPageTitle: 'Warme Duschen für dich',
+        showersPageKicker: 'Das, was wir an dir am meisten schätzen — in einem Satz.',
+        footerLeft7: 'Mit Liebe von uns',
+
+        // Seite 8 Rückseite — letzter Gruß von der Klasse
+        page8Title: 'Wir werden dich vermissen',
+        page8Kicker: 'Bleib so, wie du bist.',
+        teacherTitle: 'Zum Abschied',
+        teacherText: 'Liebe Klassenlehrkraft, mit diesen Seiten wollen wir dir sagen, wie viel uns die Zeit mit dir bedeutet hat. Du hast uns nicht nur Mathe und Deutsch beigebracht — du hast uns gezeigt, dass Fehler okay sind, dass man einander zuhört und dass Neugier das Beste ist, das man haben kann. Wir nehmen das mit auf unsere neue Schule. Und dich auch — irgendwie. Pass gut auf dich auf. Wir haben dich lieb.',
+        teacherSign: 'In Dankbarkeit, deine Klasse',
+        imprintRedaktion: 'Von den Kindern der Klasse; organisiert von den Eltern',
         imprintDate: 'Juli — einmalig',
         imprintNote: 'Nicht für den öffentlichen Vertrieb. Bilder mit Einwilligung der Erziehungsberechtigten.'
       },
       photos: {
-        hero: null // dataURL
+        hero: null,   // Seite 1 Klassenfoto
+        intro: null   // Seite 2 Grußwort-Foto
       },
+      // Bild-Positions-Overrides: photoKey → { x: 0..100, y: 0..100 }
+      // Werden beim Rendern auf img.style.objectPosition gesetzt.
+      photoOffsets: {},
       students: seedStudents(),
       memories: seedMemories(),
       showers: seedShowers()
@@ -68,32 +96,40 @@
 
   function seedStudents() {
     const names = ['Mitschüler/in 1', 'Mitschüler/in 2', 'Mitschüler/in 3', 'Mitschüler/in 4'];
-    return names.map((n, i) => ({
+    return names.map((n) => ({
       id: uid(),
       name: n,
       fach: '',
       hobby: '',
       beruf: '',
-      memory: 'Meine schönste Erinnerung: …',
+      memory: 'Mein schönster Moment mit dir: …',
       photo: null
     }));
   }
 
   function seedMemories() {
+    // Momente, die die Klasse mit der Lehrkraft erlebt hat
     return [
-      { id: uid(), title: 'Einschulung', meta: '1. Klasse', text: 'Der erste Schultag — aufgeregte Gesichter, volle Schultüten und ein neues Kapitel beginnt.', photo: null },
-      { id: uid(), title: 'Waldtage', meta: '2. Klasse · Herbst', text: 'Bunte Blätter, matschige Stiefel und gemeinsame Lagerfeuerlieder.', photo: null },
-      { id: uid(), title: 'Klassenfahrt', meta: '3. Klasse · Frühling', text: 'Drei Tage, drei Nächte — und Geschichten, die wir nie vergessen.', photo: null },
-      { id: uid(), title: 'Projektwoche', meta: '4. Klasse', text: 'Forschen, basteln, präsentieren — alles durcheinander, alles wunderbar.', photo: null }
+      // Chronik I (Klasse 1+2)
+      { id: uid(), title: 'Unser erster Schultag',   meta: '1. Klasse',            text: 'Du hast uns empfangen — leuchtende Schultüten, wackelige Knie und ein neues Kapitel begann.',           photo: null },
+      { id: uid(), title: 'Das erste Laternenfest',  meta: '1. Klasse · Herbst',   text: 'Bei Regen durch den Schulhof, Laternen hoch und laut gesungen. Du bist mit jeder Pfütze mitgesprungen.', photo: null },
+      { id: uid(), title: 'Waldtage',                meta: '2. Klasse · Herbst',   text: 'Wir sind im Wald gewesen, Blätter gesammelt, am Feuer gesungen — und du hast uns beigebracht, wie man Rinden bestimmt.', photo: null },
+      // Chronik II (Klasse 3+4)
+      { id: uid(), title: 'Klassenfahrt',            meta: '3. Klasse · Frühling', text: 'Drei Tage, drei Nächte — mit dir als Begleitung. Die Geschichten am Abend werden wir nicht vergessen.', photo: null },
+      { id: uid(), title: 'Sportfest',               meta: '3. Klasse',            text: 'Wettrennen, Staffeln, Zielwurf — und du warst an der Ziellinie, hast jeden einzeln bejubelt.',             photo: null },
+      { id: uid(), title: 'Projektwoche',            meta: '4. Klasse',            text: 'Forschen, basteln, präsentieren. Wir durften alles ausprobieren — und du hast uns vertraut.',              photo: null }
     ];
   }
 
   function seedShowers() {
+    // Warme Duschen von den Kindern für die Lehrkraft
     return [
-      { id: uid(), text: '„Du bringst uns immer zum Lachen.“', from: '— die Klasse' },
-      { id: uid(), text: '„Du hilfst, wenn jemand Hilfe braucht.“', from: '— die Klasse' },
-      { id: uid(), text: '„Du hast die besten Ideen beim Basteln.“', from: '— die Klasse' },
-      { id: uid(), text: '„Du bist mutig und ehrlich.“', from: '— die Klasse' }
+      { id: uid(), text: '„Du hörst immer zu, egal wie chaotisch es gerade war.“',  from: '— deine Klasse' },
+      { id: uid(), text: '„Du hast uns nie aufgegeben, auch wenn wir schwierig waren.“', from: '— deine Klasse' },
+      { id: uid(), text: '„Bei dir durften Fehler sein. Das war das Schönste.“',    from: '— deine Klasse' },
+      { id: uid(), text: '„Du erklärst so lange, bis es wirklich jede:r verstanden hat.“', from: '— deine Klasse' },
+      { id: uid(), text: '„Streng, aber immer fair — und mit trockenem Humor.“',   from: '— deine Klasse' },
+      { id: uid(), text: '„Du hast jedes Kind gesehen. Auch die leisen.“',          from: '— deine Klasse' }
     ];
   }
 
@@ -125,7 +161,9 @@
     if (!Array.isArray(loaded.students)) loaded.students = d.students;
     if (!Array.isArray(loaded.memories)) loaded.memories = d.memories;
     if (!Array.isArray(loaded.showers))  loaded.showers  = d.showers;
-    if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null };
+    if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
+    if (loaded.photos.intro === undefined) loaded.photos.intro = null;
+    if (!loaded.photoOffsets || typeof loaded.photoOffsets !== 'object') loaded.photoOffsets = {};
     if (!loaded.fields || typeof loaded.fields !== 'object') loaded.fields = {};
 
     const f = loaded.fields;
@@ -173,27 +211,15 @@
       });
     });
 
-    // Hero photo
-    applyPhoto(document.querySelector('.photo[data-photo="hero"]'), state.photos.hero);
+    // Fotos auf Titel- und Grußwort-Seite
+    applyPhoto(document.querySelector('.photo[data-photo="hero"]'),  state.photos.hero);
+    applyPhoto(document.querySelector('.photo[data-photo="intro"]'), state.photos.intro);
 
     // Students auf zwei Seiten splitten (Yearbook-Spread)
     renderStudentSpread();
 
-    // Memories
-    const memoryContainer = document.getElementById('memory-bento');
-    if (state.memories.length === 0) {
-      memoryContainer.innerHTML = '<div class="empty-state">Noch keine Erinnerungen. In der Sidebar <strong>+ Erinnerung</strong> klicken.</div>';
-    } else {
-      renderList('memory-bento', 'tpl-memory', state.memories, (root, item) => {
-        root.dataset.memoryId = item.id;
-        setField(root, 'title', item.title);
-        setField(root, 'meta', item.meta);
-        setField(root, 'text', item.text);
-        const photoEl = root.querySelector('.photo');
-        photoEl.dataset.photo = 'memory:' + item.id;
-        applyPhoto(photoEl, item.photo);
-      });
-    }
+    // Erinnerungen auf Chronik I (Seite 3) + Chronik II (Seite 6) splitten
+    renderMemories();
 
     // Showers
     const showerContainer = document.getElementById('shower-grid');
@@ -292,6 +318,50 @@
     fillStudentGrid(rightEl, rightList);
   }
 
+  function renderMemories() {
+    const bento1 = document.getElementById('memory-bento-1');
+    const bento2 = document.getElementById('memory-bento-2');
+    if (!bento1 || !bento2) return;
+
+    const memTpl = document.getElementById('tpl-memory');
+    const list = state.memories;
+
+    if (list.length === 0) {
+      const empty = '<div class="empty-state">Noch keine Erinnerungen. In der Sidebar <strong>+ Erinnerung</strong> klicken.</div>';
+      bento1.innerHTML = empty;
+      bento2.innerHTML = '';
+      return;
+    }
+
+    // Auf die zwei Chronik-Seiten splitten (jede Seite bekommt ca. die Hälfte,
+    // bei ungerader Anzahl mehr auf die erste Seite).
+    const half = Math.ceil(list.length / 2);
+    const first  = list.slice(0, half);
+    const second = list.slice(half);
+
+    fillMemoryBento(bento1, first, memTpl);
+    if (second.length === 0) {
+      bento2.innerHTML = '<div class="empty-state">Platz für weitere Erinnerungen aus Klasse 3 und 4.</div>';
+    } else {
+      fillMemoryBento(bento2, second, memTpl);
+    }
+  }
+
+  function fillMemoryBento(container, list, tpl) {
+    container.innerHTML = '';
+    list.forEach(item => {
+      const clone = tpl.content.firstElementChild.cloneNode(true);
+      clone.dataset.memoryId = item.id;
+      setField(clone, 'title', item.title);
+      setField(clone, 'meta', item.meta);
+      setField(clone, 'text', item.text);
+      const photoEl = clone.querySelector('.photo');
+      photoEl.dataset.photo = 'memory:' + item.id;
+      applyPhoto(photoEl, item.photo);
+      container.appendChild(clone);
+    });
+  }
+
   function fillStudentGrid(container, list) {
     const tpl = document.getElementById('tpl-student');
     container.innerHTML = '';
@@ -344,10 +414,22 @@
       const img = document.createElement('img');
       img.alt = '';
       img.src = dataUrl;
+      img.draggable = false; // Browser-Drag-Ghost unterdrücken
+      applyPhotoOffset(img, photoEl.dataset.photo);
       photoEl.insertBefore(img, photoEl.firstChild);
       photoEl.classList.add('has-image');
     } else {
       photoEl.classList.remove('has-image');
+    }
+  }
+
+  function applyPhotoOffset(img, photoKey) {
+    if (!img || !photoKey) return;
+    const off = state.photoOffsets && state.photoOffsets[photoKey];
+    if (off && typeof off.x === 'number' && typeof off.y === 'number') {
+      img.style.objectPosition = off.x + '% ' + off.y + '%';
+    } else {
+      img.style.objectPosition = '50% 50%';
     }
   }
 
@@ -403,10 +485,16 @@
     schedulePrintMirror();
   });
 
-  // Foto-Klick -> Dateiauswahl
+  // Foto-Klick -> Dateiauswahl (außer auf einem Kontroll-Button)
   workspace.addEventListener('click', (e) => {
     const photo = e.target.closest('.photo');
-    if (!photo || e.target.closest('.photo-remove')) return;
+    if (!photo) return;
+    if (e.target.closest('.photo-remove, .photo-pan')) return;
+    // Nach dem Repositionieren schluckt die Drag-Logik den Folge-Click.
+    if (photo.dataset.suppressClick === '1') {
+      delete photo.dataset.suppressClick;
+      return;
+    }
     const input = photo.querySelector('input[type="file"]');
     if (input) input.click();
   });
@@ -418,8 +506,81 @@
     e.stopPropagation();
     const photo = btn.closest('.photo');
     setPhoto(photo.dataset.photo, null);
+    // Offset beim Entfernen mitlöschen
+    if (state.photoOffsets && photo.dataset.photo in state.photoOffsets) {
+      delete state.photoOffsets[photo.dataset.photo];
+    }
     render();
   });
+
+  // ---------- Bild-Ausschnitt verschieben (Pan) ----------
+  //
+  // Pan-Button gedrückt halten -> Drag verschiebt object-position.
+  // Loslassen speichert; keine Seiten-Scroll-Konflikte (pointer events).
+
+  workspace.addEventListener('pointerdown', (e) => {
+    const pan = e.target.closest('.photo-pan');
+    if (!pan) return;
+    const photo = pan.closest('.photo');
+    if (!photo || !photo.classList.contains('has-image')) return;
+    e.preventDefault();
+    e.stopPropagation();
+    startReposition(photo, e);
+  });
+
+  function startReposition(photo, startEvent) {
+    const img = photo.querySelector('img');
+    if (!img) return;
+    const key = photo.dataset.photo;
+    const rect = photo.getBoundingClientRect();
+    const current = (state.photoOffsets && state.photoOffsets[key]) || { x: 50, y: 50 };
+    const startX = startEvent.clientX;
+    const startY = startEvent.clientY;
+    const startPos = { x: current.x, y: current.y };
+    let moved = false;
+
+    photo.classList.add('repositioning');
+    // pointer capture sorgt dafür, dass alle Folge-Events ans Pan-Button gehen
+    const btn = startEvent.target;
+    if (btn.setPointerCapture && startEvent.pointerId !== undefined) {
+      try { btn.setPointerCapture(startEvent.pointerId); } catch (_) {}
+    }
+
+    function onMove(ev) {
+      moved = true;
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+      // Bewegung invers zur Bildbewegung: wenn man nach rechts zieht,
+      // soll der sichtbare Ausschnitt nach rechts wandern → object-position x erhöht sich.
+      const xPct = clamp(startPos.x + (dx / Math.max(1, rect.width))  * 100, 0, 100);
+      const yPct = clamp(startPos.y + (dy / Math.max(1, rect.height)) * 100, 0, 100);
+      img.style.objectPosition = xPct + '% ' + yPct + '%';
+      photo._tempOffset = { x: xPct, y: yPct };
+    }
+    function onUp() {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
+      photo.classList.remove('repositioning');
+      if (moved && photo._tempOffset) {
+        if (!state.photoOffsets) state.photoOffsets = {};
+        state.photoOffsets[key] = photo._tempOffset;
+        delete photo._tempOffset;
+        saveState();
+        // Druck-Layout-Spiegel aktualisieren (neue inline styles)
+        schedulePrintMirror();
+        // Folge-Click auf das Foto unterdrücken, damit nicht der Datei-
+        // Picker aufploppt
+        photo.dataset.suppressClick = '1';
+      }
+    }
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onUp);
+  }
+
+  function clamp(n, lo, hi) { return n < lo ? lo : (n > hi ? hi : n); }
 
   // Datei-Input change
   workspace.addEventListener('change', (e) => {
@@ -496,6 +657,8 @@
     if (!photoKey) return;
     if (photoKey === 'hero') {
       state.photos.hero = dataUrl;
+    } else if (photoKey === 'intro') {
+      state.photos.intro = dataUrl;
     } else if (photoKey.startsWith('student:')) {
       const id = photoKey.slice('student:'.length);
       const item = state.students.find(s => s.id === id);
@@ -702,7 +865,8 @@
         if (!Array.isArray(loaded.memories)) loaded.memories = [];
         if (!Array.isArray(loaded.showers))  loaded.showers  = [];
         if (!loaded.fields || typeof loaded.fields !== 'object') loaded.fields = {};
-        if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null };
+        if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
+    if (loaded.photos.intro === undefined) loaded.photos.intro = null;
         state = loaded;
         saveState();
         render();
@@ -726,44 +890,94 @@
 
   // ---------- Hinzufügen ----------
 
+  /**
+   * Fügt ein Item hinzu und setzt nach dem Re-Render Cursor + Scroll
+   * auf das entsprechende Feld, damit der User sofort tippen kann.
+   */
+  function addAndFocus(item, listKey, focusField, insertAt) {
+    const list = state[listKey];
+    const pos = typeof insertAt === 'number' ? insertAt : list.length;
+    list.splice(pos, 0, item);
+    saveState();
+    render();
+
+    // Neues Element suchen und fokussieren
+    const dataKey =
+      listKey === 'students' ? 'studentId' :
+      listKey === 'memories' ? 'memoryId'  :
+      listKey === 'showers'  ? 'showerId'  : null;
+    if (!dataKey) return;
+    // requestAnimationFrame um sicher nach dem Paint zu sein
+    requestAnimationFrame(() => {
+      const card = document.querySelector('[data-' + dataKey.replace(/([A-Z])/g, '-$1').toLowerCase() + '="' + item.id + '"]');
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const focusEl = card.querySelector('[data-field="' + focusField + '"]');
+      if (focusEl && focusEl.isContentEditable !== false) {
+        setTimeout(() => {
+          focusEl.focus();
+          // Gesamten Text markieren, damit man sofort überschreiben kann
+          const range = document.createRange();
+          range.selectNodeContents(focusEl);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }, 250);
+      }
+    });
+  }
+
   on('add-student', 'click', () => {
     if (state.students.length >= 30) {
       toast('Maximal 30 Mitschüler:innen (Platz auf dem Spread)');
       return;
     }
-    state.students.push({
+    addAndFocus({
       id: uid(),
-      name: 'Neuer Steckbrief',
+      name: 'Name eingeben',
       fach: '',
       hobby: '',
       beruf: '',
-      memory: 'Meine schönste Erinnerung: …',
+      memory: '',
       photo: null
-    });
-    saveState();
-    render();
+    }, 'students', 'name');
   });
 
-  on('add-memory', 'click', () => {
-    state.memories.push({
+  /**
+   * addMemory(half): 'first' fügt am Ende der 1. Hälfte (= Chronik I) ein,
+   * 'second' ans Ende der Liste (= Chronik II). Der Split in renderMemories
+   * ist ceil(n/2) — deshalb für 'first' an Position ceil(n/2) einfügen, damit
+   * es noch in die erste Hälfte fällt.
+   */
+  function addMemory(half) {
+    const item = {
       id: uid(),
       title: 'Neue Erinnerung',
       meta: 'Ort · Jahr',
-      text: 'Kurzer Text …',
+      text: '',
       photo: null
-    });
-    saveState();
-    render();
-  });
+    };
+    const total = state.memories.length;
+    if (half === 'first') {
+      // Einfügen an Position, die nach dem erneuten Split noch auf Seite 1 landet.
+      // Split: half = ceil((n+1)/2). Wir fügen an half-1 ein, nachdem sich die
+      // Liste um 1 verlängert — an Position ceil((total+1)/2)-1.
+      const pos = Math.ceil((total + 1) / 2) - 1;
+      addAndFocus(item, 'memories', 'title', Math.max(0, pos));
+    } else {
+      addAndFocus(item, 'memories', 'title'); // ans Ende
+    }
+  }
+
+  on('add-memory-1', 'click', () => addMemory('first'));
+  on('add-memory-2', 'click', () => addMemory('second'));
 
   on('add-shower', 'click', () => {
-    state.showers.push({
+    addAndFocus({
       id: uid(),
-      text: '„Neues Zitat …"',
+      text: 'Kurzes, liebes Zitat …',
       from: '— von'
-    });
-    saveState();
-    render();
+    }, 'showers', 'text');
   });
 
   // ---------- Mobile-Sidebar ----------

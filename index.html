@@ -58,9 +58,13 @@
   <h2>Inhalte</h2>
   <nav>
     <a href="#page-1">Seite 1 &ndash; Titel</a>
-    <a href="#page-2">Seite 2 &ndash; Steckbriefe (links)</a>
-    <a href="#page-3">Seite 3 &ndash; Steckbriefe (rechts)</a>
-    <a href="#page-4">Seite 4 &ndash; Rückseite</a>
+    <a href="#page-2">Seite 2 &ndash; Grußwort</a>
+    <a href="#page-3">Seite 3 &ndash; Chronik I</a>
+    <a href="#page-4">Seite 4 &ndash; Klasse (links)</a>
+    <a href="#page-5">Seite 5 &ndash; Klasse (rechts)</a>
+    <a href="#page-6">Seite 6 &ndash; Chronik II</a>
+    <a href="#page-7">Seite 7 &ndash; Warme Duschen</a>
+    <a href="#page-8">Seite 8 &ndash; Rückseite</a>
   </nav>
   <div class="sidebar-section">
     <h3>Mitschüler <span class="count" id="count-students">0</span></h3>
@@ -69,7 +73,11 @@
   </div>
   <div class="sidebar-section">
     <h3>Erinnerungen <span class="count" id="count-memories">0</span></h3>
-    <button type="button" id="add-memory" class="ghost">+ Erinnerung</button>
+    <div class="btn-stack">
+      <button type="button" id="add-memory-1" class="ghost">+ Klasse 1 / 2 (Seite 3)</button>
+      <button type="button" id="add-memory-2" class="ghost">+ Klasse 3 / 4 (Seite 6)</button>
+    </div>
+    <p class="hint">Werden automatisch auf die Chronik-Seiten aufgeteilt.</p>
   </div>
   <div class="sidebar-section">
     <h3>Warme Duschen <span class="count" id="count-showers">0</span></h3>
@@ -96,9 +104,10 @@
       <div class="cover-hero">
         <figure class="photo photo-hero" data-photo="hero">
           <div class="photo-placeholder">
-            <span>Klassenfoto hier ablegen oder anklicken</span>
+            <span>Foto der Klasse (gern mit Klassenlehrkraft) hier ablegen oder anklicken</span>
           </div>
           <input type="file" accept="image/*" hidden />
+          <button type="button" class="photo-pan no-print" title="Bildausschnitt verschieben (halten und ziehen)" aria-label="Bildausschnitt verschieben">&#10021;</button>
           <button type="button" class="photo-remove no-print" title="Bild entfernen" aria-label="Bild entfernen">&times;</button>
         </figure>
       </div>
@@ -119,58 +128,119 @@
     </div>
   </section>
 
-  <!-- ============ SEITE 2 + 3: JAHRBUCH-SPREAD ============ -->
-  <section class="page page-2 page-spread" id="page-2" aria-label="Seite 2 Steckbriefe links">
-    <header class="page-header spread-header">
+  <!-- ============ SEITE 2: GRUSSWORT ============ -->
+  <section class="page page-letter" id="page-2" aria-label="Seite 2 Grußwort">
+    <header class="page-header">
       <span class="page-num">02</span>
+      <h2 class="page-title" data-field="introTitle" contenteditable="true">Liebe Viertklässler:innen</h2>
+      <p class="page-kicker" data-field="introKicker" contenteditable="true">Ein Wort vorweg &mdash; von allen, die euch begleitet haben.</p>
+    </header>
+
+    <div class="letter-layout">
+      <figure class="photo photo-intro" data-photo="intro">
+        <div class="photo-placeholder"><span>Foto von euch oder eurer Klassenlehrkraft</span></div>
+        <input type="file" accept="image/*" hidden />
+        <button type="button" class="photo-pan no-print" title="Bildausschnitt verschieben" aria-label="Bildausschnitt verschieben">&#10021;</button>
+        <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
+      </figure>
+
+      <div class="letter-body">
+        <p class="letter-lead" data-field="introLead" contenteditable="true">Vier Jahre sind vergangen, seit ihr das erste Mal mit leuchtenden Augen und einer riesigen Schultüte die Schule betreten habt. Aus kleinen Schulanfänger:innen sind neugierige, mutige Persönlichkeiten geworden.</p>
+        <p class="letter-text" data-field="introText" contenteditable="true">Diese Zeitung ist ein Geschenk von uns allen an euch: Eltern, Mitschüler:innen und Lehrkräften. Sie soll euch daran erinnern, wie bunt, turbulent und wertvoll eure Grundschulzeit war. Jedes Foto, jede Anekdote, jede warme Dusche erzählt ein Stück von euch.
+
+Behaltet die Neugier, den Mut und die Freundschaften, die ihr hier gefunden habt. Und wenn es mal schwierig wird: Ihr habt schon so vieles gemeistert &mdash; ihr werdet auch das schaffen.</p>
+        <p class="letter-sign" data-field="introSign" contenteditable="true">Eure Eltern und Lehrkräfte</p>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span data-field="footerLeft2" contenteditable="true">Abschiedszeitung &mdash; Klasse 4X</span>
+      <span class="folio">&mdash; 02 &mdash;</span>
+    </footer>
+  </section>
+
+  <!-- ============ SEITE 3: CHRONIK TEIL 1 ============ -->
+  <section class="page page-chronicle" id="page-3" aria-label="Seite 3 Chronik Teil 1">
+    <header class="page-header">
+      <span class="page-num">03</span>
+      <h2 class="page-title" data-field="chronicle1Title" contenteditable="true">Die ersten Jahre</h2>
+      <p class="page-kicker" data-field="chronicle1Kicker" contenteditable="true">Erinnerungen aus Klasse 1 und 2</p>
+    </header>
+    <div class="memory-bento" id="memory-bento-1" data-half="first"></div>
+    <footer class="page-footer">
+      <span data-field="footerLeft3" contenteditable="true">Chronik &mdash; Teil 1</span>
+      <span class="folio">&mdash; 03 &mdash;</span>
+    </footer>
+  </section>
+
+  <!-- ============ SEITE 4 + 5: JAHRBUCH-SPREAD ============ -->
+  <section class="page page-4 page-spread" id="page-4" aria-label="Seite 4 Steckbriefe links">
+    <header class="page-header spread-header">
+      <span class="page-num">04</span>
       <h2 class="page-title" data-field="spreadTitle" contenteditable="true">Unsere Klasse</h2>
       <p class="page-kicker" data-field="spreadKicker" contenteditable="true">Alle Mitschülerinnen und Mitschüler auf einen Blick</p>
     </header>
     <div class="student-grid" id="student-grid-left" data-spread="left"></div>
     <footer class="page-footer">
-      <span data-field="spreadFooterLeft" contenteditable="true">Klasse 4X &mdash; Abschiedszeitung</span>
-      <span class="folio">&mdash; 02 &mdash;</span>
+      <span data-field="spreadFooterLeft" contenteditable="true">Klasse 4X &mdash; Yearbook</span>
+      <span class="folio">&mdash; 04 &mdash;</span>
     </footer>
   </section>
 
-  <section class="page page-3 page-spread" id="page-3" aria-label="Seite 3 Steckbriefe rechts">
+  <section class="page page-5 page-spread" id="page-5" aria-label="Seite 5 Steckbriefe rechts">
     <header class="page-header spread-header continuation">
-      <span class="page-num">03</span>
+      <span class="page-num">05</span>
       <h2 class="page-title" data-field="spreadTitleRight" contenteditable="true">&hellip; und das sind wir.</h2>
       <p class="page-kicker" data-field="spreadKickerRight" contenteditable="true">Jede:r ein eigener Kosmos.</p>
     </header>
     <div class="student-grid" id="student-grid-right" data-spread="right"></div>
     <footer class="page-footer">
       <span data-field="spreadFooterRight" contenteditable="true">Grundschule &mdash; Jahrgang 2026</span>
-      <span class="folio">&mdash; 03 &mdash;</span>
+      <span class="folio">&mdash; 05 &mdash;</span>
     </footer>
   </section>
 
-  <!-- ============ SEITE 4: RÜCKSEITE ============ -->
-  <section class="page page-4" id="page-4" aria-label="Seite 4 Rückseite">
+  <!-- ============ SEITE 6: CHRONIK TEIL 2 ============ -->
+  <section class="page page-chronicle" id="page-6" aria-label="Seite 6 Chronik Teil 2">
     <header class="page-header">
-      <span class="page-num">04</span>
-      <h2 class="page-title" data-field="page4Title" contenteditable="true">Erinnerungen &amp; Abschied</h2>
-      <p class="page-kicker" data-field="page4Kicker" contenteditable="true">Vier Jahre in Bildern, Worten und Wünschen</p>
+      <span class="page-num">06</span>
+      <h2 class="page-title" data-field="chronicle2Title" contenteditable="true">Und dann die Großen</h2>
+      <p class="page-kicker" data-field="chronicle2Kicker" contenteditable="true">Erinnerungen aus Klasse 3 und 4</p>
+    </header>
+    <div class="memory-bento" id="memory-bento-2" data-half="second"></div>
+    <footer class="page-footer">
+      <span data-field="footerLeft6" contenteditable="true">Chronik &mdash; Teil 2</span>
+      <span class="folio">&mdash; 06 &mdash;</span>
+    </footer>
+  </section>
+
+  <!-- ============ SEITE 7: WARME DUSCHEN ============ -->
+  <section class="page page-showers" id="page-7" aria-label="Seite 7 Warme Duschen">
+    <header class="page-header">
+      <span class="page-num">07</span>
+      <h2 class="page-title" data-field="showersPageTitle" contenteditable="true">Warme Duschen</h2>
+      <p class="page-kicker" data-field="showersPageKicker" contenteditable="true">Das, was ihr aneinander schätzt &mdash; in einem Satz.</p>
+    </header>
+    <div class="shower-grid-large" id="shower-grid" aria-label="Warme Duschen"></div>
+    <footer class="page-footer">
+      <span data-field="footerLeft7" contenteditable="true">Schöne Worte für den Weg</span>
+      <span class="folio">&mdash; 07 &mdash;</span>
+    </footer>
+  </section>
+
+  <!-- ============ SEITE 8: RÜCKSEITE ============ -->
+  <section class="page page-8" id="page-8" aria-label="Seite 8 Rückseite">
+    <header class="page-header">
+      <span class="page-num">08</span>
+      <h2 class="page-title" data-field="page8Title" contenteditable="true">Zum Abschied</h2>
+      <p class="page-kicker" data-field="page8Kicker" contenteditable="true">Ein letzter Gruß &mdash; und alles Gute.</p>
     </header>
 
-    <div class="back-layout">
-      <section class="back-block back-memories">
-        <h3 class="back-block-title" data-field="memoriesTitle" contenteditable="true">Unsere schönsten Momente</h3>
-        <div class="memory-bento" id="memory-bento"></div>
-      </section>
-
-      <section class="back-block back-showers">
-        <h3 class="back-block-title" data-field="showersTitle" contenteditable="true">Warme Duschen</h3>
-        <div class="shower-grid" id="shower-grid" aria-label="Warme Duschen"></div>
-      </section>
-
-      <article class="teacher-card back-teacher">
-        <h3 data-field="teacherTitle" contenteditable="true">Ein Gruß vom Klassenteam</h3>
-        <p class="teacher-text" data-field="teacherText" contenteditable="true">Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid &mdash; und traut euch, mehr zu werden.</p>
-        <p class="teacher-sign" data-field="teacherSign" contenteditable="true">Euer Klassenteam</p>
-      </article>
-    </div>
+    <article class="teacher-card back-teacher">
+      <h3 data-field="teacherTitle" contenteditable="true">Ein Gruß vom Klassenteam</h3>
+      <p class="teacher-text" data-field="teacherText" contenteditable="true">Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid &mdash; und traut euch, mehr zu werden.</p>
+      <p class="teacher-sign" data-field="teacherSign" contenteditable="true">Euer Klassenteam</p>
+    </article>
 
     <footer class="imprint">
       <div class="imprint-col">
@@ -188,20 +258,36 @@
     </footer>
   </section>
 
-  <!-- ============ DRUCK-LAYOUT (A3) ============ -->
+  <!-- ============ DRUCK-LAYOUT (A3) — 8-Seiten Saddle-Stitched Booklet ============ -->
   <section class="print-layout" id="print-layout" aria-label="Druck-Layout A3">
     <p class="print-info no-print">
-      Druckbogen für A3 (420 &times; 297 mm). Bogen 1 = Außenseite (Seite 4 + Seite 1), Bogen 2 = Innenseite (Seite 2 + Seite 3 = Jahrbuch-Spread). Im Druckdialog <strong>A3 Querformat</strong> und <strong>Ränder: Keine</strong> wählen.
+      Druckbogen für A3 (420 &times; 297 mm), zwei Blätter beidseitig bedruckt, ineinander gelegt, in der Mitte gefaltet (Saddle-Stitched). Im Druckdialog <strong>A3 Querformat</strong>, <strong>beidseitig</strong> und <strong>Ränder: Keine</strong> wählen.
     </p>
-    <div class="sheet sheet-outer" aria-label="Bogen außen">
-      <div class="sheet-slot" data-mirrors="page-4"></div>
+    <!-- Bogen 1 (äußerer Umschlag) -->
+    <div class="sheet sheet-1-front" aria-label="Bogen 1 Vorderseite">
+      <div class="sheet-label no-print">Bogen 1 &mdash; Vorderseite</div>
+      <div class="sheet-slot" data-mirrors="page-8"></div>
       <div class="sheet-fold" aria-hidden="true"></div>
       <div class="sheet-slot" data-mirrors="page-1"></div>
     </div>
-    <div class="sheet sheet-inner" aria-label="Bogen innen">
+    <div class="sheet sheet-1-back" aria-label="Bogen 1 Rückseite">
+      <div class="sheet-label no-print">Bogen 1 &mdash; Rückseite</div>
       <div class="sheet-slot" data-mirrors="page-2"></div>
       <div class="sheet-fold" aria-hidden="true"></div>
+      <div class="sheet-slot" data-mirrors="page-7"></div>
+    </div>
+    <!-- Bogen 2 (innerer Bogen) -->
+    <div class="sheet sheet-2-front" aria-label="Bogen 2 Vorderseite">
+      <div class="sheet-label no-print">Bogen 2 &mdash; Vorderseite</div>
+      <div class="sheet-slot" data-mirrors="page-6"></div>
+      <div class="sheet-fold" aria-hidden="true"></div>
       <div class="sheet-slot" data-mirrors="page-3"></div>
+    </div>
+    <div class="sheet sheet-2-back" aria-label="Bogen 2 Rückseite">
+      <div class="sheet-label no-print">Bogen 2 &mdash; Rückseite (Mittelseiten)</div>
+      <div class="sheet-slot" data-mirrors="page-4"></div>
+      <div class="sheet-fold" aria-hidden="true"></div>
+      <div class="sheet-slot" data-mirrors="page-5"></div>
     </div>
   </section>
 
@@ -239,8 +325,9 @@
     <h3>Tipps</h3>
     <ul class="tips">
       <li>Fotos per Drag &amp; Drop auf jeden Platzhalter ziehen.</li>
-      <li>Steckbriefe können durch Ziehen auf den <em>X</em>-Knopf entfernt werden.</li>
-      <li>Vor dem Drucken im Browser <em>A3 Querformat</em> und <em>Ränder: Keine</em> einstellen.</li>
+      <li><strong>Bildausschnitt anpassen:</strong> Den kleinen <em>&#10021;</em>-Knopf am Bild greifen und ziehen. Die Position wird gespeichert und mitgedruckt.</li>
+      <li>Steckbriefe werden per <em>×</em>-Knopf (rechts oben an der Karte) entfernt.</li>
+      <li>Vor dem Drucken im Browser <em>A3 Querformat</em>, <em>beidseitig</em> und <em>Ränder: Keine</em> einstellen.</li>
       <li>Sichere dein Projekt regelmäßig über <em>Als JSON speichern</em>.</li>
     </ul>
     <footer class="modal-footer">
@@ -258,6 +345,7 @@
     <figure class="photo photo-student" data-photo="">
       <div class="photo-placeholder"><span>Foto</span></div>
       <input type="file" accept="image/*" hidden />
+      <button type="button" class="photo-pan no-print" title="Bildausschnitt verschieben" aria-label="Bildausschnitt verschieben">&#10021;</button>
       <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
     </figure>
     <div class="student-body">
@@ -267,7 +355,7 @@
         <div><dt>Hobby</dt><dd contenteditable="true" data-field="hobby">&hellip;</dd></div>
         <div><dt>Später mal</dt><dd contenteditable="true" data-field="beruf">&hellip;</dd></div>
       </dl>
-      <p class="student-memory" contenteditable="true" data-field="memory">Meine schönste Erinnerung: &hellip;</p>
+      <p class="student-memory" contenteditable="true" data-field="memory">Mein schönster Moment mit dir: &hellip;</p>
     </div>
     <button type="button" class="remove-item no-print" title="Steckbrief entfernen" aria-label="Steckbrief entfernen">&times;</button>
   </article>
@@ -278,6 +366,7 @@
     <figure class="photo photo-memory" data-photo="">
       <div class="photo-placeholder"><span>Bild</span></div>
       <input type="file" accept="image/*" hidden />
+      <button type="button" class="photo-pan no-print" title="Bildausschnitt verschieben" aria-label="Bildausschnitt verschieben">&#10021;</button>
       <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
     </figure>
     <div class="memory-body">

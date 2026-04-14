@@ -55,25 +55,33 @@ haben.
 | `Strg + Z`     | Letzte Texteingabe rückgängig (Browser)  |
 | `Esc`          | Dialog / Menü / Sidebar schließen        |
 
-## Seiten-Layout
+## Seiten-Layout (8-seitiges Heft)
+
+Zwei A3-Bögen, jeweils **beidseitig** bedruckt, ineinander gelegt, in
+der Mitte gefaltet — ein klassisches Saddle-Stitched-Booklet mit 8
+Seiten.
 
 ```
-A3-Bogen flach:          Nach Falten (A4):
-┌─────────┬─────────┐    ┌─────────┐
-│ Seite 4 │ Seite 1 │    │ Seite 1 │  ← Titel
-│ außen L │ außen R │    └─────────┘
-└─────────┴─────────┘    ┌─────────┐
-┌─────────┬─────────┐    │ Seite 2 │
-│ Seite 2 │ Seite 3 │    │ Seite 3 │  ← Jahrbuch-Spread
-│ innen L │ innen R │    └─────────┘
-└─────────┴─────────┘    ┌─────────┐
-                         │ Seite 4 │  ← Rückseite
-                         └─────────┘
+Bogen 1 Vorderseite:   [ 8 | 1 ]   ← Rückseite + Titel
+Bogen 1 Rückseite:     [ 2 | 7 ]
+Bogen 2 Vorderseite:   [ 6 | 3 ]
+Bogen 2 Rückseite:     [ 4 | 5 ]   ← Jahrbuch-Spread (Heftmitte)
 ```
 
-**Wichtig:** Seiten 2 + 3 sind gemeinsam der Jahrbuch-Spread. Alle
-Kinder werden gleichmäßig auf beide Seiten verteilt — wenn man die
-A3-Zeitung aufklappt, sieht man sie alle nebeneinander.
+| Seite | Inhalt                                  |
+|-------|-----------------------------------------|
+| 1     | Cover (Titel + Klassenfoto)             |
+| 2     | Grußwort / Brief an die Kinder          |
+| 3     | Chronik I (Klasse 1 + 2)                |
+| 4     | Jahrbuch-Spread links                   |
+| 5     | Jahrbuch-Spread rechts                  |
+| 6     | Chronik II (Klasse 3 + 4)               |
+| 7     | Warme Duschen                           |
+| 8     | Abschieds-Grußwort + Impressum          |
+
+Seiten 4 + 5 sind gemeinsam der Jahrbuch-Spread. Alle Kinder werden
+gleichmäßig auf beide Seiten verteilt — wenn man die Zeitung aufklappt,
+sieht man sie alle nebeneinander.
 
 ### Automatische Grid-Skalierung
 

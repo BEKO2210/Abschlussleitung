@@ -353,6 +353,13 @@
 }
 .tier-xs .student-memory,
 .tier-xs .student-facts > div:nth-child(3) { display: none; } /* nur Fach + Hobby */
+.tier-xs .photo-pan, .tier-xs .photo-remove,
+.tier-xxs .photo-pan, .tier-xxs .photo-remove {
+  width: 16px; height: 16px; font-size: 10px; line-height: 14px;
+  top: 2px;
+}
+.tier-xs .photo-pan,
+.tier-xxs .photo-pan { display: none !important; } /* Karte zu klein zum Pannen */
 
 /* XXS: bis 30 - 3x5 pro Seite */
 .tier-xxs {
@@ -370,29 +377,98 @@
 .tier-xxs .student-facts > div:nth-child(2) { display: none; } /* nur Fach */
 
 /* =========================================================
-   SEITE 4 - RÜCKSEITE (Erinnerungen + Duschen + Gruß)
+   SEITE 2 - GRUSSWORT (Letter)
    ========================================================= */
 
-.back-layout {
+.letter-layout {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr auto;
-  gap: 5mm;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(70mm, 40%) 1fr;
+  gap: 6mm;
 }
-.back-memories { grid-column: 1 / -1; grid-row: 1; min-height: 0; }
-.back-showers  { grid-column: 1; grid-row: 2; }
-.back-teacher  { grid-column: 2; grid-row: 2; }
+.photo-intro {
+  margin: 0;
+  background: var(--rule-soft);
+  border-radius: 3mm;
+  aspect-ratio: auto;
+  min-height: 70mm;
+}
+.photo-intro img { border-radius: 3mm; }
 
-.back-block { display: flex; flex-direction: column; min-height: 0; }
-.back-block-title {
+.letter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+  min-height: 0;
+}
+.letter-lead {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13pt;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0;
+}
+.letter-text {
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+  white-space: pre-wrap;
+  flex: 1;
+}
+.letter-sign {
   font-family: var(--display);
   font-weight: 700;
-  font-size: 12pt;
-  margin: 0 0 3mm;
-  letter-spacing: .04em;
+  font-size: 11pt;
   color: var(--accent);
+  margin: 0;
+  letter-spacing: .04em;
+}
+
+/* =========================================================
+   SEITEN 3 & 6 - CHRONIK (Vollseiten-Bento)
+   ========================================================= */
+
+.page-chronicle .memory-bento {
+  flex: 1;
+}
+
+/* =========================================================
+   SEITE 7 - WARME DUSCHEN (großzügig)
+   ========================================================= */
+
+.shower-grid-large {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4mm;
+  align-content: start;
+  overflow: hidden;
+}
+.shower-grid-large .shower-card {
+  padding: 4mm 5mm;
+}
+.shower-grid-large .shower-text {
+  font-size: 11pt;
+  line-height: 1.4;
+  margin: 0 0 2mm;
+}
+.shower-grid-large .shower-from {
+  font-size: 8pt;
+}
+
+/* =========================================================
+   SEITE 8 - RÜCKSEITE (Gruß + Impressum)
+   ========================================================= */
+
+.page-8 .teacher-card {
+  flex: 1;
+  min-height: 0;
 }
 
 .memory-bento {
@@ -455,12 +531,6 @@
 .memory-card:nth-child(6n+5) { grid-column: span 2; }
 .memory-card:nth-child(6n+6) { grid-column: span 6; }
 
-.shower-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2mm;
-  align-content: start;
-}
 .shower-card {
   margin: 0;
   border: 1px solid var(--rule);
@@ -552,15 +622,22 @@
 .print-layout {
   display: none;
   flex-direction: column;
-  gap: 24px;
+  gap: 64px;
   align-items: center;
+  padding: 20px 0 40px;
 }
 .print-info {
   font-size: 13px;
   color: var(--ui-muted);
-  max-width: 640px;
+  max-width: 720px;
   text-align: center;
+  line-height: 1.55;
+  background: #fff;
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  padding: 12px 16px;
 }
+.print-info strong { color: var(--ui-text, #1a1a1a); }
 .sheet {
   width: 420mm;
   height: 297mm;
@@ -572,6 +649,22 @@
   overflow: hidden;
   page-break-after: always;
   break-after: page;
+}
+.sheet-label {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  font-family: 'Montserrat', var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ui-muted, #6b6b6b);
+  background: var(--ui-panel, #fff);
+  padding: 4px 10px;
+  border: 1px solid var(--ui-border, #e5e5e3);
+  border-radius: 6px;
+  white-space: nowrap;
 }
 .sheet-slot { display: block; position: relative; }
 .sheet-slot .page {

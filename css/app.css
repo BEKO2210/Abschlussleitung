@@ -267,6 +267,7 @@ button.icon-btn {
   text-transform: none;
 }
 .sidebar-section button { width: 100%; }
+.btn-stack { display: flex; flex-direction: column; gap: 6px; }
 .hint {
   font-size: 11px;
   color: var(--ui-muted);
@@ -291,32 +292,43 @@ button.icon-btn {
 /* ---------- Workspace ---------- */
 
 .workspace {
-  padding: calc(var(--toolbar-h) + 24px) 32px 80px calc(var(--sidebar-w) + 32px);
+  padding: calc(var(--toolbar-h) + 32px) 40px 96px calc(var(--sidebar-w) + 40px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
+  min-height: 100vh;
 }
+
+/* Dezente Seiten-Zählermarke über jeder Seite */
+.page { scroll-margin-top: calc(var(--toolbar-h) + 20px); }
 
 /* View-Modi */
 .workspace[data-view="edit"] .print-layout,
 .workspace[data-view="preview"] .print-layout { display: none; }
-.workspace[data-view="preview"] [contenteditable="true"] { outline: none; }
+
+/* In Vorschau und Druck-Ansicht sämtliches Editor-Chrome unterdrücken */
+.workspace[data-view="preview"] [contenteditable="true"] { outline: none !important; }
 .workspace[data-view="preview"] .remove-item,
-.workspace[data-view="preview"] .photo-remove { display: none !important; }
+.workspace[data-view="preview"] .photo-remove,
+.workspace[data-view="preview"] .photo-pan,
+.workspace[data-view="print-layout"] .remove-item,
+.workspace[data-view="print-layout"] .photo-remove,
+.workspace[data-view="print-layout"] .photo-pan { display: none !important; }
+
 .workspace[data-view="print-layout"] > .page { display: none; }
 .workspace[data-view="print-layout"] .print-layout { display: flex; }
 
-/* Edit-Hinweise */
+/* Edit-Hinweise: nur beim Fokus deutlich, beim Hover minimal */
 .workspace[data-view="edit"] [contenteditable="true"]:hover {
-  outline: 1px dashed #cfd3d9;
-  outline-offset: 2px;
-  border-radius: 3px;
+  background: rgba(255, 205, 60, 0.06);
+  border-radius: 2px;
 }
 .workspace[data-view="edit"] [contenteditable="true"]:focus {
   outline: 2px solid var(--ui-focus);
   outline-offset: 2px;
-  border-radius: 3px;
+  border-radius: 2px;
+  background: rgba(255, 205, 60, 0.08);
 }
 
 /* Remove-Buttons an Karten */
@@ -375,22 +387,33 @@ button.icon-btn {
     repeating-linear-gradient(45deg, #f1f1ee 0 10px, #e8e8e5 10px 20px);
 }
 .photo.has-image .photo-placeholder { display: none; }
-.photo-remove {
+.photo-remove,
+.photo-pan {
   position: absolute;
   top: 4px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
-  line-height: 16px;
+  width: 22px;
+  height: 22px;
+  line-height: 18px;
   padding: 0;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 50%;
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.94);
   border: 1px solid var(--ui-border);
   display: none;
   z-index: 2;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
 }
-.photo.has-image .photo-remove { display: block; }
+.photo-remove { right: 4px; color: var(--ui-danger); }
+.photo-pan    { left: 4px; font-size: 13px; }
+.photo.has-image .photo-remove,
+.photo.has-image .photo-pan { display: block; }
+.photo-pan:hover { background: #fff; }
+.photo-pan:active,
+.photo.repositioning .photo-pan { background: var(--ui-accent); color: #fff; border-color: var(--ui-accent); }
+
+.photo.repositioning { cursor: grabbing; }
+.photo.repositioning img { user-select: none; -webkit-user-drag: none; pointer-events: none; }
+.photo img { user-select: none; -webkit-user-drag: none; }
 
 /* ---------- Modal (native <dialog>) ---------- */
 
