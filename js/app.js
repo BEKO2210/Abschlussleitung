@@ -731,8 +731,25 @@
   // ---------- Drucken ----------
 
   on('btn-print', 'click', () => {
+    // Aktiven Editor-Fokus lösen, damit contenteditable-Inhalt ins DOM
+    // committed ist, bevor wir klonen.
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+    // Pending debounced saves sofort ausführen, damit nichts verloren geht
+    if (saveTimer) { clearTimeout(saveTimer); saveTimer = null;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
+    }
+    // Druck-Mirror frisch aus dem DOM (der sich gerade im Edit-Modus befindet)
     mirrorPrintLayout();
-    setTimeout(() => window.print(), 50);
+    // Dem Browser kurz Zeit fürs Layout geben, dann drucken
+    setTimeout(() => window.print(), 100);
+  });
+
+  // Auch der globale beforeprint-Event aktualisiert den Spiegel,
+  // falls der User aus dem Browser-Menü druckt.
+  window.addEventListener('beforeprint', () => {
+    mirrorPrintLayout();
   });
 
   // ---------- Overflow-Menü (Kebab) ----------
