@@ -31,6 +31,7 @@
     return {
       theme: 'default',
       fields: {
+        // Seite 1 Cover
         kicker: 'Abschlussjahrgang',
         year: new Date().getFullYear().toString(),
         titleLine1: 'Unsere Zeit',
@@ -38,18 +39,41 @@
         subtitle: 'Grundschule — Eine Zeitung zum Abschied',
         schoolName: 'Grundschule',
         schoolYears: 'Schuljahre 2022 – 2026',
-        // Spread (Seiten 2+3)
+
+        // Seite 2 Grußwort
+        introTitle: 'Liebe Viertklässler:innen',
+        introKicker: 'Ein Wort vorweg — von allen, die euch begleitet haben.',
+        introLead: 'Vier Jahre sind vergangen, seit ihr das erste Mal mit leuchtenden Augen und einer riesigen Schultüte die Schule betreten habt. Aus kleinen Schulanfänger:innen sind neugierige, mutige Persönlichkeiten geworden.',
+        introText: 'Diese Zeitung ist ein Geschenk von uns allen an euch: Eltern, Mitschüler:innen und Lehrkräften. Sie soll euch daran erinnern, wie bunt, turbulent und wertvoll eure Grundschulzeit war. Jedes Foto, jede Anekdote, jede warme Dusche erzählt ein Stück von euch.\n\nBehaltet die Neugier, den Mut und die Freundschaften, die ihr hier gefunden habt. Und wenn es mal schwierig wird: Ihr habt schon so vieles gemeistert — ihr werdet auch das schaffen.',
+        introSign: 'Eure Eltern und Lehrkräfte',
+        footerLeft2: 'Abschiedszeitung — Klasse 4X',
+
+        // Seite 3 Chronik I
+        chronicle1Title: 'Die ersten Jahre',
+        chronicle1Kicker: 'Erinnerungen aus Klasse 1 und 2',
+        footerLeft3: 'Chronik — Teil 1',
+
+        // Seiten 4+5 Yearbook-Spread
         spreadTitle: 'Unsere Klasse',
         spreadKicker: 'Alle Mitschülerinnen und Mitschüler auf einen Blick',
-        spreadFooterLeft: 'Klasse 4X — Abschiedszeitung',
+        spreadFooterLeft: 'Klasse 4X — Yearbook',
         spreadTitleRight: '… und das sind wir.',
         spreadKickerRight: 'Jede:r ein eigener Kosmos.',
         spreadFooterRight: 'Grundschule — Jahrgang 2026',
-        // Seite 4
-        page4Title: 'Erinnerungen & Abschied',
-        page4Kicker: 'Vier Jahre in Bildern, Worten und Wünschen',
-        memoriesTitle: 'Unsere schönsten Momente',
-        showersTitle: 'Warme Duschen',
+
+        // Seite 6 Chronik II
+        chronicle2Title: 'Und dann die Großen',
+        chronicle2Kicker: 'Erinnerungen aus Klasse 3 und 4',
+        footerLeft6: 'Chronik — Teil 2',
+
+        // Seite 7 Warme Duschen
+        showersPageTitle: 'Warme Duschen',
+        showersPageKicker: 'Das, was ihr aneinander schätzt — in einem Satz.',
+        footerLeft7: 'Schöne Worte für den Weg',
+
+        // Seite 8 Rückseite
+        page8Title: 'Zum Abschied',
+        page8Kicker: 'Ein letzter Gruß — und alles Gute.',
         teacherTitle: 'Ein Gruß vom Klassenteam',
         teacherText: 'Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid — und traut euch, mehr zu werden.',
         teacherSign: 'Euer Klassenteam',
@@ -58,7 +82,8 @@
         imprintNote: 'Nicht für den öffentlichen Vertrieb. Bilder mit Einwilligung der Erziehungsberechtigten.'
       },
       photos: {
-        hero: null // dataURL
+        hero: null,   // Seite 1 Klassenfoto
+        intro: null   // Seite 2 Grußwort-Foto
       },
       students: seedStudents(),
       memories: seedMemories(),
@@ -81,10 +106,14 @@
 
   function seedMemories() {
     return [
-      { id: uid(), title: 'Einschulung', meta: '1. Klasse', text: 'Der erste Schultag — aufgeregte Gesichter, volle Schultüten und ein neues Kapitel beginnt.', photo: null },
-      { id: uid(), title: 'Waldtage', meta: '2. Klasse · Herbst', text: 'Bunte Blätter, matschige Stiefel und gemeinsame Lagerfeuerlieder.', photo: null },
-      { id: uid(), title: 'Klassenfahrt', meta: '3. Klasse · Frühling', text: 'Drei Tage, drei Nächte — und Geschichten, die wir nie vergessen.', photo: null },
-      { id: uid(), title: 'Projektwoche', meta: '4. Klasse', text: 'Forschen, basteln, präsentieren — alles durcheinander, alles wunderbar.', photo: null }
+      // Chronik I (Klasse 1+2)
+      { id: uid(), title: 'Einschulung',       meta: '1. Klasse',         text: 'Der erste Schultag — aufgeregte Gesichter, volle Schultüten und ein neues Kapitel beginnt.', photo: null },
+      { id: uid(), title: 'Laternenfest',      meta: '1. Klasse · Herbst',text: 'Selbst gebastelte Laternen, kalte Nasen und laute Gesänge im Schulhof.',                photo: null },
+      { id: uid(), title: 'Waldtage',          meta: '2. Klasse · Herbst',text: 'Bunte Blätter, matschige Stiefel und gemeinsame Lagerfeuerlieder.',                    photo: null },
+      // Chronik II (Klasse 3+4)
+      { id: uid(), title: 'Klassenfahrt',      meta: '3. Klasse · Frühling', text: 'Drei Tage, drei Nächte — und Geschichten, die wir nie vergessen.',                  photo: null },
+      { id: uid(), title: 'Sportfest',         meta: '3. Klasse',         text: 'Wettrennen, Zielwerfen, Staffeln — und das Eis am Ende für alle.',                    photo: null },
+      { id: uid(), title: 'Projektwoche',      meta: '4. Klasse',         text: 'Forschen, basteln, präsentieren — alles durcheinander, alles wunderbar.',             photo: null }
     ];
   }
 
@@ -125,7 +154,8 @@
     if (!Array.isArray(loaded.students)) loaded.students = d.students;
     if (!Array.isArray(loaded.memories)) loaded.memories = d.memories;
     if (!Array.isArray(loaded.showers))  loaded.showers  = d.showers;
-    if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null };
+    if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
+    if (loaded.photos.intro === undefined) loaded.photos.intro = null;
     if (!loaded.fields || typeof loaded.fields !== 'object') loaded.fields = {};
 
     const f = loaded.fields;
@@ -173,27 +203,15 @@
       });
     });
 
-    // Hero photo
-    applyPhoto(document.querySelector('.photo[data-photo="hero"]'), state.photos.hero);
+    // Fotos auf Titel- und Grußwort-Seite
+    applyPhoto(document.querySelector('.photo[data-photo="hero"]'),  state.photos.hero);
+    applyPhoto(document.querySelector('.photo[data-photo="intro"]'), state.photos.intro);
 
     // Students auf zwei Seiten splitten (Yearbook-Spread)
     renderStudentSpread();
 
-    // Memories
-    const memoryContainer = document.getElementById('memory-bento');
-    if (state.memories.length === 0) {
-      memoryContainer.innerHTML = '<div class="empty-state">Noch keine Erinnerungen. In der Sidebar <strong>+ Erinnerung</strong> klicken.</div>';
-    } else {
-      renderList('memory-bento', 'tpl-memory', state.memories, (root, item) => {
-        root.dataset.memoryId = item.id;
-        setField(root, 'title', item.title);
-        setField(root, 'meta', item.meta);
-        setField(root, 'text', item.text);
-        const photoEl = root.querySelector('.photo');
-        photoEl.dataset.photo = 'memory:' + item.id;
-        applyPhoto(photoEl, item.photo);
-      });
-    }
+    // Erinnerungen auf Chronik I (Seite 3) + Chronik II (Seite 6) splitten
+    renderMemories();
 
     // Showers
     const showerContainer = document.getElementById('shower-grid');
@@ -290,6 +308,50 @@
 
     fillStudentGrid(leftEl,  leftList);
     fillStudentGrid(rightEl, rightList);
+  }
+
+  function renderMemories() {
+    const bento1 = document.getElementById('memory-bento-1');
+    const bento2 = document.getElementById('memory-bento-2');
+    if (!bento1 || !bento2) return;
+
+    const memTpl = document.getElementById('tpl-memory');
+    const list = state.memories;
+
+    if (list.length === 0) {
+      const empty = '<div class="empty-state">Noch keine Erinnerungen. In der Sidebar <strong>+ Erinnerung</strong> klicken.</div>';
+      bento1.innerHTML = empty;
+      bento2.innerHTML = '';
+      return;
+    }
+
+    // Auf die zwei Chronik-Seiten splitten (jede Seite bekommt ca. die Hälfte,
+    // bei ungerader Anzahl mehr auf die erste Seite).
+    const half = Math.ceil(list.length / 2);
+    const first  = list.slice(0, half);
+    const second = list.slice(half);
+
+    fillMemoryBento(bento1, first, memTpl);
+    if (second.length === 0) {
+      bento2.innerHTML = '<div class="empty-state">Platz für weitere Erinnerungen aus Klasse 3 und 4.</div>';
+    } else {
+      fillMemoryBento(bento2, second, memTpl);
+    }
+  }
+
+  function fillMemoryBento(container, list, tpl) {
+    container.innerHTML = '';
+    list.forEach(item => {
+      const clone = tpl.content.firstElementChild.cloneNode(true);
+      clone.dataset.memoryId = item.id;
+      setField(clone, 'title', item.title);
+      setField(clone, 'meta', item.meta);
+      setField(clone, 'text', item.text);
+      const photoEl = clone.querySelector('.photo');
+      photoEl.dataset.photo = 'memory:' + item.id;
+      applyPhoto(photoEl, item.photo);
+      container.appendChild(clone);
+    });
   }
 
   function fillStudentGrid(container, list) {
@@ -496,6 +558,8 @@
     if (!photoKey) return;
     if (photoKey === 'hero') {
       state.photos.hero = dataUrl;
+    } else if (photoKey === 'intro') {
+      state.photos.intro = dataUrl;
     } else if (photoKey.startsWith('student:')) {
       const id = photoKey.slice('student:'.length);
       const item = state.students.find(s => s.id === id);
@@ -702,7 +766,8 @@
         if (!Array.isArray(loaded.memories)) loaded.memories = [];
         if (!Array.isArray(loaded.showers))  loaded.showers  = [];
         if (!loaded.fields || typeof loaded.fields !== 'object') loaded.fields = {};
-        if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null };
+        if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
+    if (loaded.photos.intro === undefined) loaded.photos.intro = null;
         state = loaded;
         saveState();
         render();
