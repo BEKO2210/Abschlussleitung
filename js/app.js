@@ -32,52 +32,52 @@
       theme: 'default',
       fields: {
         // Seite 1 Cover
-        kicker: 'Abschlussjahrgang',
+        kicker: 'Für unsere Klassenlehrkraft',
         year: new Date().getFullYear().toString(),
-        titleLine1: 'Unsere Zeit',
-        titleLine2: 'Klasse 4X',
-        subtitle: 'Grundschule — Eine Zeitung zum Abschied',
+        titleLine1: 'Danke',
+        titleLine2: 'für vier Jahre!',
+        subtitle: 'Eine Abschiedszeitung von deiner Klasse.',
         schoolName: 'Grundschule',
         schoolYears: 'Schuljahre 2022 – 2026',
 
-        // Seite 2 Grußwort
-        introTitle: 'Liebe Viertklässler:innen',
-        introKicker: 'Ein Wort vorweg — von allen, die euch begleitet haben.',
-        introLead: 'Vier Jahre sind vergangen, seit ihr das erste Mal mit leuchtenden Augen und einer riesigen Schultüte die Schule betreten habt. Aus kleinen Schulanfänger:innen sind neugierige, mutige Persönlichkeiten geworden.',
-        introText: 'Diese Zeitung ist ein Geschenk von uns allen an euch: Eltern, Mitschüler:innen und Lehrkräften. Sie soll euch daran erinnern, wie bunt, turbulent und wertvoll eure Grundschulzeit war. Jedes Foto, jede Anekdote, jede warme Dusche erzählt ein Stück von euch.\n\nBehaltet die Neugier, den Mut und die Freundschaften, die ihr hier gefunden habt. Und wenn es mal schwierig wird: Ihr habt schon so vieles gemeistert — ihr werdet auch das schaffen.',
-        introSign: 'Eure Eltern und Lehrkräfte',
-        footerLeft2: 'Abschiedszeitung — Klasse 4X',
+        // Seite 2 Grußwort — von den Kindern an die Lehrkraft
+        introTitle: 'Liebe Klassenlehrkraft',
+        introKicker: 'Ein paar Worte von uns Kindern, bevor wir gehen.',
+        introLead: 'Vier Jahre lang hast du uns begleitet — vom ersten wackeligen Schultag bis zu diesem Sommer, an dem wir die Grundschule verlassen. Das ist eine lange Zeit. Eine richtig lange Zeit.',
+        introText: 'Du hast uns lesen, schreiben und rechnen beigebracht. Du hast uns zugehört, wenn wir traurig waren. Du hast uns Mut gemacht, wenn wir uns etwas nicht zugetraut haben. Du warst streng, wenn es sein musste, und lustig, wenn wir es gebraucht haben.\n\nDiese Zeitung ist unser Dankeschön. Sie erzählt von unseren schönsten Momenten mit dir, von Ausflügen, Projekten, Pannen und Überraschungen. Jedes Foto, jeder Steckbrief, jede warme Dusche ist für dich — weil du es warst, die das alles möglich gemacht hat.',
+        introSign: 'Deine Klasse',
+        footerLeft2: 'Von uns für dich',
 
         // Seite 3 Chronik I
         chronicle1Title: 'Die ersten Jahre',
-        chronicle1Kicker: 'Erinnerungen aus Klasse 1 und 2',
+        chronicle1Kicker: 'Momente mit dir aus Klasse 1 und 2',
         footerLeft3: 'Chronik — Teil 1',
 
         // Seiten 4+5 Yearbook-Spread
-        spreadTitle: 'Unsere Klasse',
-        spreadKicker: 'Alle Mitschülerinnen und Mitschüler auf einen Blick',
-        spreadFooterLeft: 'Klasse 4X — Yearbook',
-        spreadTitleRight: '… und das sind wir.',
-        spreadKickerRight: 'Jede:r ein eigener Kosmos.',
+        spreadTitle: 'Das sind wir',
+        spreadKicker: 'Deine Klasse — jede:r mit einer Erinnerung an dich.',
+        spreadFooterLeft: 'Deine Klasse — Yearbook',
+        spreadTitleRight: '… und das bleibt von uns.',
+        spreadKickerRight: 'Ein letzter Gruß von jeder und jedem Einzelnen.',
         spreadFooterRight: 'Grundschule — Jahrgang 2026',
 
         // Seite 6 Chronik II
         chronicle2Title: 'Und dann die Großen',
-        chronicle2Kicker: 'Erinnerungen aus Klasse 3 und 4',
+        chronicle2Kicker: 'Momente mit dir aus Klasse 3 und 4',
         footerLeft6: 'Chronik — Teil 2',
 
-        // Seite 7 Warme Duschen
-        showersPageTitle: 'Warme Duschen',
-        showersPageKicker: 'Das, was ihr aneinander schätzt — in einem Satz.',
-        footerLeft7: 'Schöne Worte für den Weg',
+        // Seite 7 Warme Duschen für die Lehrkraft
+        showersPageTitle: 'Warme Duschen für dich',
+        showersPageKicker: 'Das, was wir an dir am meisten schätzen — in einem Satz.',
+        footerLeft7: 'Mit Liebe von uns',
 
-        // Seite 8 Rückseite
-        page8Title: 'Zum Abschied',
-        page8Kicker: 'Ein letzter Gruß — und alles Gute.',
-        teacherTitle: 'Ein Gruß vom Klassenteam',
-        teacherText: 'Liebe Kinder, vier Jahre lang haben wir gemeinsam gelernt, gelacht, gestritten und uns wieder vertragen. Ihr seid zu einer starken Gemeinschaft zusammengewachsen. Wir wünschen euch für die Zukunft Mut, Neugier und echte Freundinnen und Freunde. Bleibt so, wie ihr seid — und traut euch, mehr zu werden.',
-        teacherSign: 'Euer Klassenteam',
-        imprintRedaktion: 'Eltern der Klasse',
+        // Seite 8 Rückseite — letzter Gruß von der Klasse
+        page8Title: 'Wir werden dich vermissen',
+        page8Kicker: 'Bleib so, wie du bist.',
+        teacherTitle: 'Zum Abschied',
+        teacherText: 'Liebe Klassenlehrkraft, mit diesen Seiten wollen wir dir sagen, wie viel uns die Zeit mit dir bedeutet hat. Du hast uns nicht nur Mathe und Deutsch beigebracht — du hast uns gezeigt, dass Fehler okay sind, dass man einander zuhört und dass Neugier das Beste ist, das man haben kann. Wir nehmen das mit auf unsere neue Schule. Und dich auch — irgendwie. Pass gut auf dich auf. Wir haben dich lieb.',
+        teacherSign: 'In Dankbarkeit, deine Klasse',
+        imprintRedaktion: 'Von den Kindern der Klasse; organisiert von den Eltern',
         imprintDate: 'Juli — einmalig',
         imprintNote: 'Nicht für den öffentlichen Vertrieb. Bilder mit Einwilligung der Erziehungsberechtigten.'
       },
@@ -96,36 +96,40 @@
 
   function seedStudents() {
     const names = ['Mitschüler/in 1', 'Mitschüler/in 2', 'Mitschüler/in 3', 'Mitschüler/in 4'];
-    return names.map((n, i) => ({
+    return names.map((n) => ({
       id: uid(),
       name: n,
       fach: '',
       hobby: '',
       beruf: '',
-      memory: 'Meine schönste Erinnerung: …',
+      memory: 'Mein schönster Moment mit dir: …',
       photo: null
     }));
   }
 
   function seedMemories() {
+    // Momente, die die Klasse mit der Lehrkraft erlebt hat
     return [
       // Chronik I (Klasse 1+2)
-      { id: uid(), title: 'Einschulung',       meta: '1. Klasse',         text: 'Der erste Schultag — aufgeregte Gesichter, volle Schultüten und ein neues Kapitel beginnt.', photo: null },
-      { id: uid(), title: 'Laternenfest',      meta: '1. Klasse · Herbst',text: 'Selbst gebastelte Laternen, kalte Nasen und laute Gesänge im Schulhof.',                photo: null },
-      { id: uid(), title: 'Waldtage',          meta: '2. Klasse · Herbst',text: 'Bunte Blätter, matschige Stiefel und gemeinsame Lagerfeuerlieder.',                    photo: null },
+      { id: uid(), title: 'Unser erster Schultag',   meta: '1. Klasse',            text: 'Du hast uns empfangen — leuchtende Schultüten, wackelige Knie und ein neues Kapitel begann.',           photo: null },
+      { id: uid(), title: 'Das erste Laternenfest',  meta: '1. Klasse · Herbst',   text: 'Bei Regen durch den Schulhof, Laternen hoch und laut gesungen. Du bist mit jeder Pfütze mitgesprungen.', photo: null },
+      { id: uid(), title: 'Waldtage',                meta: '2. Klasse · Herbst',   text: 'Wir sind im Wald gewesen, Blätter gesammelt, am Feuer gesungen — und du hast uns beigebracht, wie man Rinden bestimmt.', photo: null },
       // Chronik II (Klasse 3+4)
-      { id: uid(), title: 'Klassenfahrt',      meta: '3. Klasse · Frühling', text: 'Drei Tage, drei Nächte — und Geschichten, die wir nie vergessen.',                  photo: null },
-      { id: uid(), title: 'Sportfest',         meta: '3. Klasse',         text: 'Wettrennen, Zielwerfen, Staffeln — und das Eis am Ende für alle.',                    photo: null },
-      { id: uid(), title: 'Projektwoche',      meta: '4. Klasse',         text: 'Forschen, basteln, präsentieren — alles durcheinander, alles wunderbar.',             photo: null }
+      { id: uid(), title: 'Klassenfahrt',            meta: '3. Klasse · Frühling', text: 'Drei Tage, drei Nächte — mit dir als Begleitung. Die Geschichten am Abend werden wir nicht vergessen.', photo: null },
+      { id: uid(), title: 'Sportfest',               meta: '3. Klasse',            text: 'Wettrennen, Staffeln, Zielwurf — und du warst an der Ziellinie, hast jeden einzeln bejubelt.',             photo: null },
+      { id: uid(), title: 'Projektwoche',            meta: '4. Klasse',            text: 'Forschen, basteln, präsentieren. Wir durften alles ausprobieren — und du hast uns vertraut.',              photo: null }
     ];
   }
 
   function seedShowers() {
+    // Warme Duschen von den Kindern für die Lehrkraft
     return [
-      { id: uid(), text: '„Du bringst uns immer zum Lachen.“', from: '— die Klasse' },
-      { id: uid(), text: '„Du hilfst, wenn jemand Hilfe braucht.“', from: '— die Klasse' },
-      { id: uid(), text: '„Du hast die besten Ideen beim Basteln.“', from: '— die Klasse' },
-      { id: uid(), text: '„Du bist mutig und ehrlich.“', from: '— die Klasse' }
+      { id: uid(), text: '„Du hörst immer zu, egal wie chaotisch es gerade war.“',  from: '— deine Klasse' },
+      { id: uid(), text: '„Du hast uns nie aufgegeben, auch wenn wir schwierig waren.“', from: '— deine Klasse' },
+      { id: uid(), text: '„Bei dir durften Fehler sein. Das war das Schönste.“',    from: '— deine Klasse' },
+      { id: uid(), text: '„Du erklärst so lange, bis es wirklich jede:r verstanden hat.“', from: '— deine Klasse' },
+      { id: uid(), text: '„Streng, aber immer fair — und mit trockenem Humor.“',   from: '— deine Klasse' },
+      { id: uid(), text: '„Du hast jedes Kind gesehen. Auch die leisen.“',          from: '— deine Klasse' }
     ];
   }
 
