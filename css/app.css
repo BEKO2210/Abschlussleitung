@@ -339,6 +339,17 @@ button.icon-btn {
   content: none !important;
 }
 
+/* Im Edit-Modus dürfen Antworten kurz "über das Maß hinaus" wachsen, damit
+   der Cursor nie hinter unsichtbarem Text liegt. Der visuelle Container hat
+   ohnehin overflow: hidden, deshalb gibt es trotzdem keine echte Überlappung
+   in Nachbarzellen. */
+.workspace[data-view="edit"] .qa-a,
+.workspace[data-view="edit"] .student-memory {
+  display: block;
+  -webkit-line-clamp: unset;
+  max-height: none;
+}
+
 /* Remove-Buttons an Karten */
 .remove-item {
   position: absolute;
