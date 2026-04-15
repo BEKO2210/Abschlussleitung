@@ -276,10 +276,10 @@
 .qa {
   display: grid;
   grid-template-columns: var(--card-icon-size, 4mm) minmax(0, 1fr);
-  align-items: center;
-  column-gap: 1.2mm;
+  align-items: center;           /* Icon zentriert auf 1-zeiliger Antwort */
+  column-gap: 1.5mm;
   min-width: 0;
-  min-height: 0;
+  min-height: var(--card-icon-size, 4mm);   /* Mindesthöhe = Icon */
   overflow: hidden;
 }
 .qa-q {
@@ -290,7 +290,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  cursor: help;
+  cursor: pointer;               /* Klick fokussiert die Antwort */
 }
 .qa-q svg {
   width: 100%;
@@ -323,14 +323,18 @@
   font-size: var(--card-dt-size, 6.5pt);
   color: var(--accent);
   line-height: 1.1;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 1mm;
+  gap: 1.5mm;
   flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .memory-icon {
-  width: 3mm;
-  height: 3mm;
+  width: var(--card-icon-size, 3mm);
+  height: var(--card-icon-size, 3mm);
   flex-shrink: 0;
   display: block;
 }
@@ -384,132 +388,141 @@
    - Welche Q/A-Blöcke sichtbar sind (essen, buch, motto, memory-block)
 */
 
-/* XL: 1-4 Kinder gesamt — volle Steckbriefe mit viel Luft */
+/* ===========================================================
+   Tier-Skalen für die Steckbrief-Karten.
+   Konstantes Verhältnis: Photo:Icon ≈ 9:1, Icon : Schrift ≈ 1.6:1.
+   Alle Tiers behalten Memory-Block aktiv (außer XXS, dort kein Platz).
+   =========================================================== */
+
+/* XL · 1-4 Kinder · 1 Karte ≈ 190×110 mm */
 .tier-xl {
-  --card-pad: 8mm;
-  --card-gap: 6mm;
-  --card-photo-size: 55mm;
-  --card-name-size: 22pt;
-  --card-fact-size: 11pt;
-  --card-dt-size: 8.5pt;
-  --card-memory-size: 12pt;
-  --card-icon-size: 6mm;
-  --card-gap-body: 4mm;
+  --card-pad: 9mm;
+  --card-gap: 7mm;
+  --card-photo-size: 60mm;
+  --card-name-size: 26pt;
+  --card-fact-size: 13pt;
+  --card-dt-size: 10pt;
+  --card-memory-size: 14pt;
+  --card-icon-size: 7mm;
+  --card-gap-body: 5mm;
   --card-qa-cols: 2;
-  --card-qa-gap-y: 3mm;
-  --card-qa-gap-x: 5mm;
+  --card-qa-gap-y: 3.5mm;
+  --card-qa-gap-x: 6mm;
   --card-qa-lines: 2;
   --card-memory-lines: 4;
   --gap: 8mm;
 }
 
-/* L: 5-8 Kinder — alle 6 Fragen + Memory-Block */
+/* L · 5-8 Kinder · 1 Karte ≈ 90×110 mm */
 .tier-l {
   --card-pad: 5mm;
-  --card-gap: 4mm;
-  --card-photo-size: 34mm;
-  --card-name-size: 14pt;
-  --card-fact-size: 9pt;
-  --card-dt-size: 7pt;
-  --card-memory-size: 9pt;
-  --card-icon-size: 4.5mm;
-  --card-gap-body: 2.5mm;
+  --card-gap: 4.5mm;
+  --card-photo-size: 38mm;
+  --card-name-size: 16pt;
+  --card-fact-size: 10pt;
+  --card-dt-size: 7.5pt;
+  --card-memory-size: 10pt;
+  --card-icon-size: 5mm;
+  --card-gap-body: 2.8mm;
   --card-qa-cols: 2;
-  --card-qa-gap-y: 2mm;
+  --card-qa-gap-y: 2.2mm;
   --card-qa-gap-x: 4mm;
   --card-qa-lines: 2;
   --card-memory-lines: 3;
   --gap: 5mm;
 }
 
-/* M: 9-12 Kinder — alle Fragen, kompakter, Memory kleiner */
+/* M · 9-12 Kinder · 1 Karte ≈ 90×73 mm */
 .tier-m {
-  --card-pad: 3.5mm;
-  --card-gap: 3mm;
-  --card-photo-size: 24mm;
-  --card-name-size: 11pt;
-  --card-fact-size: 8pt;
-  --card-dt-size: 6.5pt;
-  --card-memory-size: 7.5pt;
-  --card-icon-size: 3.6mm;
-  --card-gap-body: 1.8mm;
+  --card-pad: 4mm;
+  --card-gap: 3.5mm;
+  --card-photo-size: 28mm;
+  --card-name-size: 12pt;
+  --card-fact-size: 9pt;
+  --card-dt-size: 7pt;
+  --card-memory-size: 8.5pt;
+  --card-icon-size: 4.2mm;
+  --card-gap-body: 2mm;
   --card-qa-cols: 2;
-  --card-qa-gap-y: 1.2mm;
+  --card-qa-gap-y: 1.5mm;
   --card-qa-gap-x: 3mm;
   --card-qa-lines: 1;
   --card-memory-lines: 2;
   --gap: 4mm;
 }
 
-/* S: 13-18 Kinder — 5 Fragen (kein Motto), Memory 2 Zeilen */
+/* S · 13-18 Kinder · 1 Karte ≈ 60×73 mm */
 .tier-s {
-  --card-pad: 2.5mm;
+  --card-pad: 3mm;
   --card-gap: 2.5mm;
-  --card-photo-size: 19mm;
-  --card-name-size: 10pt;
-  --card-fact-size: 7pt;
-  --card-dt-size: 5.8pt;
-  --card-memory-size: 6.8pt;
-  --card-icon-size: 3mm;
-  --card-gap-body: 1.2mm;
+  --card-photo-size: 23mm;
+  --card-name-size: 10.5pt;
+  --card-fact-size: 8pt;
+  --card-dt-size: 6pt;
+  --card-memory-size: 7.5pt;
+  --card-icon-size: 3.6mm;
+  --card-gap-body: 1.4mm;
   --card-qa-cols: 2;
-  --card-qa-gap-y: 0.8mm;
-  --card-qa-gap-x: 2mm;
+  --card-qa-gap-y: 1mm;
+  --card-qa-gap-x: 2.2mm;
   --card-qa-lines: 1;
   --card-memory-lines: 2;
   --gap: 3mm;
 }
-.tier-s .qa-motto { display: none; }
+.tier-s .qa-motto { display: none; }   /* 5 Fragen */
 
-/* XS: 19-24 Kinder — nur 4 Fragen, kein Memory-Block (würde überlappen) */
+/* XS · 19-24 Kinder · 1 Karte ≈ 60×55 mm */
 .tier-xs {
-  --card-pad: 2mm;
+  --card-pad: 2.2mm;
   --card-gap: 2mm;
-  --card-photo-size: 17mm;
-  --card-name-size: 9pt;
-  --card-fact-size: 6.8pt;
-  --card-dt-size: 5.3pt;
-  --card-icon-size: 2.6mm;
+  --card-photo-size: 19mm;
+  --card-name-size: 9.5pt;
+  --card-fact-size: 7.5pt;
+  --card-dt-size: 5.5pt;
+  --card-memory-size: 6.8pt;
+  --card-icon-size: 3.2mm;
   --card-gap-body: 1mm;
   --card-qa-cols: 2;
-  --card-qa-gap-y: 0.6mm;
-  --card-qa-gap-x: 1.5mm;
+  --card-qa-gap-y: 0.7mm;
+  --card-qa-gap-x: 1.8mm;
   --card-qa-lines: 1;
+  --card-memory-lines: 1;
   --gap: 2.5mm;
 }
 .tier-xs .qa-motto,
-.tier-xs .qa-buch,
-.tier-xs .student-memory-block { display: none; }
+.tier-xs .qa-buch { display: none; }   /* 4 Fragen + 1-zeiliger Memory */
 
-/* XXS: 25-30 Kinder — kompaktester Fall: nur Fach + Hobby, 1 Spalte */
+/* XXS · 25-30 Kinder · 1 Karte ≈ 60×45 mm */
 .tier-xxs {
-  --card-pad: 1.5mm;
-  --card-gap: 1.5mm;
-  --card-photo-size: 14mm;
-  --card-name-size: 8pt;
-  --card-fact-size: 6.2pt;
-  --card-dt-size: 4.8pt;
-  --card-icon-size: 2.4mm;
-  --card-gap-body: 0.7mm;
+  --card-pad: 1.8mm;
+  --card-gap: 1.8mm;
+  --card-photo-size: 16mm;
+  --card-name-size: 8.5pt;
+  --card-fact-size: 7pt;
+  --card-dt-size: 5pt;
+  --card-icon-size: 2.8mm;
+  --card-gap-body: 0.8mm;
   --card-qa-cols: 1;
-  --card-qa-gap-y: 0.5mm;
+  --card-qa-gap-y: 0.6mm;
   --card-qa-lines: 1;
   --gap: 2mm;
 }
-.tier-xxs .qa-essen,
 .tier-xxs .qa-buch,
 .tier-xxs .qa-beruf,
 .tier-xxs .qa-motto,
 .tier-xxs .student-memory-block { display: none; }
+/* 3 Fragen (Fach, Hobby, Essen) in einer Spalte */
 
-/* Pan-/Remove-Buttons bei kleinen Tiers schrumpfen */
+/* Pan-/Remove-Buttons bei kleinen Tiers schrumpfen + bei XXS ganz aus */
+.tier-s  .photo-pan, .tier-s  .photo-remove,
 .tier-xs .photo-pan, .tier-xs .photo-remove,
 .tier-xxs .photo-pan, .tier-xxs .photo-remove {
-  width: 16px; height: 16px; font-size: 10px; line-height: 14px;
+  width: 18px; height: 18px; font-size: 11px; line-height: 16px;
   top: 2px;
 }
 .tier-xs .photo-pan,
 .tier-xxs .photo-pan { display: none !important; }
+.tier-xxs .photo-remove { width: 14px; height: 14px; font-size: 9px; line-height: 12px; right: 1px; top: 1px; }
 
 /* =========================================================
    SEITE 2 - GRUSSWORT (Letter)

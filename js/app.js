@@ -511,6 +511,14 @@
     if (!(el instanceof HTMLElement)) return;
     if (el.isContentEditable === false) return;
 
+    // Wenn der User alles gelöscht hat, lassen Browser oft ein <br>
+    // oder leere <div>s zurück. Dadurch trifft :empty nicht mehr zu und
+    // unser CSS-Placeholder verschwindet, obwohl das Feld leer wirkt.
+    // Sauberer State + sauberes Placeholder-Verhalten:
+    if (el.textContent.trim() === '' && el.firstChild) {
+      el.innerHTML = '';
+    }
+
     // globales Feld?
     const field = el.getAttribute('data-field');
     if (!field) return;
@@ -534,6 +542,18 @@
     saveState();
     // Druck-Layout-Spiegelung mit leichter Verzoegerung
     schedulePrintMirror();
+  });
+
+  // Klick auf ein Q/A-Icon fokussiert die zugehörige Antwort —
+  // bequemer als das schmale dotted-Underline-Feld zu treffen.
+  workspace.addEventListener('click', (e) => {
+    const iconLabel = e.target.closest('.qa-q');
+    if (!iconLabel) return;
+    const qa = iconLabel.parentElement;
+    const answer = qa && qa.querySelector('.qa-a');
+    if (answer && answer.isContentEditable !== false) {
+      answer.focus();
+    }
   });
 
   // Foto-Klick -> Dateiauswahl (außer auf einem Kontroll-Button)

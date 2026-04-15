@@ -342,9 +342,10 @@ button.icon-btn {
 /* Im Edit-Modus dürfen Antworten kurz "über das Maß hinaus" wachsen, damit
    der Cursor nie hinter unsichtbarem Text liegt. Der visuelle Container hat
    ohnehin overflow: hidden, deshalb gibt es trotzdem keine echte Überlappung
-   in Nachbarzellen. */
+   in Nachbarzellen. Gilt auch für den Namen. */
 .workspace[data-view="edit"] .qa-a,
-.workspace[data-view="edit"] .student-memory {
+.workspace[data-view="edit"] .student-memory,
+.workspace[data-view="edit"] .student-name {
   display: block;
   -webkit-line-clamp: unset;
   max-height: none;
