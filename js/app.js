@@ -162,15 +162,36 @@
 
     // Defensive Listen / Objekte
     if (!Array.isArray(loaded.students)) loaded.students = d.students;
-    // Steckbrief-Felder auf neues Schema erweitern (essen/buch/motto)
+    // Jeder Steckbrief braucht eine ID + alle erwarteten Text-Felder.
     loaded.students.forEach(s => {
-      if (typeof s.essen !== 'string')  s.essen  = '';
-      if (typeof s.buch  !== 'string')  s.buch   = '';
-      if (typeof s.motto !== 'string')  s.motto  = '';
+      if (!s || typeof s !== 'object') return;
+      if (!s.id || typeof s.id !== 'string') s.id = uid();
+      if (typeof s.name  !== 'string') s.name  = 'Mitschüler:in';
+      if (typeof s.fach  !== 'string') s.fach  = '';
+      if (typeof s.hobby !== 'string') s.hobby = '';
+      if (typeof s.essen !== 'string') s.essen = '';
+      if (typeof s.buch  !== 'string') s.buch  = '';
+      if (typeof s.beruf !== 'string') s.beruf = '';
+      if (typeof s.motto !== 'string') s.motto = '';
       if (typeof s.memory !== 'string') s.memory = '';
+      if (s.photo !== null && typeof s.photo !== 'string') s.photo = null;
     });
     if (!Array.isArray(loaded.memories)) loaded.memories = d.memories;
+    loaded.memories.forEach(m => {
+      if (!m || typeof m !== 'object') return;
+      if (!m.id || typeof m.id !== 'string') m.id = uid();
+      if (typeof m.title !== 'string') m.title = '';
+      if (typeof m.meta  !== 'string') m.meta  = '';
+      if (typeof m.text  !== 'string') m.text  = '';
+      if (m.photo !== null && typeof m.photo !== 'string') m.photo = null;
+    });
     if (!Array.isArray(loaded.showers))  loaded.showers  = d.showers;
+    loaded.showers.forEach(sw => {
+      if (!sw || typeof sw !== 'object') return;
+      if (!sw.id || typeof sw.id !== 'string') sw.id = uid();
+      if (typeof sw.text !== 'string') sw.text = '';
+      if (typeof sw.from !== 'string') sw.from = '';
+    });
     if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
     if (loaded.photos.intro === undefined) loaded.photos.intro = null;
     if (!loaded.photoOffsets || typeof loaded.photoOffsets !== 'object') loaded.photoOffsets = {};
@@ -196,13 +217,24 @@
   }
 
   let saveTimer = null;
+  let quotaWarned = false;
   function saveState() {
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        quotaWarned = false;
       } catch (e) {
-        alert('Speichern fehlgeschlagen — vermutlich ist der lokale Speicher voll. Bitte große Bilder entfernen oder als JSON exportieren.');
+        // Speicher voll: einmal warnen, nicht spammen. Daten bleiben im
+        // Memory bestehen — User soll als JSON exportieren.
+        if (!quotaWarned) {
+          quotaWarned = true;
+          if (typeof toast === 'function') {
+            toast('Speicher voll! Bitte als JSON exportieren.', 6000);
+          } else {
+            console.error('localStorage voll', e);
+          }
+        }
       }
     }, 250);
   }
@@ -622,6 +654,22 @@
       console.warn('Upload-Fehler:', err);
     });
     input.value = '';
+  });
+
+  // Globaler Schutz: Datei-Drops AUSSERHALB von .photo dürfen den
+  // Browser nicht dazu bringen, das Bild im Tab zu öffnen (was die App
+  // killen würde). Wir verhindern den Default und werfen einen Toast.
+  window.addEventListener('dragover', (e) => {
+    if (e.dataTransfer && e.dataTransfer.types && e.dataTransfer.types.indexOf('Files') !== -1) {
+      e.preventDefault();
+    }
+  });
+  window.addEventListener('drop', (e) => {
+    if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+    if (!e.target.closest('.photo')) {
+      e.preventDefault();
+      toast('Bitte direkt auf einen Foto-Platzhalter ziehen.');
+    }
   });
 
   // Drag & Drop auf Fotos
