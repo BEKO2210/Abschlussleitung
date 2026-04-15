@@ -422,6 +422,10 @@ button.icon-btn {
 .photo.repositioning { cursor: grabbing; }
 .photo.repositioning img { user-select: none; -webkit-user-drag: none; pointer-events: none; }
 .photo img { user-select: none; -webkit-user-drag: none; }
+/* Touch-Geräte: Pan-Button schluckt Scroll-Gesten, sonst scrollt die
+   Seite statt das Bild zu verschieben. */
+.photo-pan { touch-action: none; }
+.photo.repositioning { touch-action: none; }
 
 /* ---------- Modal (native <dialog>) ---------- */
 
