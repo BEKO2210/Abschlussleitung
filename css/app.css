@@ -355,22 +355,12 @@ body:not(.sidebar-collapsed) .sidebar-toggle {
   content: none !important;
 }
 
-/* Im Edit-Modus darf der Name etwas wachsen (lange Doppelnamen). */
-.workspace[data-view="edit"] .student-name {
-  display: block;
-  -webkit-line-clamp: unset;
-  max-height: none;
-}
-/* Im Edit-Modus dürfen Antworten beim Tippen visuell bis zum Karten-
-   Rand wachsen (statt mit ellipsis abgeschnitten zu werden), damit
-   der Cursor nie hinter unsichtbarem Text liegt. Der Text bleibt eine
-   Zeile (white-space: nowrap), .student-card overflow: hidden begrenzt
-   die Grenze. In Preview/Print wird wieder ellipsis gezeigt. */
+/* Im Edit-Modus bleibt alles strikt innerhalb der Karte. Wenn eine
+   Antwort zu lang ist, wird sie wie in der Vorschau abgeschnitten —
+   so sieht der User sofort, dass es nicht passt, und kürzt selbst. */
 .workspace[data-view="edit"] .qa-a {
-  overflow: visible;
-  text-overflow: clip;
+  text-overflow: clip;          /* kein "..." beim Tippen, aber abgeschnitten */
 }
-.workspace[data-view="edit"] .qa { overflow: visible; }
 
 /* Remove-Buttons an Karten */
 .remove-item {
