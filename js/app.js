@@ -1120,6 +1120,17 @@
     } else {
       document.body.classList.toggle('sidebar-collapsed');
     }
+    updateSidebarButtonLabel();
+  }
+
+  function updateSidebarButtonLabel() {
+    const btn = document.getElementById('btn-sidebar');
+    if (!btn) return;
+    const hidden = isMobile()
+      ? !sidebar.classList.contains('open')
+      : document.body.classList.contains('sidebar-collapsed');
+    btn.setAttribute('aria-label', hidden ? 'Seitenleiste öffnen' : 'Seitenleiste schließen');
+    btn.setAttribute('title',      hidden ? 'Seitenleiste öffnen' : 'Seitenleiste schließen');
   }
 
   /** Esc / Nav-Link / Backdrop schließt die jeweils aktive Variante. */
@@ -1155,6 +1166,7 @@
 
   // Initial: immer ausgeklappt starten. sidebar-collapsed NICHT setzen.
   document.body.classList.remove('sidebar-collapsed');
+  updateSidebarButtonLabel();
 
   // ---------- Tastatur-Shortcuts ----------
 
