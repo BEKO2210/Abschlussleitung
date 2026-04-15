@@ -101,8 +101,11 @@
       name: n,
       fach: '',
       hobby: '',
+      essen: '',
+      buch: '',
       beruf: '',
-      memory: 'Mein schönster Moment mit dir: …',
+      motto: '',
+      memory: '',
       photo: null
     }));
   }
@@ -159,6 +162,13 @@
 
     // Defensive Listen / Objekte
     if (!Array.isArray(loaded.students)) loaded.students = d.students;
+    // Steckbrief-Felder auf neues Schema erweitern (essen/buch/motto)
+    loaded.students.forEach(s => {
+      if (typeof s.essen !== 'string')  s.essen  = '';
+      if (typeof s.buch  !== 'string')  s.buch   = '';
+      if (typeof s.motto !== 'string')  s.motto  = '';
+      if (typeof s.memory !== 'string') s.memory = '';
+    });
     if (!Array.isArray(loaded.memories)) loaded.memories = d.memories;
     if (!Array.isArray(loaded.showers))  loaded.showers  = d.showers;
     if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
@@ -275,6 +285,11 @@
     const rightEl = document.getElementById('student-grid-right');
     if (!leftEl || !rightEl) return;
 
+    // Im 8-Seiten-Booklet leben die Steckbriefe auf Seite 4 + 5.
+    const spreadLeftPage  = document.getElementById('page-4');
+    const spreadRightPage = document.getElementById('page-5');
+    const TIER_CLASSES = ['tier-xl', 'tier-l', 'tier-m', 'tier-s', 'tier-xs', 'tier-xxs'];
+
     const total = state.students.length;
 
     // Empty-State
@@ -284,24 +299,25 @@
       rightEl.innerHTML = '';
       leftEl.style.removeProperty('--cols');
       leftEl.style.removeProperty('--rows');
-      ['tier-xl','tier-l','tier-m','tier-s','tier-xs','tier-xxs'].forEach(c => {
-        document.getElementById('page-2').classList.remove(c);
-        document.getElementById('page-3').classList.remove(c);
+      rightEl.style.removeProperty('--cols');
+      rightEl.style.removeProperty('--rows');
+      TIER_CLASSES.forEach(c => {
+        spreadLeftPage && spreadLeftPage.classList.remove(c);
+        spreadRightPage && spreadRightPage.classList.remove(c);
       });
       return;
     }
 
     const layout = computeSpreadLayout(total);
 
-    // Tier-Klassen am SEITEN-Container (damit Tier-Selektoren greifen)
-    const page2 = document.getElementById('page-2');
-    const page3 = document.getElementById('page-3');
-    ['tier-xl', 'tier-l', 'tier-m', 'tier-s', 'tier-xs', 'tier-xxs'].forEach(c => {
-      page2.classList.remove(c);
-      page3.classList.remove(c);
+    // Tier-Klasse an die Spread-Seiten (page-4 + page-5), damit Selektoren
+    // wie .tier-xl .student-card greifen.
+    TIER_CLASSES.forEach(c => {
+      spreadLeftPage && spreadLeftPage.classList.remove(c);
+      spreadRightPage && spreadRightPage.classList.remove(c);
     });
-    page2.classList.add(layout.tier);
-    page3.classList.add(layout.tier);
+    spreadLeftPage  && spreadLeftPage.classList.add(layout.tier);
+    spreadRightPage && spreadRightPage.classList.add(layout.tier);
 
     // Grid-Dimensionen via CSS-Variablen
     [leftEl, rightEl].forEach(el => {
@@ -368,10 +384,13 @@
     list.forEach(item => {
       const clone = tpl.content.firstElementChild.cloneNode(true);
       clone.dataset.studentId = item.id;
-      setField(clone, 'name', item.name);
-      setField(clone, 'fach', item.fach);
-      setField(clone, 'hobby', item.hobby);
-      setField(clone, 'beruf', item.beruf);
+      setField(clone, 'name',   item.name);
+      setField(clone, 'fach',   item.fach);
+      setField(clone, 'hobby',  item.hobby);
+      setField(clone, 'essen',  item.essen);
+      setField(clone, 'buch',   item.buch);
+      setField(clone, 'beruf',  item.beruf);
+      setField(clone, 'motto',  item.motto);
       setField(clone, 'memory', item.memory);
       const photoEl = clone.querySelector('.photo');
       photoEl.dataset.photo = 'student:' + item.id;
@@ -550,10 +569,11 @@
       moved = true;
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
-      // Bewegung invers zur Bildbewegung: wenn man nach rechts zieht,
-      // soll der sichtbare Ausschnitt nach rechts wandern → object-position x erhöht sich.
-      const xPct = clamp(startPos.x + (dx / Math.max(1, rect.width))  * 100, 0, 100);
-      const yPct = clamp(startPos.y + (dy / Math.max(1, rect.height)) * 100, 0, 100);
+      // Motiv folgt dem Finger (wie Google Maps / Pan-Tool):
+      // Wenn der User das Bild nach rechts zieht, zeigen wir mehr vom
+      // linken Teil des Originals -> object-position x sinkt.
+      const xPct = clamp(startPos.x - (dx / Math.max(1, rect.width))  * 100, 0, 100);
+      const yPct = clamp(startPos.y - (dy / Math.max(1, rect.height)) * 100, 0, 100);
       img.style.objectPosition = xPct + '% ' + yPct + '%';
       photo._tempOffset = { x: xPct, y: yPct };
     }
@@ -643,9 +663,14 @@
     if (!card) return;
     if (!confirm('Wirklich entfernen?')) return;
     if (card.dataset.studentId) {
-      state.students = state.students.filter(s => s.id !== card.dataset.studentId);
+      const id = card.dataset.studentId;
+      state.students = state.students.filter(s => s.id !== id);
+      // Photo-Offset-Leak vermeiden
+      if (state.photoOffsets) delete state.photoOffsets['student:' + id];
     } else if (card.dataset.memoryId) {
-      state.memories = state.memories.filter(s => s.id !== card.dataset.memoryId);
+      const id = card.dataset.memoryId;
+      state.memories = state.memories.filter(s => s.id !== id);
+      if (state.photoOffsets) delete state.photoOffsets['memory:' + id];
     } else if (card.dataset.showerId) {
       state.showers = state.showers.filter(s => s.id !== card.dataset.showerId);
     }
@@ -667,6 +692,12 @@
       const id = photoKey.slice('memory:'.length);
       const item = state.memories.find(s => s.id === id);
       if (item) item.photo = dataUrl;
+    }
+    // Bei NEUEM Foto: alten Pan-Offset zurücksetzen, damit nicht ein
+    // vorher gewählter Ausschnitt das neue Motiv beschneidet.
+    // Beim Entfernen (dataUrl=null) ist Aufräumen sowieso sinnvoll.
+    if (state.photoOffsets && photoKey in state.photoOffsets) {
+      delete state.photoOffsets[photoKey];
     }
     saveState();
   }
@@ -876,15 +907,15 @@
     reader.onerror = () => alert('Datei konnte nicht gelesen werden.');
     reader.onload = () => {
       try {
-        const loaded = JSON.parse(reader.result);
-        if (!loaded || typeof loaded !== 'object') throw new Error('Ungültiges Format');
-        if (!Array.isArray(loaded.students)) throw new Error('Liste der Mitschüler fehlt');
-        if (!Array.isArray(loaded.memories)) loaded.memories = [];
-        if (!Array.isArray(loaded.showers))  loaded.showers  = [];
-        if (!loaded.fields || typeof loaded.fields !== 'object') loaded.fields = {};
-        if (!loaded.photos || typeof loaded.photos !== 'object') loaded.photos = { hero: null, intro: null };
-    if (loaded.photos.intro === undefined) loaded.photos.intro = null;
-        state = loaded;
+        const parsed = JSON.parse(reader.result);
+        if (!parsed || typeof parsed !== 'object') throw new Error('Ungültiges Format');
+        if (!Array.isArray(parsed.students)) throw new Error('Liste der Mitschüler fehlt');
+        // Durch dieselbe Migration laufen lassen wie beim normalen Laden,
+        // damit alte Exporte (vor 8-Seiten-Umbau, vor photoOffsets etc.)
+        // automatisch aufs aktuelle Schema gehoben werden.
+        const normalized = normalizeState(parsed);
+        if (!normalized) throw new Error('Zustand konnte nicht migriert werden');
+        state = normalized;
         saveState();
         render();
         toast('Projekt geladen');
@@ -952,10 +983,7 @@
     addAndFocus({
       id: uid(),
       name: 'Name eingeben',
-      fach: '',
-      hobby: '',
-      beruf: '',
-      memory: '',
+      fach: '', hobby: '', essen: '', buch: '', beruf: '', motto: '', memory: '',
       photo: null
     }, 'students', 'name');
   });
@@ -1018,16 +1046,17 @@
   // ---------- Tastatur-Shortcuts ----------
 
   document.addEventListener('keydown', (e) => {
-    // Editor-Inputs nicht stören
-    const inEditable = e.target && e.target.isContentEditable;
-
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && !inEditable) {
+    // Strg/Cmd + S exportiert IMMER (auch im Editor) — sonst öffnet der
+    // Browser den nutzlosen "Seite speichern"-Dialog.
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
       e.preventDefault();
       document.getElementById('btn-export')?.click();
+      return;
     }
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
       e.preventDefault();
       document.getElementById('btn-print')?.click();
+      return;
     }
     if (e.key === 'Escape') {
       setMenuOpen(false);

@@ -106,6 +106,8 @@
 
   /* Bearbeitungs-Chromes / Empty-States im Druck neutralisieren */
   .empty-state { display: none !important; }
+  [contenteditable][data-placeholder]:empty::before,
+  [data-placeholder]:empty::before { content: none !important; }
 
   /* Saubere Farben */
   * {

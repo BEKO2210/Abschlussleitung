@@ -232,149 +232,213 @@
 }
 .photo-student img { border-radius: 50%; }
 
-.student-body { min-width: 0; overflow: hidden; }
+.student-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap-body, 2mm);
+  overflow: hidden;
+}
 
 .student-name {
   font-family: var(--display);
   font-weight: 800;
   font-size: var(--card-name-size, 11pt);
-  line-height: 1.1;
-  margin: 0 0 var(--card-name-mb, 2mm);
+  line-height: 1.05;
+  margin: 0;
   overflow-wrap: anywhere;
   hyphens: auto;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 1mm;
 }
-.student-facts {
-  margin: 0 0 var(--card-facts-mb, 2mm);
+
+/* Frage/Antwort-Grid füllt den verfügbaren Platz */
+.student-qa {
   display: grid;
-  gap: 1mm;
+  grid-template-columns: repeat(var(--card-qa-cols, 2), minmax(0, 1fr));
+  gap: var(--card-qa-gap-y, 1.5mm) var(--card-qa-gap-x, 3mm);
   font-size: var(--card-fact-size, 8.5pt);
+  flex: 1;
+  align-content: start;
 }
-.student-facts > div {
-  display: grid;
-  grid-template-columns: var(--card-label-w, 20mm) 1fr;
-  gap: 1.5mm;
-  align-items: baseline;
+.qa {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3mm;
+  min-width: 0;
 }
-.student-facts dt {
+.qa-q {
   font-family: var(--display);
   font-weight: 600;
-  letter-spacing: .06em;
+  letter-spacing: .04em;
   text-transform: uppercase;
   font-size: var(--card-dt-size, 7pt);
   color: var(--ink-muted);
+  line-height: 1.1;
 }
-.student-facts dd {
-  margin: 0;
+.qa-a {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--card-fact-size, 8.5pt);
   color: var(--ink);
+  line-height: 1.25;
+  min-height: 1.2em;
+  border-bottom: 1px dotted var(--rule);
+  padding: 0.5mm 0;
   overflow-wrap: anywhere;
+}
+
+/* Platzhalter: zeigt beim leeren contenteditable einen grauen Hinweis */
+[contenteditable="true"][data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: var(--rule);
+  font-style: italic;
+  pointer-events: none;
+}
+/* Firefox/Edge Workaround: Zeilenumbruch in leerem Editable */
+[contenteditable="true"][data-placeholder]:is(:has(br:only-child), :has(> :only-child:empty))::before {
+  content: attr(data-placeholder);
+  color: var(--rule);
+  font-style: italic;
+}
+
+/* Der große Erinnerungs-Block unten */
+.student-memory-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8mm;
+  border-top: 1px solid var(--rule-soft);
+  padding-top: 1.5mm;
 }
 .student-memory {
   font-family: var(--serif);
   font-style: italic;
-  font-size: var(--card-memory-size, 8pt);
-  line-height: 1.3;
+  font-size: var(--card-memory-size, 8.5pt);
+  line-height: 1.35;
   margin: 0;
   color: var(--ink-soft);
-  border-top: 1px solid var(--rule-soft);
-  padding-top: 1.5mm;
+  min-height: 2.8em;
   overflow-wrap: anywhere;
 }
 
-/* --- Karten-Tiers (Größen-Presets) --- */
+/* --- Karten-Tiers (Größen-Presets) ---
+   Jedes Tier legt fest:
+   - Größen (Schrift, Foto, Padding)
+   - Wie viele Q/A-Spalten das Grid hat
+   - Welche Q/A-Blöcke sichtbar sind (essen, buch, motto, memory-block)
+*/
 
-/* XL: 1 Karte pro Zelle, riesig (1-4 Kinder gesamt) */
+/* XL: 1-4 Kinder gesamt — volle Steckbriefe mit viel Luft */
 .tier-xl {
-  --card-pad: 10mm;
-  --card-gap: 6mm;
+  --card-pad: 8mm;
   --card-photo-size: 55mm;
-  --card-name-size: 22pt;
-  --card-name-mb: 5mm;
-  --card-facts-mb: 4mm;
-  --card-fact-size: 11pt;
+  --card-name-size: 24pt;
+  --card-fact-size: 12pt;
   --card-dt-size: 9pt;
-  --card-label-w: 30mm;
-  --card-memory-size: 11pt;
+  --card-memory-size: 13pt;
+  --card-gap-body: 4mm;
+  --card-qa-cols: 2;
+  --card-qa-gap-y: 3mm;
+  --card-qa-gap-x: 5mm;
   --gap: 8mm;
 }
-.tier-xl .student-card { grid-template-columns: var(--card-photo-size) 1fr; grid-template-rows: auto 1fr; gap: 6mm; }
+.tier-xl .student-card {
+  grid-template-columns: var(--card-photo-size) 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 6mm;
+}
 .tier-xl .photo-student { grid-row: span 2; }
 
-/* L: bis 8 gesamt - 2x2 pro Seite */
+/* L: 5-8 Kinder — alle 6 Fragen + Memory-Block */
 .tier-l {
-  --card-pad: 6mm;
-  --card-gap: 4mm;
-  --card-photo-size: 36mm;
-  --card-name-size: 16pt;
-  --card-name-mb: 3mm;
-  --card-fact-size: 10pt;
-  --card-dt-size: 8pt;
-  --card-label-w: 24mm;
-  --card-memory-size: 10pt;
+  --card-pad: 5mm;
+  --card-photo-size: 34mm;
+  --card-name-size: 15pt;
+  --card-fact-size: 9.5pt;
+  --card-dt-size: 7.5pt;
+  --card-memory-size: 9.5pt;
+  --card-gap-body: 2.5mm;
+  --card-qa-cols: 2;
+  --card-qa-gap-y: 2mm;
+  --card-qa-gap-x: 4mm;
   --gap: 5mm;
 }
 
-/* M: bis 12 gesamt - 2x3 pro Seite */
+/* M: 9-12 Kinder — alle Fragen, kompakter, Memory kleiner */
 .tier-m {
-  --card-pad: 4mm;
-  --card-photo-size: 28mm;
-  --card-name-size: 13pt;
-  --card-name-mb: 2mm;
-  --card-fact-size: 9pt;
-  --card-dt-size: 7.5pt;
-  --card-label-w: 20mm;
-  --card-memory-size: 9pt;
+  --card-pad: 3.5mm;
+  --card-photo-size: 26mm;
+  --card-name-size: 12pt;
+  --card-fact-size: 8.5pt;
+  --card-dt-size: 6.5pt;
+  --card-memory-size: 8pt;
+  --card-gap-body: 2mm;
+  --card-qa-cols: 2;
+  --card-qa-gap-y: 1.5mm;
+  --card-qa-gap-x: 3mm;
   --gap: 4mm;
 }
 
-/* S: bis 18 gesamt - 3x3 pro Seite */
+/* S: 13-18 Kinder — 5 Fragen (kein Motto), Memory zeigen */
 .tier-s {
-  --card-pad: 3mm;
-  --card-photo-size: 22mm;
-  --card-name-size: 11pt;
-  --card-name-mb: 1.5mm;
+  --card-pad: 2.5mm;
+  --card-photo-size: 20mm;
+  --card-name-size: 10.5pt;
   --card-fact-size: 7.5pt;
-  --card-dt-size: 6.5pt;
-  --card-label-w: 16mm;
-  --card-memory-size: 7.5pt;
+  --card-dt-size: 6pt;
+  --card-memory-size: 7pt;
+  --card-gap-body: 1.5mm;
+  --card-qa-cols: 2;
+  --card-qa-gap-y: 1mm;
+  --card-qa-gap-x: 2.5mm;
   --gap: 3mm;
 }
-.tier-s .student-memory { display: none; }  /* Memory bei S zu viel */
+.tier-s .qa-motto { display: none; }
 
-/* XS: bis 24 gesamt - 3x4 pro Seite */
+/* XS: 19-24 Kinder — nur 4 Fragen (fach, hobby, essen, beruf), Memory als 1 Zeile */
 .tier-xs {
-  --card-pad: 2.5mm;
-  --card-photo-size: 18mm;
+  --card-pad: 2mm;
+  --card-photo-size: 17mm;
   --card-name-size: 9.5pt;
-  --card-name-mb: 1mm;
   --card-fact-size: 7pt;
-  --card-dt-size: 6pt;
-  --card-label-w: 13mm;
+  --card-dt-size: 5.5pt;
+  --card-memory-size: 6.5pt;
+  --card-gap-body: 1mm;
+  --card-qa-cols: 2;
+  --card-qa-gap-y: 0.8mm;
+  --card-qa-gap-x: 2mm;
   --gap: 2.5mm;
 }
-.tier-xs .student-memory,
-.tier-xs .student-facts > div:nth-child(3) { display: none; } /* nur Fach + Hobby */
+.tier-xs .qa-motto,
+.tier-xs .qa-buch { display: none; }
+.tier-xs .student-memory { min-height: 1.5em; font-size: 6.5pt; line-height: 1.2; }
+
+/* XXS: 25-30 Kinder — kompaktester Fall, nur Fach + Hobby, kein Memory */
+.tier-xxs {
+  --card-pad: 1.5mm;
+  --card-photo-size: 14mm;
+  --card-name-size: 8.5pt;
+  --card-fact-size: 6.5pt;
+  --card-dt-size: 5pt;
+  --card-gap-body: 0.8mm;
+  --card-qa-cols: 1;
+  --card-qa-gap-y: 0.6mm;
+  --gap: 2mm;
+}
+.tier-xxs .qa-essen,
+.tier-xxs .qa-buch,
+.tier-xxs .qa-beruf,
+.tier-xxs .qa-motto,
+.tier-xxs .student-memory-block { display: none; }
+
+/* Pan-/Remove-Buttons bei kleinen Tiers schrumpfen */
 .tier-xs .photo-pan, .tier-xs .photo-remove,
 .tier-xxs .photo-pan, .tier-xxs .photo-remove {
   width: 16px; height: 16px; font-size: 10px; line-height: 14px;
   top: 2px;
 }
 .tier-xs .photo-pan,
-.tier-xxs .photo-pan { display: none !important; } /* Karte zu klein zum Pannen */
-
-/* XXS: bis 30 - 3x5 pro Seite */
-.tier-xxs {
-  --card-pad: 2mm;
-  --card-photo-size: 15mm;
-  --card-name-size: 8.5pt;
-  --card-name-mb: 0.5mm;
-  --card-fact-size: 6.5pt;
-  --card-dt-size: 5.5pt;
-  --card-label-w: 11mm;
-  --gap: 2mm;
-}
-.tier-xxs .student-memory,
-.tier-xxs .student-facts > div:nth-child(3),
-.tier-xxs .student-facts > div:nth-child(2) { display: none; } /* nur Fach */
+.tier-xxs .photo-pan { display: none !important; }
 
 /* =========================================================
    SEITE 2 - GRUSSWORT (Letter)

@@ -331,6 +331,14 @@ button.icon-btn {
   background: rgba(255, 205, 60, 0.08);
 }
 
+/* Platzhalter-Hinweis ausschließlich im Bearbeiten-Modus zeigen.
+   Wichtig: im Druck-Bogen-Mirror wurde contenteditable entfernt, daher muss
+   der Selector auch ohne [contenteditable] greifen. */
+.workspace[data-view="preview"] [data-placeholder]:empty::before,
+.workspace[data-view="print-layout"] [data-placeholder]:empty::before {
+  content: none !important;
+}
+
 /* Remove-Buttons an Karten */
 .remove-item {
   position: absolute;

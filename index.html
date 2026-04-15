@@ -350,13 +350,37 @@ Behaltet die Neugier, den Mut und die Freundschaften, die ihr hier gefunden habt
       <button type="button" class="photo-remove no-print" aria-label="Bild entfernen">&times;</button>
     </figure>
     <div class="student-body">
-      <h3 class="student-name" contenteditable="true" data-field="name">Name oder Spitzname</h3>
-      <dl class="student-facts">
-        <div><dt>Lieblingsfach</dt><dd contenteditable="true" data-field="fach">&hellip;</dd></div>
-        <div><dt>Hobby</dt><dd contenteditable="true" data-field="hobby">&hellip;</dd></div>
-        <div><dt>Später mal</dt><dd contenteditable="true" data-field="beruf">&hellip;</dd></div>
-      </dl>
-      <p class="student-memory" contenteditable="true" data-field="memory">Mein schönster Moment mit dir: &hellip;</p>
+      <h3 class="student-name" contenteditable="true" data-field="name" data-placeholder="Name oder Spitzname">Name</h3>
+      <div class="student-qa">
+        <div class="qa qa-fach">
+          <span class="qa-q">Mein Lieblingsfach</span>
+          <span class="qa-a" contenteditable="true" data-field="fach" data-placeholder="…"></span>
+        </div>
+        <div class="qa qa-hobby">
+          <span class="qa-q">Mein Hobby</span>
+          <span class="qa-a" contenteditable="true" data-field="hobby" data-placeholder="…"></span>
+        </div>
+        <div class="qa qa-essen">
+          <span class="qa-q">Mein Lieblingsessen</span>
+          <span class="qa-a" contenteditable="true" data-field="essen" data-placeholder="…"></span>
+        </div>
+        <div class="qa qa-buch">
+          <span class="qa-q">Lieblingsbuch oder -film</span>
+          <span class="qa-a" contenteditable="true" data-field="buch" data-placeholder="…"></span>
+        </div>
+        <div class="qa qa-beruf">
+          <span class="qa-q">Später will ich mal</span>
+          <span class="qa-a" contenteditable="true" data-field="beruf" data-placeholder="…"></span>
+        </div>
+        <div class="qa qa-motto">
+          <span class="qa-q">Mein Motto</span>
+          <span class="qa-a" contenteditable="true" data-field="motto" data-placeholder="…"></span>
+        </div>
+      </div>
+      <div class="student-memory-block">
+        <span class="qa-q">Mein schönster Moment mit dir</span>
+        <p class="student-memory" contenteditable="true" data-field="memory" data-placeholder="Hier kannst du eine kleine Erinnerung aufschreiben — ein Satz reicht."></p>
+      </div>
     </div>
     <button type="button" class="remove-item no-print" title="Steckbrief entfernen" aria-label="Steckbrief entfernen">&times;</button>
   </article>
