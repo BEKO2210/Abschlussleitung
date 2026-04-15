@@ -261,7 +261,8 @@
   flex-shrink: 0;
 }
 
-/* Frage/Antwort-Grid füllt den verfügbaren Platz, aber nie mehr */
+/* Frage/Antwort-Grid füllt den verfügbaren Platz, aber nie mehr.
+   .qa = horizontale Zeile: [Icon] [Antwort mit dotted Linie darunter] */
 .student-qa {
   display: grid;
   grid-template-columns: repeat(var(--card-qa-cols, 2), minmax(0, 1fr));
@@ -273,29 +274,32 @@
   align-content: start;
 }
 .qa {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2mm;
+  display: grid;
+  grid-template-columns: var(--card-icon-size, 4mm) minmax(0, 1fr);
+  align-items: center;
+  column-gap: 1.2mm;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
 }
 .qa-q {
-  font-family: var(--display);
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  font-size: var(--card-dt-size, 7pt);
-  color: var(--ink-muted);
-  line-height: 1.05;
-  white-space: nowrap;          /* Label bricht nie um, sonst kollidiert es mit der Antwort */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: var(--card-icon-size, 4mm);
+  height: var(--card-icon-size, 4mm);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  cursor: help;
+}
+.qa-q svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .qa-a {
   display: -webkit-box;
-  -webkit-line-clamp: var(--card-qa-lines, 2);
+  -webkit-line-clamp: var(--card-qa-lines, 1);
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-family: var(--serif);
@@ -303,11 +307,32 @@
   color: var(--ink);
   line-height: 1.2;
   min-height: 1.15em;
-  max-height: calc(var(--card-qa-lines, 2) * 1.25em);
+  max-height: calc(var(--card-qa-lines, 1) * 1.3em);
   border-bottom: 1px dotted var(--rule);
-  padding: 0.3mm 0 0.5mm;
+  padding: 0.3mm 0 0.4mm;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+/* Memory-Label mit Icon */
+.memory-label {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-size: var(--card-dt-size, 6.5pt);
+  color: var(--accent);
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 1mm;
+  flex-shrink: 0;
+}
+.memory-icon {
+  width: 3mm;
+  height: 3mm;
+  flex-shrink: 0;
+  display: block;
 }
 
 /* Platzhalter: zeigt beim leeren contenteditable einen grauen Hinweis */
@@ -368,11 +393,12 @@
   --card-fact-size: 11pt;
   --card-dt-size: 8.5pt;
   --card-memory-size: 12pt;
+  --card-icon-size: 6mm;
   --card-gap-body: 4mm;
   --card-qa-cols: 2;
   --card-qa-gap-y: 3mm;
   --card-qa-gap-x: 5mm;
-  --card-qa-lines: 3;
+  --card-qa-lines: 2;
   --card-memory-lines: 4;
   --gap: 8mm;
 }
@@ -386,6 +412,7 @@
   --card-fact-size: 9pt;
   --card-dt-size: 7pt;
   --card-memory-size: 9pt;
+  --card-icon-size: 4.5mm;
   --card-gap-body: 2.5mm;
   --card-qa-cols: 2;
   --card-qa-gap-y: 2mm;
@@ -404,11 +431,12 @@
   --card-fact-size: 8pt;
   --card-dt-size: 6.5pt;
   --card-memory-size: 7.5pt;
+  --card-icon-size: 3.6mm;
   --card-gap-body: 1.8mm;
   --card-qa-cols: 2;
   --card-qa-gap-y: 1.2mm;
   --card-qa-gap-x: 3mm;
-  --card-qa-lines: 2;
+  --card-qa-lines: 1;
   --card-memory-lines: 2;
   --gap: 4mm;
 }
@@ -422,10 +450,11 @@
   --card-fact-size: 7pt;
   --card-dt-size: 5.8pt;
   --card-memory-size: 6.8pt;
+  --card-icon-size: 3mm;
   --card-gap-body: 1.2mm;
   --card-qa-cols: 2;
   --card-qa-gap-y: 0.8mm;
-  --card-qa-gap-x: 2.5mm;
+  --card-qa-gap-x: 2mm;
   --card-qa-lines: 1;
   --card-memory-lines: 2;
   --gap: 3mm;
@@ -440,10 +469,11 @@
   --card-name-size: 9pt;
   --card-fact-size: 6.8pt;
   --card-dt-size: 5.3pt;
+  --card-icon-size: 2.6mm;
   --card-gap-body: 1mm;
   --card-qa-cols: 2;
   --card-qa-gap-y: 0.6mm;
-  --card-qa-gap-x: 2mm;
+  --card-qa-gap-x: 1.5mm;
   --card-qa-lines: 1;
   --gap: 2.5mm;
 }
@@ -459,6 +489,7 @@
   --card-name-size: 8pt;
   --card-fact-size: 6.2pt;
   --card-dt-size: 4.8pt;
+  --card-icon-size: 2.4mm;
   --card-gap-body: 0.7mm;
   --card-qa-cols: 1;
   --card-qa-gap-y: 0.5mm;
