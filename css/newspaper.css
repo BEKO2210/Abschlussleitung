@@ -261,17 +261,19 @@
   flex-shrink: 0;
 }
 
-/* Frage/Antwort-Grid füllt den verfügbaren Platz, aber nie mehr.
-   .qa = horizontale Zeile: [Icon] [Antwort mit dotted Linie darunter] */
+/* Frage/Antwort-Grid füllt den verfügbaren Platz vollständig — die
+   einzelnen Reihen verteilen sich gleichmäßig auf die Karten-Höhe.
+   Eine .qa = horizontale Zeile: [Icon] [Antwort mit dotted Linie] */
 .student-qa {
   display: grid;
   grid-template-columns: repeat(var(--card-qa-cols, 2), minmax(0, 1fr));
+  grid-auto-rows: 1fr;          /* Reihen gleichmäßig hoch */
   gap: var(--card-qa-gap-y, 1.2mm) var(--card-qa-gap-x, 3mm);
   font-size: var(--card-fact-size, 8.5pt);
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
-  align-content: start;
+  align-content: stretch;
 }
 .qa {
   display: grid;
@@ -298,20 +300,17 @@
   display: block;
 }
 .qa-a {
-  display: -webkit-box;
-  -webkit-line-clamp: var(--card-qa-lines, 1);
-  -webkit-box-orient: vertical;
+  display: block;
+  white-space: nowrap;          /* niemals umbrechen */
   overflow: hidden;
+  text-overflow: ellipsis;
   font-family: var(--serif);
   font-size: var(--card-fact-size, 8.5pt);
   color: var(--ink);
-  line-height: 1.2;
-  min-height: 1.15em;
-  max-height: calc(var(--card-qa-lines, 1) * 1.3em);
+  line-height: 1.25;
+  min-height: 1.2em;
   border-bottom: 1px dotted var(--rule);
-  padding: 0.3mm 0 0.4mm;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  padding: 0.3mm 0 0.5mm;
 }
 
 /* Memory-Label mit Icon */
@@ -353,33 +352,10 @@
   font-style: italic;
 }
 
-/* Der große Erinnerungs-Block unten — fixe Höhe, schneidet Überschuss */
-.student-memory-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5mm;
-  border-top: 1px solid var(--rule-soft);
-  padding-top: 1mm;
-  flex-shrink: 0;
-  min-height: 0;
-  overflow: hidden;
-}
-.student-memory {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: var(--card-memory-size, 8.5pt);
-  line-height: 1.3;
-  margin: 0;
-  color: var(--ink-soft);
-  display: -webkit-box;
-  -webkit-line-clamp: var(--card-memory-lines, 3);
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  max-height: calc(var(--card-memory-lines, 3) * 1.35em);
-  min-height: 1.2em;
-}
+/* Memory-Block in der Karte komplett deaktiviert (zu wenig Platz und
+   verursachte Umbruch-Konflikte). Die Karten zeigen jetzt nur die
+   Q/A-Liste, dafür mit großzügig verteiltem vertikalem Platz. */
+.student-memory-block { display: none !important; }
 
 /* --- Karten-Tiers (Größen-Presets) ---
    Jedes Tier legt fest:
@@ -451,7 +427,7 @@
   --gap: 4mm;
 }
 
-/* S · 13-18 Kinder · 1 Karte ≈ 60×73 mm */
+/* S · 13-18 Kinder · 1 Karte ≈ 60×73 mm — 1 Spalte für breite Antworten */
 .tier-s {
   --card-pad: 3mm;
   --card-gap: 2.5mm;
@@ -459,19 +435,14 @@
   --card-name-size: 10.5pt;
   --card-fact-size: 8pt;
   --card-dt-size: 6pt;
-  --card-memory-size: 7.5pt;
   --card-icon-size: 3.6mm;
   --card-gap-body: 1.4mm;
-  --card-qa-cols: 2;
-  --card-qa-gap-y: 1mm;
-  --card-qa-gap-x: 2.2mm;
-  --card-qa-lines: 1;
-  --card-memory-lines: 2;
+  --card-qa-cols: 1;
+  --card-qa-gap-y: 1.2mm;
   --gap: 3mm;
 }
-.tier-s .qa-motto { display: none; }   /* 5 Fragen */
 
-/* XS · 19-24 Kinder · 1 Karte ≈ 60×55 mm */
+/* XS · 19-24 Kinder · 1 Karte ≈ 60×55 mm — 1 Spalte */
 .tier-xs {
   --card-pad: 2.2mm;
   --card-gap: 2mm;
@@ -479,20 +450,15 @@
   --card-name-size: 9.5pt;
   --card-fact-size: 7.5pt;
   --card-dt-size: 5.5pt;
-  --card-memory-size: 6.8pt;
   --card-icon-size: 3.2mm;
   --card-gap-body: 1mm;
-  --card-qa-cols: 2;
-  --card-qa-gap-y: 0.7mm;
-  --card-qa-gap-x: 1.8mm;
-  --card-qa-lines: 1;
-  --card-memory-lines: 1;
+  --card-qa-cols: 1;
+  --card-qa-gap-y: 0.8mm;
   --gap: 2.5mm;
 }
-.tier-xs .qa-motto,
-.tier-xs .qa-buch { display: none; }   /* 4 Fragen + 1-zeiliger Memory */
+.tier-xs .qa-motto { display: none; }    /* 5 Fragen, alle einzeilig */
 
-/* XXS · 25-30 Kinder · 1 Karte ≈ 60×45 mm */
+/* XXS · 25-30 Kinder · 1 Karte ≈ 60×45 mm — 1 Spalte, weniger Fragen */
 .tier-xxs {
   --card-pad: 1.8mm;
   --card-gap: 1.8mm;
@@ -504,14 +470,11 @@
   --card-gap-body: 0.8mm;
   --card-qa-cols: 1;
   --card-qa-gap-y: 0.6mm;
-  --card-qa-lines: 1;
   --gap: 2mm;
 }
 .tier-xxs .qa-buch,
-.tier-xxs .qa-beruf,
-.tier-xxs .qa-motto,
-.tier-xxs .student-memory-block { display: none; }
-/* 3 Fragen (Fach, Hobby, Essen) in einer Spalte */
+.tier-xxs .qa-motto { display: none; }
+/* 4 Fragen (Fach, Hobby, Essen, Beruf) in einer Spalte */
 
 /* Pan-/Remove-Buttons bei kleinen Tiers schrumpfen + bei XXS ganz aus */
 .tier-s  .photo-pan, .tier-s  .photo-remove,

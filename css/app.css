@@ -339,17 +339,22 @@ button.icon-btn {
   content: none !important;
 }
 
-/* Im Edit-Modus dürfen Antworten kurz "über das Maß hinaus" wachsen, damit
-   der Cursor nie hinter unsichtbarem Text liegt. Der visuelle Container hat
-   ohnehin overflow: hidden, deshalb gibt es trotzdem keine echte Überlappung
-   in Nachbarzellen. Gilt auch für den Namen. */
-.workspace[data-view="edit"] .qa-a,
-.workspace[data-view="edit"] .student-memory,
+/* Im Edit-Modus darf der Name etwas wachsen (lange Doppelnamen). */
 .workspace[data-view="edit"] .student-name {
   display: block;
   -webkit-line-clamp: unset;
   max-height: none;
 }
+/* Im Edit-Modus dürfen Antworten beim Tippen visuell bis zum Karten-
+   Rand wachsen (statt mit ellipsis abgeschnitten zu werden), damit
+   der Cursor nie hinter unsichtbarem Text liegt. Der Text bleibt eine
+   Zeile (white-space: nowrap), .student-card overflow: hidden begrenzt
+   die Grenze. In Preview/Print wird wieder ellipsis gezeigt. */
+.workspace[data-view="edit"] .qa-a {
+  overflow: visible;
+  text-overflow: clip;
+}
+.workspace[data-view="edit"] .qa { overflow: visible; }
 
 /* Remove-Buttons an Karten */
 .remove-item {
