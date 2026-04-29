@@ -420,6 +420,18 @@ body:not(.sidebar-collapsed) .sidebar-toggle {
 .memory-card:focus-within .remove-item,
 .shower-card:focus-within .remove-item { opacity: 1; }
 
+/* Memory-Karten haben oben das Foto in voller Kartenbreite. Würden wir
+   den Karten-Löschen-Button (×) wie bei den anderen Karten oben rechts
+   platzieren, läge er pixelgenau auf dem Foto-Löschen-Button (×) — der
+   User wüsste nicht, was er gerade trifft. Deshalb wandert hier nur
+   der Karten-Löschen-Button in die untere rechte Ecke (im Body-Bereich
+   unter dem Foto), klar getrennt vom Foto-Button. */
+.memory-card > .remove-item {
+  top: auto;
+  bottom: 4px;
+  right: 4px;
+}
+
 /* Photo-Upload Interaktion */
 .photo {
   position: relative;
