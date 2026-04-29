@@ -87,7 +87,7 @@ test.describe('UI Chrome', () => {
 
   test('preview view hides editing chrome', async ({ page }) => {
     await gotoApp(page);
-    await page.locator('[data-view="preview"]').click();
+    await page.locator('.view-toggle[data-view="preview"]').click();
 
     const removeBtnVisible = await page.locator('#page-4 .remove-item').first().evaluate(el => getComputedStyle(el).display);
     expect(removeBtnVisible).toBe('none');

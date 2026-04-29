@@ -38,15 +38,15 @@ test.describe('Smoke', () => {
 
     await expect(ws).toHaveAttribute('data-view', 'edit');
 
-    await page.locator('[data-view="preview"]').click();
+    await page.locator('.view-toggle[data-view="preview"]').click();
     await expect(ws).toHaveAttribute('data-view', 'preview');
 
-    await page.locator('[data-view="print-layout"]').click();
+    await page.locator('.view-toggle[data-view="print-layout"]').click();
     await expect(ws).toHaveAttribute('data-view', 'print-layout');
     // Sheets present
     await expect(page.locator('.sheet')).toHaveCount(4);
 
-    await page.locator('[data-view="edit"]').click();
+    await page.locator('.view-toggle[data-view="edit"]').click();
     await expect(ws).toHaveAttribute('data-view', 'edit');
   });
 

@@ -25,7 +25,7 @@ test.describe('Print layout & imposition', () => {
     await page.waitForTimeout(400);
 
     // Switch to print-layout view
-    await page.locator('[data-view="print-layout"]').click();
+    await page.locator('.view-toggle[data-view="print-layout"]').click();
     await page.waitForTimeout(200);
 
     const mirrored = await page.locator('.sheet-slot[data-mirrors="page-1"] [data-field="titleLine1"]').textContent();
@@ -34,7 +34,7 @@ test.describe('Print layout & imposition', () => {
 
   test('mirror clone strips contenteditable, file inputs, and buttons', async ({ page }) => {
     await gotoApp(page);
-    await page.locator('[data-view="print-layout"]').click();
+    await page.locator('.view-toggle[data-view="print-layout"]').click();
     await page.waitForTimeout(200);
 
     const counts = await page.evaluate(() => {
@@ -66,7 +66,7 @@ test.describe('Print layout & imposition', () => {
 
   test('A3 sheet dimensions in print-layout', async ({ page }) => {
     await gotoApp(page);
-    await page.locator('[data-view="print-layout"]').click();
+    await page.locator('.view-toggle[data-view="print-layout"]').click();
     await page.waitForTimeout(200);
 
     const dims = await page.locator('.sheet').first().evaluate(el => {

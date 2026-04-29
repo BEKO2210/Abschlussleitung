@@ -57,7 +57,7 @@ test.describe('Edge cases', () => {
     await setState(page, state);
     // In preview mode the cards use ellipsis (edit-mode overrides to clip
     // so the user sees they ran out of room).
-    await page.locator('[data-view="preview"]').click();
+    await page.locator('.view-toggle[data-view="preview"]').click();
     const overflow = await page.locator('#page-4 .qa-fach .qa-a').first().evaluate(el => ({
       whiteSpace: getComputedStyle(el).whiteSpace,
       ellipsis: getComputedStyle(el).textOverflow,
@@ -124,18 +124,18 @@ test.describe('Edge cases', () => {
     await page.waitForTimeout(300);
 
     // switch views
-    await page.locator('[data-view="preview"]').click();
+    await page.locator('.view-toggle[data-view="preview"]').click();
     await page.waitForTimeout(150);
-    await page.locator('[data-view="print-layout"]').click();
+    await page.locator('.view-toggle[data-view="print-layout"]').click();
     await page.waitForTimeout(200);
-    await page.locator('[data-view="edit"]').click();
+    await page.locator('.view-toggle[data-view="edit"]').click();
 
     expect(errors).toEqual([]);
   });
 
   test('print layout view shows print-info hint', async ({ page }) => {
     await gotoApp(page);
-    await page.locator('[data-view="print-layout"]').click();
+    await page.locator('.view-toggle[data-view="print-layout"]').click();
     const info = page.locator('.print-info');
     await expect(info).toBeVisible();
     await expect(info).toContainText('A3 Querformat');

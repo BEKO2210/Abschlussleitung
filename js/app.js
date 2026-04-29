@@ -858,16 +858,21 @@
 
   // ---------- View-Umschalter ----------
 
-  document.querySelectorAll('.view-toggle').forEach(btn => {
+  // View-Switch wird sowohl von der Toolbar-Mitte (.view-toggle) als auch
+  // vom Mobile-Overflow-Menü (.menu-view-item) ausgelöst. Wir greifen alle
+  // Buttons mit data-view ab und syncen ihren active-State.
+  document.querySelectorAll('[data-view]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.view-toggle').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
+      const target = btn.dataset.view;
+      document.querySelectorAll('[data-view]').forEach(b => {
+        const isActive = b.dataset.view === target;
+        b.classList.toggle('active', isActive);
+        if (b.classList.contains('view-toggle')) {
+          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        }
       });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
-      workspace.dataset.view = btn.dataset.view;
-      if (btn.dataset.view === 'print-layout') mirrorPrintLayout();
+      workspace.dataset.view = target;
+      if (target === 'print-layout') mirrorPrintLayout();
     });
   });
 
