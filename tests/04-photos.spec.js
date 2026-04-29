@@ -134,4 +134,30 @@ test.describe('Photo workflow', () => {
     const objPos = await page.locator('#page-1 .photo[data-photo="hero"] img').evaluate(img => img.style.objectPosition);
     expect(objPos).toBe('25% 75%');
   });
+
+  // Regression: ehemals saßen card-remove (×) und photo-remove (×) auf
+  // memory-cards pixelgenau aufeinander, weil das Foto die volle
+  // Kartenbreite füllt und beide Buttons top:4/right:4 hatten. Klick auf
+  // ✕ war ambig — die Karte verschwand statt nur das Foto.
+  test('memory-card: card-remove and photo-remove do not overlap', async ({ page }) => {
+    await gotoApp(page);
+    const state = await getState(page);
+    state.memories = [{
+      id: 'mem-overlap', title: 'Test', meta: 'Ort · Jahr', text: 'Text',
+      photo: 'data:image/png;base64,' + TINY_PNG_BASE64
+    }];
+    await setState(page, state);
+
+    const card = page.locator('#page-3 .memory-card').first();
+    await card.hover();
+
+    const rects = await card.evaluate(el => {
+      const cardRm  = el.querySelector(':scope > .remove-item').getBoundingClientRect();
+      const photoRm = el.querySelector('.photo-remove').getBoundingClientRect();
+      const overlapsHoriz = cardRm.left < photoRm.right && cardRm.right > photoRm.left;
+      const overlapsVert  = cardRm.top  < photoRm.bottom && cardRm.bottom > photoRm.top;
+      return { overlap: overlapsHoriz && overlapsVert, cardRm, photoRm };
+    });
+    expect(rects.overlap, JSON.stringify(rects, null, 2)).toBe(false);
+  });
 });
