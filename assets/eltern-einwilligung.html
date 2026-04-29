@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Einwilligung &mdash; Abschiedszeitung</title>
+  <style>
+    @page { size: A4 portrait; margin: 14mm 14mm 12mm 14mm; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+      font-size: 9.5pt;
+      line-height: 1.42;
+      background: #fff;
+    }
+    .doc { width: 182mm; margin: 0 auto; }
+
+    header.brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid #1a1a1a;
+      padding-bottom: 2.5mm;
+      margin-bottom: 4mm;
+    }
+    .brand-kicker {
+      font-weight: 700;
+      font-size: 8.5pt;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #0055a4;
+    }
+    .brand-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      font-size: 20pt;
+      letter-spacing: -.01em;
+      line-height: 1;
+      margin: 0;
+    }
+    .brand-meta { font-size: 8pt; color: #6b6b6b; letter-spacing: .04em; }
+
+    h2 {
+      font-weight: 800;
+      font-size: 9.5pt;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin: 4mm 0 1.5mm;
+      color: #0055a4;
+    }
+    p { margin: 0 0 1.8mm; }
+    .lead {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 10pt;
+      color: #3a3a3a;
+      margin-bottom: 3mm;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5mm 6mm;
+      margin-bottom: 3mm;
+    }
+    .field {
+      display: grid;
+      grid-template-columns: 36mm 1fr;
+      align-items: end;
+      gap: 2mm;
+      font-size: 9pt;
+    }
+    .field-wide { grid-column: 1 / -1; }
+    .field label {
+      font-weight: 600;
+      font-size: 8pt;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #6b6b6b;
+    }
+    .blank {
+      display: block;
+      border-bottom: 1px solid #1a1a1a;
+      min-height: 5mm;
+    }
+
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8mm 6mm;
+      margin: 2mm 0 2.5mm;
+    }
+    .check {
+      display: flex;
+      gap: 2.5mm;
+      align-items: flex-start;
+      font-size: 9pt;
+      line-height: 1.32;
+    }
+    .check .box {
+      flex: 0 0 auto;
+      width: 4mm; height: 4mm;
+      border: 1.2px solid #1a1a1a;
+      border-radius: 0.6mm;
+      margin-top: 0.5mm;
+    }
+    .small { font-size: 8pt; color: #6b6b6b; line-height: 1.4; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5mm 6mm;
+      margin: 1.5mm 0 2.5mm;
+    }
+
+    .signatures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6mm;
+      margin-top: 5mm;
+    }
+    .signature-block { display: flex; flex-direction: column; }
+    .signature-line { border-bottom: 1px solid #1a1a1a; height: 12mm; }
+    .signature-caption {
+      font-size: 8pt;
+      color: #6b6b6b;
+      margin-top: 1.2mm;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 6mm;
+      border-top: 1px solid #e5e5e3;
+      padding-top: 2.5mm;
+      font-size: 7.5pt;
+      color: #6b6b6b;
+      line-height: 1.45;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 6mm;
+    }
+    .accent { color: #0055a4; }
+    .page-break { page-break-before: always; break-before: page; }
+  </style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- ============== SEITE 1 ============== -->
+
+  <header class="brand">
+    <div>
+      <div class="brand-kicker">Einwilligung &middot; DSGVO</div>
+      <h1 class="brand-title">Abschiedszeitung der Klasse</h1>
+    </div>
+    <div class="brand-meta">
+      Vorlage f&uuml;r Eltern &middot; einmalige Schul-Publikation
+    </div>
+  </header>
+
+  <p class="lead">
+    Liebe Eltern, am Ende der Grundschulzeit m&ouml;chten wir gemeinsam eine
+    kleine Abschiedszeitung gestalten &mdash; mit Fotos, Steckbriefen,
+    Erinnerungen und Botschaften an die Kinder und die Klassenlehrkraft.
+    Damit auch Ihr Kind darin auftauchen darf, brauchen wir Ihre
+    schriftliche Einwilligung.
+  </p>
+
+  <h2>1 &middot; Schule und Klasse</h2>
+  <div class="meta-grid">
+    <div class="field"><label>Schule</label><span class="blank"></span></div>
+    <div class="field"><label>Klasse</label><span class="blank"></span></div>
+    <div class="field"><label>Klassenlehrkraft</label><span class="blank"></span></div>
+    <div class="field"><label>Schuljahr</label><span class="blank"></span></div>
+    <div class="field"><label>Erscheinen geplant</label><span class="blank"></span></div>
+    <div class="field"><label>R&uuml;ckgabe bis</label><span class="blank"></span></div>
+  </div>
+
+  <h2>2 &middot; Angaben zum Kind</h2>
+  <div class="meta-grid">
+    <div class="field field-wide"><label>Name des Kindes</label><span class="blank"></span></div>
+    <div class="field"><label>Geburtsdatum</label><span class="blank"></span></div>
+    <div class="field"><label>Spitzname (optional)</label><span class="blank"></span></div>
+  </div>
+
+  <h2>3 &middot; Erziehungsberechtigte</h2>
+  <div class="meta-grid">
+    <div class="field"><label>Name (Person 1)</label><span class="blank"></span></div>
+    <div class="field"><label>Name (Person 2)</label><span class="blank"></span></div>
+    <div class="field field-wide"><label>R&uuml;ckfragen an</label><span class="blank"></span></div>
+  </div>
+
+  <h2>4 &middot; Was darf in der Zeitung erscheinen?</h2>
+  <p class="small">
+    Bitte ankreuzen, was Sie erlauben m&ouml;chten. Sie k&ouml;nnen jeden Punkt
+    einzeln zustimmen oder ablehnen. Nicht angekreuzte Punkte gelten als
+    <strong>nicht erteilt</strong>.
+  </p>
+  <div class="checkboxes">
+    <div class="check"><span class="box"></span><span><strong>Vor- und Nachname</strong> meines Kindes darf abgedruckt werden.</span></div>
+    <div class="check"><span class="box"></span><span>Nur der <strong>Vorname</strong> darf abgedruckt werden.</span></div>
+    <div class="check"><span class="box"></span><span><strong>Einzelfoto</strong> meines Kindes darf verwendet werden.</span></div>
+    <div class="check"><span class="box"></span><span><strong>Klassenfotos</strong> mit meinem Kind d&uuml;rfen verwendet werden.</span></div>
+    <div class="check"><span class="box"></span><span>Pers&ouml;nliche <strong>Steckbrief-Angaben</strong> (Lieblingsfach, Hobby, Berufswunsch &hellip;) d&uuml;rfen erscheinen.</span></div>
+    <div class="check"><span class="box"></span><span><strong>Beitr&auml;ge meines Kindes</strong> (Anekdoten, Gr&uuml;&szlig;e, &bdquo;Warme Duschen&ldquo;) d&uuml;rfen ver&ouml;ffentlicht werden.</span></div>
+    <div class="check"><span class="box"></span><span>Verteilung ausschlie&szlig;lich im <strong>internen Klassenkreis</strong>.</span></div>
+    <div class="check"><span class="box"></span><span>Zus&auml;tzliche &Uuml;bergabe an die <strong>Klassenlehrkraft</strong> als Andenken.</span></div>
+  </div>
+
+  <h2>5 &middot; Beitrag des Kindes (freiwillig)</h2>
+  <p class="small">
+    Stichpunkte. Werden von der Eltern-Redaktion vertraulich behandelt und
+    bei Bedarf gek&uuml;rzt.
+  </p>
+  <div class="row">
+    <div class="field"><label>Lieblingsfach</label><span class="blank"></span></div>
+    <div class="field"><label>Hobby</label><span class="blank"></span></div>
+  </div>
+  <div class="row">
+    <div class="field"><label>Lieblingsessen</label><span class="blank"></span></div>
+    <div class="field"><label>Sp&auml;ter mal &hellip;</label><span class="blank"></span></div>
+  </div>
+  <div class="field field-wide" style="grid-template-columns: 36mm 1fr;">
+    <label>Sch&ouml;nster Moment</label>
+    <span class="blank" style="min-height: 11mm;"></span>
+  </div>
+
+  <!-- ============== SEITE 2 ============== -->
+  <div class="page-break"></div>
+
+  <header class="brand">
+    <div>
+      <div class="brand-kicker">Datenschutz &middot; Unterschrift</div>
+      <h1 class="brand-title" style="font-size:17pt;">Hinweise nach DSGVO</h1>
+    </div>
+    <div class="brand-meta">Seite 2 von 2</div>
+  </header>
+
+  <h2>6 &middot; Verantwortliche &amp; Zweck</h2>
+  <p>
+    Verantwortlich f&uuml;r die Erstellung und Verteilung der Zeitung ist die
+    <strong>Klassenelternvertretung</strong> (Kontakt siehe oben). Zweck:
+    einmalige Erstellung einer Abschiedszeitung als pers&ouml;nliches Andenken
+    f&uuml;r die Kinder und die Klassenlehrkraft. Es findet
+    <strong>kein Verkauf</strong>, <strong>keine Online-Ver&ouml;ffentlichung</strong>
+    und <strong>keine Weitergabe an Dritte</strong> au&szlig;erhalb des
+    Klassenkreises statt.
+  </p>
+
+  <h2>7 &middot; Speicherung &amp; L&ouml;schung</h2>
+  <p>
+    Bilder und Texte werden ausschlie&szlig;lich auf den Ger&auml;ten der Eltern
+    verarbeitet, die die Zeitung erstellen. Es wird kein Cloud-Dienst eingesetzt.
+    Nach Druck und Verteilung der Zeitung werden alle digitalen Originaldateien
+    (Fotos, Texte, Zwischenst&auml;nde, JSON-Sicherungen) sp&auml;testens
+    innerhalb von <strong>drei Monaten</strong> gel&ouml;scht. Gedruckte
+    Exemplare verbleiben bei den Familien.
+  </p>
+
+  <h2>8 &middot; Ihre Rechte</h2>
+  <p>
+    Sie haben das Recht auf Auskunft, Berichtigung, L&ouml;schung und
+    Einschr&auml;nkung der Verarbeitung sowie ein Widerspruchsrecht.
+    Diese Einwilligung k&ouml;nnen Sie
+    <strong>jederzeit ohne Angabe von Gr&uuml;nden f&uuml;r die Zukunft widerrufen</strong>.
+    Bereits gedruckte Exemplare k&ouml;nnen aus technischen Gr&uuml;nden nicht mehr
+    ver&auml;ndert werden. Beschwerden sind bei der Datenschutz-Aufsichtsbeh&ouml;rde
+    Ihres Bundeslandes m&ouml;glich.
+  </p>
+
+  <h2>9 &middot; Einwilligung &amp; Unterschrift</h2>
+  <p>
+    Hiermit erteile/n ich/wir die oben angekreuzten Einwilligungen zur
+    Verwendung von Foto- und Textmaterial unseres Kindes f&uuml;r die
+    beschriebene Abschiedszeitung. Mir/uns ist bewusst, dass die Einwilligung
+    freiwillig ist und jederzeit f&uuml;r die Zukunft widerrufen werden kann.
+  </p>
+
+  <div class="row" style="margin-top: 3mm;">
+    <div class="field"><label>Ort</label><span class="blank"></span></div>
+    <div class="field"><label>Datum</label><span class="blank"></span></div>
+  </div>
+
+  <div class="signatures">
+    <div class="signature-block">
+      <div class="signature-line"></div>
+      <div class="signature-caption">Unterschrift Erziehungsberechtigte/r 1</div>
+    </div>
+    <div class="signature-block">
+      <div class="signature-line"></div>
+      <div class="signature-caption">Unterschrift Erziehungsberechtigte/r 2</div>
+    </div>
+  </div>
+
+  <div class="signatures" style="margin-top: 6mm;">
+    <div class="signature-block">
+      <div class="signature-line"></div>
+      <div class="signature-caption">Unterschrift Kind (freiwillig)</div>
+    </div>
+    <div class="signature-block">
+      <div class="signature-line"></div>
+      <div class="signature-caption">F&uuml;r die Klassenelternvertretung</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>
+      <strong class="accent">Hinweis f&uuml;r die Elternvertretung:</strong>
+      Bitte alle ausgef&uuml;llten Formulare bis zum oben genannten Stichtag
+      einsammeln. Kinder ohne Einwilligung erscheinen weder mit Namen noch mit
+      Foto in der Zeitung. Formular drei Monate nach Verteilung der Zeitung
+      sicher vernichten.
+    </div>
+    <div>
+      <strong>Kontakt Redaktion</strong><br/>
+      <span class="blank" style="display:inline-block; width: 50mm;"></span><br/>
+      <span class="blank" style="display:inline-block; width: 50mm; margin-top:1.5mm;"></span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

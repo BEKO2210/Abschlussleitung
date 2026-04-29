@@ -296,6 +296,36 @@ body:not(.sidebar-collapsed) .sidebar-toggle {
   color: var(--ui-muted);
 }
 
+/* Eltern-Einwilligung — eigene Sidebar-Sektion mit Download-Link.
+   Nutzt die Optik der ghost-Buttons (gestrichelter Rahmen), ist aber
+   ein nativer <a download>, damit der Browser das PDF korrekt anbietet. */
+.sidebar-consent .hint {
+  margin-bottom: 8px;
+}
+.ghost-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px dashed var(--ui-border);
+  border-radius: 8px;
+  color: var(--ui-text);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background .15s, border-color .15s;
+}
+.ghost-link:hover {
+  background: #f9f9f7;
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
+}
+.ghost-link:focus-visible {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 2px;
+}
+
 /* Backdrop für mobile Sidebar */
 .sidebar-backdrop {
   position: fixed;
