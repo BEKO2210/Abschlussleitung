@@ -595,10 +595,38 @@ kbd {
 /* ---------- Responsive ---------- */
 
 .hide-sm { display: inline; }
+/* show-sm: nur auf kleinen Viewports sichtbar (z.B. Menü-Einträge, die
+   eine sonst versteckte Toolbar-Mitte ersetzen). */
+.show-sm { display: none; }
+
+/* Menü-Einträge, die als View-Toggle dienen, sollen sich nicht wie
+   segmentierte Chips verhalten (kein zentrierter Pill-Style). Sie
+   bekommen den normalen Menüeintrag-Look + einen aktiv-Marker. */
+.menu .menu-view-item {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: none;
+}
+.menu .menu-view-item.active {
+  background: var(--accent-soft, #eef5ff);
+  color: var(--ui-accent);
+  font-weight: 600;
+}
+.menu .menu-view-item.active::before {
+  content: '✓ ';
+}
 
 @media (max-width: 1100px) {
   .toolbar-center { display: none; }
   .badge { display: none; }
+  /* Wenn die Toolbar-Mitte verschwindet, zeigen wir den Menü-View-
+     Switcher als Ersatz an. */
+  .show-sm { display: block; }
 }
 
 @media (max-width: 900px) {
@@ -616,7 +644,7 @@ kbd {
     position: absolute;
     top: 6px;
     right: 6px;
-    width: 32px; height: 32px;
+    width: 36px; height: 36px;
     padding: 0;
     background: transparent;
     border: 1px solid transparent;
@@ -625,9 +653,16 @@ kbd {
     border-radius: 50%;
   }
 
+  /* Editor-Seite ist 210mm breit (~794px). Auf Smartphones/Tablets passt
+     sie nicht in die Viewport-Breite. Statt sie horizontal zu zentrieren
+     (was den Anfang der Headlines abschneidet), verankern wir sie links
+     und erlauben horizontales Scrollen. So bleiben Titel & Editier-
+     Hinweise immer ab Position 0 sichtbar. */
   .workspace {
     padding: calc(var(--toolbar-h) + 16px) 12px 80px 12px;
     gap: 20px;
+    align-items: flex-start;
+    overflow-x: auto;
   }
 
   .hide-sm { display: none; }
@@ -637,4 +672,34 @@ kbd {
   .brand { font-size: 14px; }
   .toolbar { padding: 0 8px; gap: 6px; }
   .toolbar button:not(.icon-btn) { padding: 6px 10px; font-size: 13px; }
+  /* Touch-Targets: Apple/Google empfehlen ≥40px für Icon-Buttons.
+     Im engen Mobile-Toolbar reservieren wir die Mindestgröße auch
+     gegen Flex-Shrink für ALLE Toolbar-Buttons. */
+  .toolbar button.icon-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    flex: 0 0 auto;
+  }
+  .toolbar button:not(.icon-btn) {
+    min-height: 40px;
+    flex: 0 0 auto;
+  }
 }
+
+/* Theme-Modal hat auf schmalen Tablets (≤780px) 4 Spalten und drückt
+   längere Theme-Namen wie "Sonnenuntergang" an den rechten Rand. Auf
+   Smartphone- und schmalen Tablet-Breiten zwingen wir die Auto-Fit-
+   Mindestbreite kleiner, damit die Namen auf 2 Zeilen umbrechen oder
+   die Kacheln einspaltiger werden. */
+@media (max-width: 780px) {
+  .theme-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .theme-card-name { font-size: 12px; line-height: 1.2; }
+}
+
+/* Empty-States waren zentriert, aber kleine .empty-state-Boxen wirkten
+   einsam in einer großen leeren Seite. Wir lassen sie ihre Mindesthöhe
+   füllen, damit die Seite "fertig" wirkt, auch wenn noch keine Inhalte
+   vorhanden sind. Greift in jedem Container, der display:flex verwendet. */
+.empty-state { min-height: 50mm; }

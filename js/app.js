@@ -494,6 +494,10 @@
       slot.innerHTML = '';
       const clone = src.cloneNode(true);
       clone.removeAttribute('id');
+      // ALLE inneren IDs entfernen — sonst entstehen Duplikate (page-4 enthält
+      // z.B. #student-grid-left, das nach dem Klon im DOM zweimal existieren
+      // würde). Verstößt gegen HTML-Spec und kann getElementById verwirren.
+      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
       // Content nicht erneut editierbar machen
       clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
       clone.querySelectorAll('button, input[type="file"]').forEach(el => el.remove());
@@ -504,6 +508,43 @@
   // ---------- Event-Handling (Delegation) ----------
 
   const workspace = document.getElementById('workspace');
+
+  // Felder, in denen Mehrzeilen-Text erlaubt ist (Browser fügt bei Enter
+  // <div>/<br> ein). Sonst würde textContent die Newlines verschlucken.
+  const MULTILINE_FIELDS = new Set([
+    'introLead', 'introText', 'teacherText',
+    'memory', 'text'
+  ]);
+
+  /**
+   * Liest editierbaren Inhalt mehrzeilen-sicher aus.
+   * textContent ignoriert <div>/<br>-Brüche; wir laufen den Baum ab und
+   * wandeln Block-Elemente in \n um. Nicht-mehrzeilige Felder nutzen
+   * weiter textContent, um z.B. Caret-Verschiebungen zu vermeiden.
+   */
+  function readEditableText(el, allowNewlines) {
+    if (!allowNewlines) return el.textContent;
+    let out = '';
+    const walk = (node) => {
+      node.childNodes.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          out += child.nodeValue;
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          const tag = child.tagName;
+          if (tag === 'BR') {
+            out += '\n';
+          } else {
+            const isBlock = /^(DIV|P|LI|H[1-6]|BLOCKQUOTE|PRE|SECTION|ARTICLE)$/.test(tag);
+            if (isBlock && out.length > 0 && !out.endsWith('\n')) out += '\n';
+            walk(child);
+            if (isBlock && !out.endsWith('\n')) out += '\n';
+          }
+        }
+      });
+    };
+    walk(el);
+    return out.replace(/\n+$/, ''); // trailing newlines beim Editieren stören
+  }
 
   // Inline-Editing - contenteditable
   workspace.addEventListener('input', (e) => {
@@ -523,21 +564,24 @@
     const field = el.getAttribute('data-field');
     if (!field) return;
 
+    const allowNewlines = MULTILINE_FIELDS.has(field);
+    const value = readEditableText(el, allowNewlines);
+
     const studentCard = el.closest('[data-student-id]');
     const memoryCard = el.closest('[data-memory-id]');
     const showerCard = el.closest('[data-shower-id]');
 
     if (studentCard) {
       const item = state.students.find(s => s.id === studentCard.dataset.studentId);
-      if (item) item[field] = el.textContent;
+      if (item) item[field] = value;
     } else if (memoryCard) {
       const item = state.memories.find(s => s.id === memoryCard.dataset.memoryId);
-      if (item) item[field] = el.textContent;
+      if (item) item[field] = value;
     } else if (showerCard) {
       const item = state.showers.find(s => s.id === showerCard.dataset.showerId);
-      if (item) item[field] = el.textContent;
+      if (item) item[field] = value;
     } else {
-      state.fields[field] = el.textContent;
+      state.fields[field] = value;
     }
     saveState();
     // Druck-Layout-Spiegelung mit leichter Verzoegerung
@@ -814,16 +858,21 @@
 
   // ---------- View-Umschalter ----------
 
-  document.querySelectorAll('.view-toggle').forEach(btn => {
+  // View-Switch wird sowohl von der Toolbar-Mitte (.view-toggle) als auch
+  // vom Mobile-Overflow-Menü (.menu-view-item) ausgelöst. Wir greifen alle
+  // Buttons mit data-view ab und syncen ihren active-State.
+  document.querySelectorAll('[data-view]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.view-toggle').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
+      const target = btn.dataset.view;
+      document.querySelectorAll('[data-view]').forEach(b => {
+        const isActive = b.dataset.view === target;
+        b.classList.toggle('active', isActive);
+        if (b.classList.contains('view-toggle')) {
+          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        }
       });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
-      workspace.dataset.view = btn.dataset.view;
-      if (btn.dataset.view === 'print-layout') mirrorPrintLayout();
+      workspace.dataset.view = target;
+      if (target === 'print-layout') mirrorPrintLayout();
     });
   });
 

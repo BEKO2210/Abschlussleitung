@@ -41,6 +41,14 @@
         <span aria-hidden="true">&#8942;</span>
       </button>
       <div class="menu" id="more-menu" role="menu" hidden>
+        <!-- View-Switcher als Menüeinträge — auf Mobile/Tablet wäre die
+             segmentierte Toolbar-Mitte sonst nicht erreichbar. -->
+        <div class="menu-section show-sm">
+          <button type="button" data-view="edit"         class="menu-view-item" role="menuitem">Bearbeiten</button>
+          <button type="button" data-view="preview"      class="menu-view-item" role="menuitem">Vorschau</button>
+          <button type="button" data-view="print-layout" class="menu-view-item" role="menuitem">Druck-Bogen</button>
+          <hr />
+        </div>
         <button type="button" id="btn-export" role="menuitem">Als JSON speichern</button>
         <button type="button" id="btn-import" role="menuitem">JSON laden</button>
         <button type="button" id="btn-reset" role="menuitem" class="danger">Zurücksetzen</button>
